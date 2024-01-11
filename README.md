@@ -29,7 +29,7 @@ In order to install packages in python you need PIP.
 
 In order to make sure the project's package versions are not interfering with your other projects it is recommended to set up a Python virtual environment.
 
-1. Use cmd to navigate to the directory ```Squad-Mandalore-Backend```
+1. Use cmd to navigate to the directory of this repository
 
 2. Run ```python -m venv venv``` to create a virtual environment
 
@@ -39,7 +39,7 @@ In order to make sure the project's package versions are not interfering with yo
 
 ### Installing required packages using PIP
 
-1. Use cmd to navigate to the directory ```Squad-Mandalore-Backend```
+1. Use cmd to navigate to the directory of this repository
 
 2. Make sure your virtual environment is active
 

@@ -2,7 +2,7 @@
 
 ## Setup
 
-1. Clone Git Project ```https://github.com/Lucas04K/Squad-Mandalore-Backend.git``` (Make sure you've set the proxy)
+1. Clone Git Project ```https://github.com/Squad-Mandalore/Backend.git``` (Make sure you've set the proxy)
 
 2. Install requirements -> See requirements below
 

@@ -8,11 +8,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # copying the application to the image
-COPY /main/ /scoring-service/main
+COPY /src/ /backend/src
 
-COPY requirements.txt /scoring-service
+COPY requirements.txt /backend
 
-WORKDIR /scoring-service
+WORKDIR /backend
 
 # updating python package manager
 RUN pip3 install --upgrade pip

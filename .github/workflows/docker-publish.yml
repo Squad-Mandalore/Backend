@@ -72,6 +72,7 @@ jobs:
       - name: Extract Semver Tag
         id: semver
         run: |
+          echo $steps.meta.outputs.tags
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             # If the push is a tag, extract the semver tag
             echo "SEMVER_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
@@ -79,6 +80,7 @@ jobs:
             # If not, use the commit SHA as the tag
             echo "SEMVER_TAG=${GITHUB_SHA::8}" >> $GITHUB_ENV
           fi
+          echo "LOWERCASE_TAG=$(echo '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SEMVER_TAG }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
@@ -88,7 +90,7 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SEMVER_TAG }}
+          tags: ${{ env.LOWERCASE_TAG }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

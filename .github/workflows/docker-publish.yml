@@ -91,7 +91,9 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.LOWERCASE_TAG }}
+          tags: |
+            ${{ env.LOWERCASE_TAG }}
+            ${{ startsWith(github.ref, 'refs/tags/') && 'latest' }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

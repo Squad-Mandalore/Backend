@@ -81,15 +81,15 @@ jobs:
           fi
 
       - name: Convert Tag to lowercase
-        run: echo "LOWERCASE_TAG=$(echo '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.SEMVER_TAG }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+        run: echo "LOWERCASE_TAG=$(echo '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Determine Docker tags
         id: docker_tags
         run: |
-          TAGS="${{ env.LOWERCASE_TAG }}"
+          TAGS="${{ env.LOWERCASE_TAG }}${{ env.SEMVER_TAG }}"
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             # If the push is a tag, also add 'latest' to the tags list
-            TAGS="${TAGS},latest"
+            TAGS="${TAGS},${{ env.LOWERCASE_TAG }}latest"
           fi
           echo "DOCKER_TAGS=$TAGS" >> $GITHUB_ENV
 

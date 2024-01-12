@@ -113,13 +113,12 @@ jobs:
       # https://github.com/sigstore/cosign
       #
       # This step is for signing, comment it out if we ever need it
-      #
-      # - name: Sign the published Docker image
-      #   if: ${{ github.event_name != 'pull_request' }}
-      #   env:
-      #     # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
-      #     TAGS: ${{ env.DOCKER_TAGS }}
-      #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
-      #   # This step uses the identity token to provision an ephemeral certificate
-      #   # against the sigstore community Fulcio instance.
-      #   run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+          TAGS: ${{ env.DOCKER_TAGS }}
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
+        # This step uses the identity token to provision an ephemeral certificate
+        # against the sigstore community Fulcio instance.
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}

@@ -1,9 +1,15 @@
 from sqlalchemy import create_engine, Column, ForeignKey, String, Integer, CHAR
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
+from fastapi import FastAPI
 
 
+#hello world route :)
+app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
 
 # with sqlalchemy you are able to store python objects in a database, therefore you first need to create some python classes
 
@@ -46,10 +52,10 @@ class Thing(Base):
 
 
 #basic db setup and creating tables
-engine = create_engine("sqlite:///example.db", echo=True)
+# engine = create_engine("sqlite:///example.db", echo=True)
 
 #for in memory db do so:
-#engine = create_engine("sqlite:///:memory:")
+engine = create_engine("sqlite:///:memory:")
 
 Base.metadata.create_all(bind=engine)
 
@@ -103,3 +109,5 @@ for r in r2:
 r3 = session.query(Person, Thing).filter(Thing.owner == Person.ssn).filter(Person.firstname == "Ole")
 for r in r3:
     print(r)
+
+# print("This is the way")

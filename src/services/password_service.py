@@ -12,6 +12,7 @@ def password_service(password):
     hashed_password = hash_password(peppered_password)
     user = User(hashed_password, salt)
     add(user)        # TODO later only return hashed password and salt for atomar desgin
+    return user
 
 
 def salt_password(password, salt=None):

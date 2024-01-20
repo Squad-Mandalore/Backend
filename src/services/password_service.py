@@ -11,7 +11,7 @@ def password_service(password):
     peppered_password = pepper_password(salted_password)
     hashed_password = hash_password(peppered_password)
     user = User(hashed_password, salt)
-    add(user)        #TODO later only return hashed password and salt for atomar desgin
+    add(user)        # TODO later only return hashed password and salt for atomar desgin
 
 
 def salt_password(password):

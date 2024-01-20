@@ -7,7 +7,8 @@ from ..services.password_service import password_service
 
 router = APIRouter()
 
-def router_func(app:FastAPI):
+
+def router_func(app: FastAPI):
     app.include_router(router)
 
 

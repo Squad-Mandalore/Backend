@@ -6,7 +6,7 @@ def add(db_model):
     # Errorhandling needs to be done
     session.add(db_model)
     session.commit()
-    session.refresh(db_model)
+    session.refresh(db_model)       #i dont know what this does
 
 
 def get_all(table):

@@ -1,3 +1,4 @@
+import uuid
 from ..main import session
 
 
@@ -12,6 +13,10 @@ def get_all():
     # how to query SELECT *
     results = session.query().all()
     return results
+
+
+def get_uuid():
+    return uuid.uuid4()
 
 # # how to filter
 # r1 = session.query(Person).filter(Person.age == 19)

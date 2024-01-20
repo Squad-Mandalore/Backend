@@ -1,5 +1,5 @@
 import uuid
-from ..main import session
+from .database_setup import session
 
 
 def add(db_model):
@@ -9,14 +9,14 @@ def add(db_model):
     session.refresh(db_model)
 
 
-def get_all():
+def get_all(table):
     # how to query SELECT *
-    results = session.query().all()
+    results = session.query(table).all()
     return results
 
 
 def get_uuid():
-    return uuid.uuid4()
+    return str(uuid.uuid4())
 
 # # how to filter
 # r1 = session.query(Person).filter(Person.age == 19)

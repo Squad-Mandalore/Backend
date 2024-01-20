@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+
 # mashallah in memory engine bro
 engine = create_engine('sqlite:///:memory:')
 
@@ -13,8 +14,10 @@ Base = declarative_base()
 
 # Set up the session
 Session = sessionmaker(bind=engine)
+session = Session()
 
 
 # create db shiat
 def init_db():
     Base.metadata.create_all(bind=engine)
+

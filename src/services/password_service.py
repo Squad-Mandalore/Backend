@@ -14,10 +14,14 @@ def password_service(password):
     add(user)        # TODO later only return hashed password and salt for atomar desgin
 
 
-def salt_password(password):
-    salt = generate_salt()
-    salted_password = apply_salt(password, salt)
-    return salted_password, salt
+def salt_password(password, salt=None):
+    if salt is None:
+        generated_salt = generate_salt()
+        salted_password = apply_salt(password, generated_salt)
+        return salted_password, generated_salt
+    else:
+        salted_password = apply_salt(password, salt)
+        return salted_password, salt
 
 
 def generate_salt():

@@ -1,26 +1,22 @@
+from fastapi import Response, status
+
 from src.database.database_setup import session
 from src.models.user_model import User
-from src.services.password_service import salt_password, pepper_password, hash_password
+from src.services.password_service import hash_password, pepper_password, salt_password
 
-salt = None
 def check_password(id, password):
 
-    # password_db = session.query(User).filter(User.id == id).filter(User.password).first()
-    # password_db = ''.join(password_list)
+    # get the user from the database
     user = session.query(User).filter(User.id == id).first()
-    if user:
-        print(f"User found: {user}")
-    else:
-        print(f"No user found with this id: {id}")
-    # salt_db = ''.join(salt_list)
 
-    salted_password, _ = salt_password(user.password, user.salt)
+    if not user:
+        return Response(content="User not found", status_code=status.HTTP_404_NOT_FOUND)
+
+    salted_password, _ = salt_password(password, user.salt)
     peppered_password = pepper_password(salted_password)
     hashed_password = hash_password(peppered_password)
 
-    if hashed_password == password:
-        # Password is correct
-        return "True"
+    if hashed_password == user.password:
+        return Response(content="Password is correct", status_code=status.HTTP_202_ACCEPTED)
     else:
-        # Password is incorrect or user not found
-        return "False"
+        return Response(content="Password is wrong", status_code=status.HTTP_401_UNAUTHORIZED)

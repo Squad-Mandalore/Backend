@@ -4,7 +4,7 @@ from string import ascii_letters
 import random
 
 KEYCHAIN_NUMBER = 42
-PEPPER = "for the rizzler"
+PEPPER = "I would rather be programming Go right now"
 
 
 def encrypt_password(password):

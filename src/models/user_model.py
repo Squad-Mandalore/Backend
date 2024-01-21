@@ -21,3 +21,6 @@ class User(Base):
         self.id = get_uuid()
         self.password = password
         self.salt = salt
+
+    def __repr__(self):
+        return f"{self.password}, {self.salt}"

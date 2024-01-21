@@ -3,7 +3,7 @@ from src.schemas.user_schema import UserSchema
 from src.services.user_service import check_password
 
 
-@router.post("/login", response_model=UserSchema)
+@router.post("/login/", response_model=UserSchema)
 async def post_login(string: UserSchema):
     id = string.id
     password = string.password

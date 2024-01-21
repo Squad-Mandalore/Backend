@@ -1,18 +1,18 @@
 import hashlib
-from ..database.database_utils import add
-from ..models.user_model import User
+from random import choice
+from string import ascii_letters
+import random
 
+n = 42
 KEYCHAIN_NUMBER = 42
 PEPPER = "for the rizzler"
 
 
-def password_service(password):
+def encrypt_password(password):
     salted_password, salt = salt_password(password)
     peppered_password = pepper_password(salted_password)
     hashed_password = hash_password(peppered_password)
-    user = User(hashed_password, salt)
-    add(user)        # TODO later only return hashed password and salt for atomar desgin
-    return user
+    return hashed_password, salt
 
 
 def salt_password(password, salt=None):
@@ -25,9 +25,11 @@ def salt_password(password, salt=None):
         return salted_password, salt
 
 
-def generate_salt():
-    # some generation stuff
-    return "sticking out your gyat"
+def generate_salt(l=None):
+    if l is None:
+        l = random.randint(1, 1000)
+    salt = "".join(choice(ascii_letters) for i in range(l))
+    return salt
 
 
 def apply_salt(password, salt, apply_salt_func=None):

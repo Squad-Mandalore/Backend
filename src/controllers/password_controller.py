@@ -1,10 +1,13 @@
-from .controller import router
+from fastapi import APIRouter
+
 from ..schemas.password_schema import PasswordSchema
 from ..services.password_service import password_service
 
+router = APIRouter()
 
-@router.post("/password/", response_model=PasswordSchema)
-async def post_password(string: PasswordSchema):
-    password = string.password
+
+@router.post("/password")
+async def post_password(password_schema: PasswordSchema):
+    password = password_schema.password
     user = password_service(password)
-    return f"Person added  with following id: {(user.id)}"
+    return user

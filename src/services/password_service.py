@@ -27,7 +27,7 @@ def salt_password(password, salt=None):
 def generate_salt(l=None):
     if l is None:
         l = random.randint(1, 1000)
-    salt = "".join(choice(ascii_letters) for i in range(l))
+    salt = "".join(choice(ascii_letters) for _ in range(l))
     return salt
 
 

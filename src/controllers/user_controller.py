@@ -9,7 +9,7 @@ from src.services.user_service import check_password, add_user_with_pw
 
 router = APIRouter(
     # routing prefix
-    prefix="users",
+    prefix="/users",
     # documentation tag
     tags=["users"],
     # default response
@@ -17,7 +17,7 @@ router = APIRouter(
 )
 
 
-@router.get("/allUser")
+@router.get("/all")
 async def get_all_entries():
     return get_all(User)
 

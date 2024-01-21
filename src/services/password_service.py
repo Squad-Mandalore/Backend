@@ -3,7 +3,6 @@ from random import choice
 from string import ascii_letters
 import random
 
-n = 42
 KEYCHAIN_NUMBER = 42
 PEPPER = "for the rizzler"
 

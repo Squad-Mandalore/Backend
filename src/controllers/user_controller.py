@@ -7,7 +7,14 @@ from src.schemas.user_schema import UserSchema
 from src.services.password_service import password_service
 from src.services.user_service import check_password
 
-router = APIRouter()
+router = APIRouter(
+    # routing prefix
+    prefix="users",
+    # documentation tag
+    tags=["users"],
+    # default response
+    responses={404: {"route": "Not found"}}
+)
 
 
 @router.get("/allUser")
@@ -22,7 +29,7 @@ async def post_password(password_schema: PasswordSchema):
     return user
 
 
-@router.post("/login")
+@router.post("/login") # will probably replaced with verify user and then 2FA
 async def post_login(user_schema: UserSchema):
     id = user_schema.id
     password = user_schema.password

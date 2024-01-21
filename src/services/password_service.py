@@ -3,11 +3,12 @@ from random import choice
 from string import ascii_letters
 import random
 
+# TODO: Those 2 should not be visible like this, they should be set at environment level (we are a public repo)
 KEYCHAIN_NUMBER = 42
 PEPPER = "I would rather be programming Go right now"
 
 
-def encrypt_password(password):
+def hash_and_spice_password(password):
     salted_password, salt = salt_password(password)
     peppered_password = pepper_password(salted_password)
     hashed_password = hash_password(peppered_password)

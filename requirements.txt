@@ -2,6 +2,4 @@ fastapi>=0.108.0
 uvicorn>=0.15.0
 sqlite-utils>=3.18.0
 sqlalchemy>=2.0.25
-pytest>=7.4.4
-pytest-asyncio>=0.23.3
 requests>=2.31.0

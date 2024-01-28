@@ -4,6 +4,7 @@ from string import ascii_letters
 import random
 
 # TODO: Those 2 should not be visible like this, they should be set at environment level (we are a public repo)
+# This can be done via GitHub secrets and our CI/CD pipeline
 KEYCHAIN_NUMBER = 42
 PEPPER = "I would rather be programming Go right now"
 

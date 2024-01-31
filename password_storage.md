@@ -8,7 +8,7 @@ The provided Python script is a robust implementation designed for securing pass
 
 2. **Peppering**: Peppering adds an additional layer of security by appending a constant string, known as the 'pepper', to the password post-salting. It further complicates brute-force attempts and hash reversals.
 
-3. **Hashing**: Hashing is the transformation of a string of characters into a usually shorter fixed-length value or key that represents the original string. It's a one-way process, ensuring that the original password cannot be easily derived from the hash.
+3. **Hashing**: Hashing is the transformation of a string of characters into a fixed-length value or key that represents the original string. It's a one-way process, ensuring that the original password cannot be easily derived from the hash.
 
 #### Process Breakdown
 1. **Hash and Spice Password (`hash_and_spice_password`)**:
@@ -38,7 +38,3 @@ The provided Python script is a robust implementation designed for securing pass
 #### Security Considerations
 - **Storing Sensitive Constants**: Currently, `KEYCHAIN_NUMBER` and `PEPPER` are hardcoded. For enhanced security, these should be stored as environment variables or secured through CI/CD pipelines, especially when the repository is public.
 - **SHA-256 Usage**: SHA-256 is a reliable hashing algorithm, but it's advisable to periodically review and update the hashing strategy to align with evolving security standards.
-
-#### Conclusion
-This script demonstrates a comprehensive and thoughtful approach to password security. By integrating salting, peppering, and hashing, it significantly mitigates the risk of password-related security breaches. However, continual assessment of security practices and keeping abreast with latest cryptographic standards is crucial for maintaining robust security.
- `PEPPER`: A constant string added to the password as an additional security measure.

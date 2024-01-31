@@ -1,4 +1,5 @@
-from fastapi import APIRouter, status
+from typing import Optional
+from fastapi import APIRouter, Response, status
 from src.database.database_utils import get_all
 
 from src.models.user_model import User
@@ -18,12 +19,12 @@ router = APIRouter(
 
 
 @router.get("/all")
-async def get_all_entries():
+async def get_all_entries() -> Optional[list[User]]:
     return get_all(User)
 
 
 @router.post("/signup", response_model=UserSchema, status_code=status.HTTP_201_CREATED)
-async def post_password(password_schema: PasswordSchema):
+async def post_password(password_schema: PasswordSchema) -> User:
     password = password_schema.password
     hashed_password, salt = hash_and_spice_password(password)
     user = add_user_with_pw(hashed_password, salt)
@@ -31,7 +32,7 @@ async def post_password(password_schema: PasswordSchema):
 
 
 @router.post("/login") # will probably replaced with verify user and then 2FA
-async def post_login(user_schema: UserSchema):
+async def post_login(user_schema: UserSchema) -> Response:
     id = user_schema.id
     password = user_schema.password
     result = check_password(id, password)

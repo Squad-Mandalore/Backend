@@ -1,21 +1,31 @@
+from typing import Optional, Type
 import uuid
-from .database_setup import session
+from src.database.database_setup import DBModel, session
 
 
-def add(db_model):
+# warning does not apply here
+def add(db_model: DBModel) -> None:
     # Errorhandling needs to be done
     session.add(db_model)
     session.commit()
     session.refresh(db_model)       # i dont know what this does
 
+def delete(db_model: DBModel) -> None:
+    session.delete(db_model)
+    session.commit()
 
-def get_all(table):
+def get_by_id(table: Type[DBModel], id: str) -> Optional[DBModel]:
+    # how to query SELECT * WHERE id = id
+    result = session.query(table).filter(table.id == id).first()
+    return result
+
+def get_all(table: Type[DBModel]) -> Optional[list[DBModel]]:
     # how to query SELECT *
     results = session.query(table).all()
     return results
 
 
-def get_uuid():
+def get_uuid() -> str:
     return str(uuid.uuid4())
 
 # # how to filter

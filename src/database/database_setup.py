@@ -1,3 +1,4 @@
+from typing import TypeVar
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -11,6 +12,7 @@ engine = create_engine('sqlite:///:memory:')
 
 # Base class to inherit from
 Base = declarative_base()
+DBModel = TypeVar('DBModel', bound=Base)
 
 # Set up the session
 Session = sessionmaker(bind=engine)
@@ -18,5 +20,5 @@ session = Session()
 
 
 # create db shiat
-def init_db():
+def init_db() -> None:
     Base.metadata.create_all(bind=engine)

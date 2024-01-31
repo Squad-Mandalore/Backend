@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String
-from ..database.database_setup import Base
-from ..database.database_utils import get_uuid
+from src.database.database_setup import Base
+from src.database.database_utils import get_uuid
 
 
 class User(Base):
@@ -17,7 +17,7 @@ class User(Base):
     last_password_change = Column("last_password_change", String)
     email = Column("email", String)
 
-    def __init__(self, password, salt):
+    def __init__(self, password: str, salt: str):
         self.id = get_uuid()
         self.password = password
         self.salt = salt

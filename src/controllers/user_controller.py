@@ -6,6 +6,7 @@ from src.models.user_model import User
 from src.schemas.password_schema import PasswordSchema
 from src.schemas.user_schema import UserSchema
 from src.services.password_service import hash_and_spice_password
+from src.services.password_validation_service import validate_password
 from src.services.user_service import check_password, add_user_with_pw
 
 router = APIRouter(
@@ -24,17 +25,22 @@ async def get_all_entries() -> Optional[list[User]]:
 
 
 @router.post("/signup", response_model=UserSchema, status_code=status.HTTP_201_CREATED)
-async def post_password(password_schema: PasswordSchema) -> User:
+async def post_password(password_schema: PasswordSchema) -> Response:
     password = password_schema.password
+
+    if not validate_password(password):
+        return Response(content="Given password is not at least 12 characters long", status_code=status.HTTP_400_BAD_REQUEST)
+
     hashed_password, salt = hash_and_spice_password(password)
     user = add_user_with_pw(hashed_password, salt)
-    return user
+    return Response(content=user, status_code=status.HTTP_201_CREATED)
 
 
 @router.post("/login") # will probably replaced with verify user and then 2FA
 async def post_login(user_schema: UserSchema) -> Response:
     id = user_schema.id
     password = user_schema.password
+
     result = check_password(id, password)
     return result
 

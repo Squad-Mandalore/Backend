@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Optional, Type
 import uuid
 
 from fastapi import HTTPException
@@ -13,9 +13,11 @@ def add(db_model: DBModel) -> None:
     session.refresh(db_model)       # i dont know what this does
 
 
-# Type warning does not apply here
-def delete(db_model: DBModel) -> None:
-    session.delete(db_model)
+def delete(table: Type[DBModel], id: str) -> Optional[HTTPException]:
+    result = session.query(table).filter(table.id == id).first()
+    if not result:
+        return HTTPException(status_code=404, detail="User not found")
+    session.delete(result)
     session.commit()
 
 

@@ -8,4 +8,4 @@ client = TestClient(app)
 class TestVariables():
     HEADERS: dict = {'content-type': 'application/json'}
     BASEURL: str = 'http://127.0.0.1:8000'
-    EXAMPLE_PASSWORD: str = '{"password": "Go is the GOAT"}'
+    EXAMPLE_PASSWORD: dict = {"password": "Go is the GOAT"}

@@ -2,6 +2,8 @@ from tests.define_test_variables import TestVariables, client
 
 
 def test_get_all_users() -> None:
+    response = client.post(TestVariables.BASEURL + "/users/signup", json=TestVariables.EXAMPLE_PASSWORD, headers=TestVariables.HEADERS)
+    user_id = response.json().pop('id')
     response = client.get(TestVariables.BASEURL + "/users/all")
     assert response.status_code == 200, str(response.status_code) + ": " + str(response.content)
     # assert response.json() == [{'id': 1, 'password': 'spam and eggs', 'username': 'user1'}]

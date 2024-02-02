@@ -1,5 +1,4 @@
 from tests.define_test_variables import TestVariables
-import requests
 import json
 
 

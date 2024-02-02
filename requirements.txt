@@ -3,3 +3,5 @@ uvicorn>=0.15.0
 sqlite-utils>=3.18.0
 sqlalchemy>=2.0.25
 requests>=2.31.0
+pytest>=8.0.0
+httpx>=0.26.0

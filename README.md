@@ -63,3 +63,4 @@ pytest
 ```
 
 The framework recognizes test files, when they start with 'test_'.
+Note that this approach does not work with in-memory databases.

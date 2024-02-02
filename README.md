@@ -45,3 +45,15 @@ In order to make sure the project's package versions are not interfering with yo
 3. Run ```pip install -r requirements.txt```
 
 4. You've successfully installed all requirements! (To check your versions you can run ```pip list``` or ```pip freeze```)
+
+## Starting
+
+```console
+uvicorn src.main:app
+```
+
+Additionally you can add the --reload flag to reload the application after making source code changes.
+
+## Testing
+
+Write your test and add it to the run_tests.py file and start it. Amazing technology. (Dont forget to set your PYTHONPATH correctly)

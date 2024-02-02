@@ -1,27 +1,39 @@
-from typing import Optional, Type
+from typing import Type
 import uuid
+
+from fastapi import HTTPException
 from src.database.database_setup import DBModel, session
 
 
-# warning does not apply here
+# Type warning does not apply here
 def add(db_model: DBModel) -> None:
     # Errorhandling needs to be done
     session.add(db_model)
     session.commit()
     session.refresh(db_model)       # i dont know what this does
 
+
+# Type warning does not apply here
 def delete(db_model: DBModel) -> None:
     session.delete(db_model)
     session.commit()
 
-def get_by_id(table: Type[DBModel], id: str) -> Optional[DBModel]:
+
+def get_by_id(table: Type[DBModel], id: str) -> DBModel:
     # how to query SELECT * WHERE id = id
     result = session.query(table).filter(table.id == id).first()
+    if not result:
+        raise HTTPException(status_code=404, detail="User not found")
+
     return result
 
-def get_all(table: Type[DBModel]) -> Optional[list[DBModel]]:
+
+def get_all(table: Type[DBModel]) -> list[DBModel]:
     # how to query SELECT *
     results = session.query(table).all()
+    if not results:
+        raise HTTPException(status_code=404, detail="No users found")
+
     return results
 
 

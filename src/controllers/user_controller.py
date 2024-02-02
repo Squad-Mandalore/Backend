@@ -1,5 +1,4 @@
-from typing import Optional
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, status
 from src.database.database_utils import get_all
 
 from src.models.user_model import User
@@ -19,34 +18,24 @@ router = APIRouter(
 )
 
 
-@router.get("/all")
-async def get_all_entries() -> Optional[list[User]]:
-    return get_all(User)
+@router.get("/all", response_model=list[UserSchema])
+async def get_all_entries() -> list[User]:
+    users = get_all(User)
+    return users
 
 
 @router.post("/signup", response_model=UserSchema, status_code=status.HTTP_201_CREATED)
-async def post_password(password_schema: PasswordSchema) -> Response:
+async def post_password(password_schema: PasswordSchema) -> User:
     password = password_schema.password
-
-    if not validate_password(password):
-        return Response(content="Given password is not at least 12 characters long", status_code=status.HTTP_400_BAD_REQUEST)
+    validate_password(password)
 
     hashed_password, salt = hash_and_spice_password(password)
     user = add_user_with_pw(hashed_password, salt)
-    return Response(content=user, status_code=status.HTTP_201_CREATED)
+    return user
 
 
-@router.post("/login") # will probably replaced with verify user and then 2FA
-async def post_login(user_schema: UserSchema) -> Response:
+@router.post("/login", status_code=status.HTTP_202_ACCEPTED) # will probably replaced with verify user and then 2FA and jwt token
+async def post_login(user_schema: UserSchema) -> None:
     id = user_schema.id
     password = user_schema.password
-
-    result = check_password(id, password)
-    return result
-
-
-# which one is better design wise
-# @router.post("/login")
-# async def post_login(user_schema: UserSchema):
-#     result = check_password(user_schema)
-#     return result
+    check_password(id, password)

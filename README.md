@@ -56,4 +56,10 @@ Additionally you can add the --reload flag to reload the application after makin
 
 ## Testing
 
-Write your test and add it to the run_tests.py file and start it. Amazing technology. (Dont forget to set your PYTHONPATH correctly)
+Go to your project root and execute tests with:
+
+```console
+pytest
+```
+
+The framework recognizes test files, when they start with 'test_'.

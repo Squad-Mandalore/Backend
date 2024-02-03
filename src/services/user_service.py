@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import HTTPException
 
 from src.database.database_utils import add, get_by_id
-from src.models.user_model import User
+from src.models.models import User
 from src.services.password_service import hash_and_spice_password
 
 

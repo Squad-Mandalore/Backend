@@ -1,12 +1,12 @@
-from fastapi import APIRouter, HTTPException, status
-from src.database.database_utils import get_all
-
-from src.models.user_model import User
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from src.models.models import Base, User, Trainer, Administrator, Athlete, Code
+from src.database.database_utils import get_all, get_db
 from src.schemas.password_schema import PasswordSchema
 from src.schemas.user_schema import UserSchema
 from src.services.password_service import hash_and_spice_password
 from src.services.password_validation_service import validate_password
-from src.services.user_service import check_password, add_user_with_pw
+from src.services.user_service import add_user_with_pw, check_password
 
 router = APIRouter(
     # routing prefix
@@ -19,8 +19,8 @@ router = APIRouter(
 
 
 @router.get("/all", response_model=list[UserSchema])
-async def get_all_entries() -> list[User]:
-    users = get_all(User)
+async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
+    users = get_all(db, User)
     if isinstance(users, HTTPException):
         raise users
     return users

@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.models.base_model import Base
+from src.models.models import Base
 
 # mashallah in memory engine bro
 engine = create_engine('sqlite:///db/test.db', connect_args={"check_same_thread": False})

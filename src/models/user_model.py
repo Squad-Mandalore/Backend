@@ -40,7 +40,7 @@ class Trainer(User):
     uses_otp: Mapped[bool]
     id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
 
-    athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer")
+    athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer", primaryjoin="Trainer.id==Athlete.trainer_id")
 
     __mapper_args__ = { "polymorphic_identity": "trainer" }
 

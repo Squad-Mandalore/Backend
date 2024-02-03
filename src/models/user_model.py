@@ -24,6 +24,7 @@ class User(Base):
     last_password_change: Mapped[datetime]
     last_edited_at: Mapped[datetime]
     type: Mapped[str]
+    salt: Mapped[str]
 
     __mapper_args__ = { "polymorphic_on": "type", "polymorphic_abstract": True}
 

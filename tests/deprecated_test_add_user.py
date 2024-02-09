@@ -1,8 +1,4 @@
 from tests.define_test_variables import TestVariables, client
-# def add_user(body: str = TestVariables.EXAMPLE_PASSWORD) -> Response:
-#     response = requests.post(headers=TestVariables.HEADERS, json=json.loads(body), url=TestVariables.BASEURL + "/users/signup")
-#     return response
-
 
 # also test the password validation
 def test_add_user() -> None:

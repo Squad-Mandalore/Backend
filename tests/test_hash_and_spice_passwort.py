@@ -3,13 +3,13 @@ from src.services.password_service import KEYCHAIN_NUMBER, PEPPER, generate_salt
 
 
 # Test `generate_salt` function
-def test_generate_salt():
+def test_generate_salt() -> None:
     salt = generate_salt(10)
     assert len(salt) == 10, "Salt length should be 10"
     assert salt.isalpha(), "Salt should only contain letters"
 
 # Test `salt_password` function
-def test_salt_password():
+def test_salt_password() -> None:
     password = "spam and eggs"
     salt = "salt"
     salted_password, used_salt = salt_password(password, salt)
@@ -17,13 +17,13 @@ def test_salt_password():
     assert used_salt == salt, "Used salt does not match provided salt"
 
 # Test `pepper_password` function
-def test_pepper_password():
+def test_pepper_password() -> None:
     password = "spam and eggs"
     peppered_password = pepper_password(password)
     assert peppered_password == password + PEPPER, "Peppered password does not match expected value"
 
 # Test `hash_password` function with a known result to ensure consistent hashing
-def test_hash_password():
+def test_hash_password() -> None:
     password = "spam and eggs" + "salt" + PEPPER
     hashed_password = hash_password(password)
     # Expected result obtained by manually hashing the concatenated string
@@ -33,7 +33,7 @@ def test_hash_password():
     assert hashed_password == expected_hash, "Hashed password does not match expected hash"
 
 # Test `hash_and_spice_password` function to ensure it integrates well
-def test_hash_and_spice_password():
+def test_hash_and_spice_password() -> None:
     password = "spam and eggs"
     hashed_password, salt = hash_and_spice_password(password)
     # Validate returned values are in expected format without knowing the exact outcome due to randomness in salt

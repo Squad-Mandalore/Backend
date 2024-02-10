@@ -126,6 +126,14 @@ class Code(Base):
     administrator: Mapped["Administrator"] = relationship("Administrator", back_populates="codes")
     trainer: Mapped["Trainer"] = relationship("Trainer", back_populates="codes")
 
+    def __init__(self, user: Trainer | Administrator, code: str):
+        if isinstance(user, Administrator):
+            self.administrator = user
+        else:
+            self.trainer = user
+        self.code = code
+        self.created_at = datetime.now()
+
 class Exercise(Base):
     __tablename__ = "exercise"
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
@@ -159,7 +167,7 @@ class Completes(Base):
     athlete: Mapped["Athlete"] = relationship()
     exercise: Mapped["Exercise"] = relationship()
 
-    def __init__(self, athlete: Athlete, exercise: Exercise, tracked_at: datetime, completed_at: datetime, result: str, points: int, dbs: bool):
+    def __init__(self, athlete: Athlete, exercise: Exercise, tracked_at: datetime, completed_at: datetime, result: str, points: int, dbs: bool=False):
         self.athlete = athlete
         self.exercise = exercise
         self.tracked_at = tracked_at

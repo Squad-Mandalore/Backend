@@ -48,7 +48,7 @@ class Administrator(User):
     id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
     uses_otp: Mapped[bool] = mapped_column(default=False)
 
-    codes: Mapped[list["Code"]] = relationship(back_populates="administrator")
+    codes: Mapped[list["BackupCode"]] = relationship(back_populates="administrator")
 
     __mapper_args__ = {"polymorphic_identity": "administrator"}
 
@@ -63,7 +63,7 @@ class Trainer(User):
     birthday: Mapped[Optional[date]]
 
     athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer", primaryjoin="Trainer.id==Athlete.trainer_id")
-    codes: Mapped[list["Code"]] = relationship(back_populates="trainer")
+    codes: Mapped[list["BackupCode"]] = relationship(back_populates="trainer")
 
     __mapper_args__ = {"polymorphic_identity": "trainer"}
 
@@ -81,7 +81,8 @@ class Athlete(User):
     trainer_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trainer.id"))
 
     trainer: Mapped["Trainer"] = relationship(back_populates="athletes", primaryjoin="Trainer.id==Athlete.trainer_id")
-    exercises: Mapped[list["Completes"]] = relationship(back_populates="athlete")
+    completes: Mapped[list["Completes"]] = relationship(back_populates="athlete")
+    certificates: Mapped[list["Certificate"]] = relationship()
 
     __mapper_args__ = {"polymorphic_identity": "athlete"}
 
@@ -107,24 +108,35 @@ class Certificate(Base):
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     athlete_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
     uploaded_at: Mapped[datetime] = mapped_column(default=datetime.now)
+    uploaded_by: Mapped[uuid.UUID] = mapped_column(ForeignKey("trainer.id"))
     title: Mapped[str]
     blob: Mapped[bytes] = mapped_column(BLOB)
 
-    athlete: Mapped["Athlete"] = relationship()
+    athlete: Mapped["Athlete"] = relationship(back_populates="certificates")
+    uploader: Mapped["Trainer"] = relationship()
 
-    def __init__(self, athlete: Athlete, title: str, blob: bytes):
+    def __init__(self, athlete: Athlete, uploader: Trainer, title: str, blob: bytes):
         self.athlete = athlete
+        self.uploader = uploader
         self.title = title
         self.blob = blob
 
-class Code(Base):
-    __tablename__ = "codes"
+class BackupCode(Base):
+    __tablename__ = "backup_code"
     user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
     code: Mapped[str] = mapped_column(primary_key=True)
     created_at: Mapped[datetime]
 
     administrator: Mapped["Administrator"] = relationship("Administrator", back_populates="codes")
     trainer: Mapped["Trainer"] = relationship("Trainer", back_populates="codes")
+
+    def __init__(self, user: Trainer | Administrator, code: str):
+        if isinstance(user, Administrator):
+            self.administrator = user
+        else:
+            self.trainer = user
+        self.code = code
+        self.created_at = datetime.now()
 
 class Exercise(Base):
     __tablename__ = "exercise"
@@ -159,7 +171,7 @@ class Completes(Base):
     athlete: Mapped["Athlete"] = relationship()
     exercise: Mapped["Exercise"] = relationship()
 
-    def __init__(self, athlete: Athlete, exercise: Exercise, tracked_at: datetime, completed_at: datetime, result: str, points: int, dbs: bool):
+    def __init__(self, athlete: Athlete, exercise: Exercise, tracked_at: datetime, completed_at: datetime, result: str, points: int, dbs: bool=False):
         self.athlete = athlete
         self.exercise = exercise
         self.tracked_at = tracked_at

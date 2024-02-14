@@ -62,6 +62,7 @@ def test_athlete(session):
     assert athlete.email == "athlete"
     assert athlete.hashed_password == "athlete"
     assert athlete.trainer == trainer
+    assert trainer.athletes[0] == athlete
 
 def test_category(session):
     category = Category(title="category")
@@ -84,6 +85,8 @@ def test_certificate(session):
     assert certificate.title == "certificate"
     assert certificate.blob == b"blob"
     assert certificate.athlete == athlete
+    assert certificate.uploader == trainer
+    assert athlete.certificates[0] == certificate
 
 def test_code_administrator(session):
     admin = Administrator(username="admin_code", email="admin", hashed_password="admin", firstname="admin", lastname="admin", salt="admin", uses_otp=False)
@@ -95,6 +98,7 @@ def test_code_administrator(session):
     assert code.user_id is not None
     assert code.code == "test_admin"
     assert code.administrator == admin
+    assert admin.codes[0] == code
 
 def test_code_trainer(session):
     trainer = Trainer(username="trainer_code", email="trainer", hashed_password="trainer", firstname="trainer", lastname="trainer", salt="trainer", uses_otp=False, birthday=None)
@@ -106,6 +110,7 @@ def test_code_trainer(session):
     assert code.user_id is not None
     assert code.code == "test_trainer"
     assert code.trainer == trainer
+    assert trainer.codes[0] == code
 
 def test_exercise(session):
     category = Category(title="category_exercise")
@@ -131,3 +136,4 @@ def test_completes(session):
     assert completes.exercise == exercise
     assert completes.athlete == athlete
     assert completes.result == "result"
+    assert athlete.completes[0].exercise == exercise

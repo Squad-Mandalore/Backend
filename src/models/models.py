@@ -81,7 +81,7 @@ class Athlete(User):
     trainer_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trainer.id"))
 
     trainer: Mapped["Trainer"] = relationship(back_populates="athletes", primaryjoin="Trainer.id==Athlete.trainer_id")
-    exercises: Mapped[list["Completes"]] = relationship(back_populates="athlete")
+    completes: Mapped[list["Completes"]] = relationship(back_populates="athlete")
     certificates: Mapped[list["Certificate"]] = relationship()
 
     __mapper_args__ = {"polymorphic_identity": "athlete"}

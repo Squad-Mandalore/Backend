@@ -45,3 +45,22 @@ In order to make sure the project's package versions are not interfering with yo
 3. Run ```pip install -r requirements.txt```
 
 4. You've successfully installed all requirements! (To check your versions you can run ```pip list``` or ```pip freeze```)
+
+## Starting
+
+```console
+uvicorn src.main:app
+```
+
+Additionally you can add the --reload flag to reload the application after making source code changes.
+
+## Testing
+
+Go to your project root and execute tests with:
+
+```console
+pytest
+```
+
+The framework recognizes test files, when they start with 'test_'.
+Note that this approach does not work with in-memory databases.

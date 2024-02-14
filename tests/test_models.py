@@ -75,7 +75,7 @@ def test_category(session):
 def test_certificate(session):
     trainer = Trainer(username="trainer_athlete_certificate", email="trainer", hashed_password="trainer", firstname="trainer", lastname="trainer", salt="trainer", uses_otp=False, birthday=None)
     athlete = Athlete(username="athlete_certificate", email="athlete", hashed_password="athlete", firstname="athlete", lastname="athlete", salt="athlete", birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer=trainer)
-    certificate = Certificate(title="certificate", blob=b"blob", athlete=athlete)
+    certificate = Certificate(title="certificate", blob=b"blob", athlete=athlete, uploader=trainer)
     session.add(certificate)
     session.commit()
     certificate = session.query(Certificate).filter(Certificate.title == "certificate").first()
@@ -87,10 +87,10 @@ def test_certificate(session):
 
 def test_code_administrator(session):
     admin = Administrator(username="admin_code", email="admin", hashed_password="admin", firstname="admin", lastname="admin", salt="admin", uses_otp=False)
-    code = Code(code="test_admin", user=admin)
+    code = BackupCode(code="test_admin", user=admin)
     session.add(code)
     session.commit()
-    code = session.query(Code).filter(Code.code == "test_admin").first()
+    code = session.query(BackupCode).filter(BackupCode.code == "test_admin").first()
 
     assert code.user_id is not None
     assert code.code == "test_admin"
@@ -98,10 +98,10 @@ def test_code_administrator(session):
 
 def test_code_trainer(session):
     trainer = Trainer(username="trainer_code", email="trainer", hashed_password="trainer", firstname="trainer", lastname="trainer", salt="trainer", uses_otp=False, birthday=None)
-    code = Code(code="test_trainer", user=trainer)
+    code = BackupCode(code="test_trainer", user=trainer)
     session.add(code)
     session.commit()
-    code = session.query(Code).filter(Code.code == "test_trainer").first()
+    code = session.query(BackupCode).filter(BackupCode.code == "test_trainer").first()
 
     assert code.user_id is not None
     assert code.code == "test_trainer"

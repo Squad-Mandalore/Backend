@@ -7,13 +7,16 @@ from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+
 class Base(DeclarativeBase):
     pass
+
 
 class Gender(enum.Enum):
     MALE = 'm'
     FEMALE = 'f'
     DIVERSE = 'd'
+
 
 class User(Base):
     __tablename__ = "user"
@@ -43,6 +46,7 @@ class User(Base):
         self.last_edited_at = now
         self.last_password_change = now
 
+
 class Administrator(User):
     __tablename__ = "administrator"
     id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
@@ -52,9 +56,11 @@ class Administrator(User):
 
     __mapper_args__ = {"polymorphic_identity": "administrator"}
 
-    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str, uses_otp: bool):
+    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str,
+                 uses_otp: bool):
         super().__init__(username, email, hashed_password, firstname, lastname, salt)
         uses_otp = uses_otp
+
 
 class Trainer(User):
     __tablename__ = "trainer"
@@ -62,22 +68,25 @@ class Trainer(User):
     uses_otp: Mapped[bool] = mapped_column(default=False)
     birthday: Mapped[Optional[date]]
 
-    athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer", primaryjoin="Trainer.id==Athlete.trainer_id")
+    athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer",
+                                                     primaryjoin="Trainer.id==Athlete.trainer_id")
     codes: Mapped[list["BackupCode"]] = relationship(back_populates="trainer")
 
     __mapper_args__ = {"polymorphic_identity": "trainer"}
 
-    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str, uses_otp: bool, birthday: Optional[date]):
+    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str,
+                 uses_otp: bool, birthday: Optional[date]):
         super().__init__(username, email, hashed_password, firstname, lastname, salt)
         self.uses_otp = uses_otp
         self.birthday = birthday
+
 
 class Athlete(User):
     __tablename__ = "athlete"
     id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
     birthday: Mapped[date]
-    gender: Mapped[Gender] = mapped_column(Enum(Gender), default=Gender.DIVERSE)
-    has_disease: Mapped[bool] = mapped_column(default=False)
+    gender: Mapped[Gender] = mapped_column(Enum(Gender))
+    has_disease: Mapped[bool]
     trainer_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trainer.id"))
 
     trainer: Mapped["Trainer"] = relationship(back_populates="athletes", primaryjoin="Trainer.id==Athlete.trainer_id")
@@ -86,22 +95,26 @@ class Athlete(User):
 
     __mapper_args__ = {"polymorphic_identity": "athlete"}
 
-    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str, birthday: date, gender: Gender, has_disease: bool, trainer: Trainer):
+    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str,
+                 birthday: date, trainer: Optional[Trainer], has_disease: bool = False, gender: Gender = Gender.DIVERSE):
         super().__init__(username, email, hashed_password, firstname, lastname, salt)
         self.birthday = birthday
         self.trainer = trainer
         self.gender = gender
         self.has_disease = has_disease
 
+
 class Category(Base):
     __tablename__ = "category"
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
     title: Mapped[str]
 
-    exercises: Mapped[list["Exercise"]] = relationship(back_populates="category", primaryjoin="Category.id==Exercise.category_id")
+    exercises: Mapped[list["Exercise"]] = relationship(back_populates="category",
+                                                       primaryjoin="Category.id==Exercise.category_id")
 
     def __init__(self, title: str):
         self.title = title
+
 
 class Certificate(Base):
     __tablename__ = "certificate"
@@ -121,6 +134,7 @@ class Certificate(Base):
         self.title = title
         self.blob = blob
 
+
 class BackupCode(Base):
     __tablename__ = "backup_code"
     user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
@@ -138,6 +152,7 @@ class BackupCode(Base):
         self.code = code
         self.created_at = datetime.now()
 
+
 class Exercise(Base):
     __tablename__ = "exercise"
     id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
@@ -146,7 +161,8 @@ class Exercise(Base):
     from_age: Mapped[int]
     to_age: Mapped[int]
 
-    category: Mapped["Category"] = relationship(back_populates="exercises", primaryjoin="Category.id==Exercise.category_id")
+    category: Mapped["Category"] = relationship(back_populates="exercises",
+                                                primaryjoin="Category.id==Exercise.category_id")
 
     __table_args__ = (
         CheckConstraint('from_age < to_age'),
@@ -157,6 +173,7 @@ class Exercise(Base):
         self.category = category
         self.from_age = from_age
         self.to_age = to_age
+
 
 class Completes(Base):
     __tablename__ = "completes"
@@ -171,7 +188,8 @@ class Completes(Base):
     athlete: Mapped["Athlete"] = relationship()
     exercise: Mapped["Exercise"] = relationship()
 
-    def __init__(self, athlete: Athlete, exercise: Exercise, tracked_at: datetime, completed_at: datetime, result: str, points: int, dbs: bool=False):
+    def __init__(self, athlete: Athlete, exercise: Exercise, tracked_at: datetime, completed_at: datetime, result: str,
+                 points: int, dbs: bool = False):
         self.athlete = athlete
         self.exercise = exercise
         self.tracked_at = tracked_at
@@ -179,6 +197,7 @@ class Completes(Base):
         self.result = result
         self.points = points
         self.dbs = dbs
+
 
 class Rule(Base):
     __tablename__ = "rule"
@@ -199,7 +218,8 @@ class Rule(Base):
         CheckConstraint('from_age < to_age'),
     )
 
-    def __init__(self, gender: Gender, from_age: int, to_age: int, bronze: str, silver: str, gold: str, year: date, exercise: Exercise):
+    def __init__(self, gender: Gender, from_age: int, to_age: int, bronze: str, silver: str, gold: str, year: date,
+                 exercise: Exercise):
         self.gender = gender
         self.from_age = from_age
         self.to_age = to_age

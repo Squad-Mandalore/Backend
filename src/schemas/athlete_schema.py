@@ -4,8 +4,10 @@ from typing import Optional
 from pydantic import BaseModel
 
 from src.models.models import Gender, Trainer
+from src.schemas.user_schema import UserSchema
 
-class AthleteDtoSchema(BaseModel):
+
+class AthleteDtoSchema(UserSchema):
     username: str
     email: str
     hashed_password: str

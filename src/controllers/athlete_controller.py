@@ -51,3 +51,12 @@ async def create_athlete(athlete_dto_schema: AthleteDtoSchema, db: Session = Dep
     return athlete
 
 
+@router.put("", response_model=AthleteSchema, status_code=status.HTTP_202_ACCEPTED)
+async def update_athlete(athlete_dto_schema: AthleteDtoSchema, db: Session = Depends(get_db())) -> Base:
+    athleteDb = get_by_id(db, Athlete, athlete_dto_schema.id)
+    if isinstance(athleteDb, HTTPException):
+        raise athleteDb
+    athleteDb.update_properties(athlete_dto_schema)
+    db.commit()
+
+

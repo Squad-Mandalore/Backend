@@ -7,9 +7,12 @@ from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from src.schemas.athlete_schema import AthleteDtoSchema
+
 
 class Base(DeclarativeBase):
-    pass
+    def update_properties(self, athlete_dto_schema):
+        pass
 
 
 class Gender(enum.Enum):
@@ -45,6 +48,7 @@ class User(Base):
         self.created_at = now
         self.last_edited_at = now
         self.last_password_change = now
+
 
 
 class Administrator(User):

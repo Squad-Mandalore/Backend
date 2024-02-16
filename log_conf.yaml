@@ -20,7 +20,7 @@ handlers:
     class: logging.FileHandler
     level: WARN
     formatter: default
-    filename: debug.log
+    filename: error.log
     encoding: utf8
 loggers:
   uvicorn:

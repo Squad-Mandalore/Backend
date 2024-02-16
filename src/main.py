@@ -1,13 +1,11 @@
 from src.database.database_setup import init_db
 from fastapi import FastAPI
-from src.controllers import password_controller, user_controller
-from src.logger.logger import logger
+from src.controllers import logger_controller, password_controller, user_controller
 
 init_db()
-
-logger.info("Starting FastAPI")
 
 app = FastAPI()
 
 app.include_router(password_controller.router)
 app.include_router(user_controller.router)
+app.include_router(logger_controller.router)

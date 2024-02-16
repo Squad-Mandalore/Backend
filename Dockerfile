@@ -12,6 +12,8 @@ COPY /src/ /backend/src
 
 COPY requirements.txt /backend
 
+COPY log_conf.yaml /backend
+
 WORKDIR /backend
 
 # updating python package manager
@@ -20,4 +22,4 @@ RUN pip3 install --upgrade pip
 # installing python dependencies
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-CMD [ "uvicorn","src.main:app"]
+CMD [ "uvicorn","src.main:app", "--log-config", "log_conf.yaml"]

@@ -1,24 +1,19 @@
+import uuid
 from datetime import date
 from typing import Optional
 
-from pydantic import BaseModel
-
-from src.models.models import Gender, Trainer
-from src.schemas.user_schema import UserSchema
+from src.models.models import Gender
+from src.schemas.user_schema import UserSchema, UserDtoSchema
 
 
-class AthleteDtoSchema(UserSchema):
-    username: str
-    email: str
-    hashed_password: str
-    salt: str
-    firstname: str
-    lastname: str
+class AthleteDtoSchema(UserDtoSchema):
     birthday: date
     gender: Gender
     has_disease: bool
-    trainer_id: Optional[int]
-class AthleteSchema(AthleteDtoSchema):
+    trainer_id: Optional[str]
+class AthleteSchema(UserSchema):
     # model_config = ConfigDict()
-    id: str
-
+    birthday: date
+    gender: Gender
+    has_disease: bool
+    trainer_id: Optional[uuid.UUID]

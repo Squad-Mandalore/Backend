@@ -1,9 +1,15 @@
 from datetime import datetime
 
-def update_properties(self: Base, schema, db: Session):
+from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+from src.models.models import Base
+
+
+def update_properties(athleteDb: Base, schema: BaseModel, db: Session):
     now = datetime.now()
     for attr, value in schema.__dict__.items():
         if value is not None:
-            setattr(self, attr, value)
-    self.last_edited_at = now
+            setattr(athleteDb, attr, value)
+    athleteDb.last_edited_at = now
     db.commit()

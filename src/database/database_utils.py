@@ -30,6 +30,10 @@ def delete(db: Session, table: Type[Base], id: str) -> Optional[HTTPException]:
 
 
 def get_by_id(db: Session, table: Type[Base], id: str) -> Base | HTTPException:
+    """
+
+    @rtype: object
+    """
     # how to query SELECT * WHERE id = id
     result = db.query(table).filter(table.id == id).first()
     if not result:

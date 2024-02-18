@@ -7,13 +7,10 @@ from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.schemas.athlete_schema import AthleteDtoSchema
 
 
 class Base(DeclarativeBase):
-    def update_properties(self, athlete_dto_schema):
-        pass
-
+    pass
 
 class Gender(enum.Enum):
     MALE = 'm'
@@ -100,10 +97,10 @@ class Athlete(User):
     __mapper_args__ = {"polymorphic_identity": "athlete"}
 
     def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str,
-                 birthday: date, trainer: Optional[Trainer], has_disease: bool = False, gender: Gender = Gender.DIVERSE):
+                 birthday: date, trainer_id: Optional[uuid.UUID], has_disease: bool = False, gender: Gender = Gender.DIVERSE):
         super().__init__(username, email, hashed_password, firstname, lastname, salt)
         self.birthday = birthday
-        self.trainer = trainer
+        self.trainer_id = trainer_id
         self.gender = gender
         self.has_disease = has_disease
 

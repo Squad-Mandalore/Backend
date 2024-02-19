@@ -32,7 +32,7 @@ In order to make sure the project's package versions are not interfering with yo
 
 2. Run ```python -m venv venv``` to create a virtual environment
 
-3. Run ```venv\Scripts\activate``` to activate the virtual environment
+3. Run ```venv\Scripts\activate``` to activate the virtual environment or ```venv\bin\activate``` to activate it on a Unix based system
 
 4. If it says (venv) to the left of your input line in cmd you've successfully set up a virtual environment!
 
@@ -49,7 +49,7 @@ In order to make sure the project's package versions are not interfering with yo
 ## Starting
 
 ```console
-uvicorn src.main:app
+uvicorn src.main:app --log-config=log_conf.yaml
 ```
 
 Additionally you can add the --reload flag to reload the application after making source code changes.

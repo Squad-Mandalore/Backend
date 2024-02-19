@@ -7,6 +7,7 @@ from src.schemas.user_schema import UserSchema
 from src.services.password_service import hash_and_spice_password
 from src.services.password_validation_service import validate_password
 from src.services.user_service import add_user_with_pw, check_password
+from src.logger.logger import logger
 
 router = APIRouter(
     # routing prefix
@@ -17,6 +18,10 @@ router = APIRouter(
     responses={404: {"route": "Not found"}}
 )
 
+
+@router.get("/whoami")
+async def get_whoami() -> None:
+    logger.warning("Hey everybody take a look at me, my output lacks credibility!")
 
 @router.get("/all", response_model=list[UserSchema])
 async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:

@@ -1,13 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from src.models.models import Base, User
+
 from src.database.database_utils import get_all, get_db
+from src.logger.logger import logger
+from src.models.models import Base, User
 from src.schemas.password_schema import PasswordSchema
 from src.schemas.user_schema import UserSchema
 from src.services.password_service import hash_and_spice_password
 from src.services.password_validation_service import validate_password
 from src.services.user_service import add_user_with_pw, check_password
-from src.logger.logger import logger
 
 router = APIRouter(
     # routing prefix
@@ -22,6 +23,7 @@ router = APIRouter(
 @router.get("/whoami")
 async def get_whoami() -> None:
     logger.warning("Hey everybody take a look at me, my output lacks credibility!")
+
 
 @router.get("/all", response_model=list[UserSchema])
 async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:

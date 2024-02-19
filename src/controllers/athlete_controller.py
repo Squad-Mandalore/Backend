@@ -20,7 +20,7 @@ router = APIRouter(
 )
 
 
-@router.get("/all", response_model=list[AthleteSchema])
+@router.get("/all", response_model=list[AthleteSchema], status_code=status.HTTP_200_OK)
 async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
     athletes:  list[Base] | HTTPException = get_all(db, Athlete)
     if isinstance(athletes, HTTPException):
@@ -28,7 +28,7 @@ async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
     return athletes
 
 
-@router.get("/{id}", response_model=AthleteSchema)
+@router.get("/{id}", response_model=AthleteSchema, status_code=status.HTTP_200_OK)
 async def get_athlete_by_id(id: uuid.UUID, db: Session = Depends(get_db), ) -> Base:
     athlete: Base | HTTPException = get_by_id(db, Athlete, id)
     if isinstance(athlete, HTTPException):
@@ -36,7 +36,7 @@ async def get_athlete_by_id(id: uuid.UUID, db: Session = Depends(get_db), ) -> B
     return athlete
 
 
-@router.delete("/{id}", response_model=AthleteSchema)
+@router.delete("/{id}", response_model=AthleteSchema, status_code=status.HTTP_204_NO_CONTENT)
 async def delete_by_id(id: uuid.UUID, db: Session = Depends(get_db)) -> None:
     athlete: HTTPException | None = delete(db, Athlete, id)
     if isinstance(athlete, HTTPException):

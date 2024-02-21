@@ -1,3 +1,4 @@
+import os
 from src.logger.logger import logger
 from tests.define_test_variables import client, TestVariables
 from _pytest.logging import LogCaptureFixture
@@ -99,6 +100,17 @@ def test_get_whoami(caplog: LogCaptureFixture) -> None:
 
 
 def test_get_error_log() -> None:
+    # Remove error.log if it exists
+    if os.path.exists("error.log"):
+        os.remove("error.log")
+
+    # Try to get error.log
+    response = client.get(TestVariables.BASEURL + "/log/error.log")
+    assert response.status_code == 404
+
+    # Create error.log
+    with open("error.log", "w"): pass
+
     response = client.get(TestVariables.BASEURL + "/log/error.log")
     assert response.status_code == 200
 

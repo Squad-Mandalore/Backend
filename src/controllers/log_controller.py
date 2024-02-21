@@ -1,4 +1,5 @@
-from fastapi import APIRouter, status
+import os
+from fastapi import APIRouter, HTTPException, status
 from starlette.responses import FileResponse
 from src.schemas.log_schema import LogSchema
 
@@ -16,6 +17,9 @@ router = APIRouter(
 
 @router.get("/error.log", response_class=FileResponse)
 async def read_debug_log() -> FileResponse:
+    if not os.path.exists("error.log"):
+        raise HTTPException(status_code=404, detail="Log file not found")
+
     return FileResponse("error.log")
 
 

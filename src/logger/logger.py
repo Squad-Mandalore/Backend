@@ -1,3 +1,5 @@
 import logging
 
-logger = logging.getLogger(__name__)
+
+frontend_logger = logging.getLogger("Frontend")
+logger = logging.getLogger("Backend")

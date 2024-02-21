@@ -4,9 +4,11 @@ formatters:
   default:
     # "()": uvicorn.logging.DefaultFormatter
     format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    use_colors: True
   access:
     # "()": uvicorn.logging.AccessFormatter
     format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    use_colors: True
 handlers:
   default:
     formatter: default

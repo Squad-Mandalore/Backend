@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, status
 from starlette.responses import FileResponse
 from src.schemas.log_schema import LogSchema
 
-from src.logger.logger import logger
+from src.logger.logger import frontend_logger
 
 
 router = APIRouter(
@@ -25,24 +25,24 @@ async def read_debug_log() -> FileResponse:
 
 @router.post("/debug", status_code=status.HTTP_200_OK)
 async def debug(message: LogSchema):
-    logger.debug(message)
+    frontend_logger.debug(message.message)
 
 
 @router.post("/info", status_code=status.HTTP_200_OK)
 async def info(message: LogSchema):
-    logger.info(message)
+    frontend_logger.info(message.message)
 
 
 @router.post("/warning", status_code=status.HTTP_200_OK)
 async def warning(message: LogSchema):
-    logger.warning(message)
+    frontend_logger.warning(message.message)
 
 
 @router.post("/critical", status_code=status.HTTP_200_OK)
 async def critical(message: LogSchema):
-    logger.critical(message)
+    frontend_logger.critical(message.message)
 
 
 @router.post("/error", status_code=status.HTTP_200_OK)
 async def error(message: LogSchema):
-    logger.error(message)
+    frontend_logger.error(message.message)

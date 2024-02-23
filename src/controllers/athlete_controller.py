@@ -1,4 +1,5 @@
 import uuid
+from typing import Union, Optional
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -22,7 +23,7 @@ router = APIRouter(
 
 @router.get("/all", response_model=list[AthleteSchema], status_code=status.HTTP_200_OK)
 async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
-    athletes:  list[Base] | HTTPException = get_all(db, Athlete)
+    athletes: Union[list[Base], HTTPException] = get_all(db, Athlete)
     if isinstance(athletes, HTTPException):
         raise athletes
     return athletes
@@ -30,18 +31,17 @@ async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
 
 @router.get("/{id}", response_model=AthleteSchema, status_code=status.HTTP_200_OK)
 async def get_athlete_by_id(id: uuid.UUID, db: Session = Depends(get_db), ) -> Base:
-    athlete: Base | HTTPException = get_by_id(db, Athlete, id)
+    athlete: Union[Base, HTTPException] = get_by_id(db, Athlete, id)
     if isinstance(athlete, HTTPException):
         raise athlete
     return athlete
 
 
-@router.delete("/{id}", response_model=AthleteSchema, status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}", response_model=AthleteSchema, status_code=status.HTTP_200_OK)
 async def delete_by_id(id: uuid.UUID, db: Session = Depends(get_db)) -> None:
-    athlete: HTTPException | None = delete(db, Athlete, id)
+    athlete: Optional[HTTPException] = delete(db, Athlete, id)
     if isinstance(athlete, HTTPException):
         raise athlete
-    return athlete
 
 
 @router.post("/post", response_model=AthleteSchema, status_code=status.HTTP_201_CREATED)
@@ -58,7 +58,7 @@ async def create_athlete(athlete_dto_schema: AthleteDtoSchema, db: Session = Dep
 
 @router.put("/{id}", response_model=AthleteSchema, status_code=status.HTTP_202_ACCEPTED)
 async def update_athlete(id: str, athlete_dto_schema: AthleteDtoSchema, db: Session = Depends(get_db)) -> Base:
-    athleteDb: Base | HTTPException = get_by_id(db, Athlete, id)
+    athleteDb: Union[Base, HTTPException] = get_by_id(db, Athlete, id)
     if isinstance(athleteDb, HTTPException):
         raise athleteDb
     update_properties(athleteDb, athlete_dto_schema, db)

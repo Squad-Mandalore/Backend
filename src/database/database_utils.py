@@ -1,4 +1,4 @@
-from typing import Optional, Type
+from typing import Optional, Type, Union
 import uuid
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
@@ -29,7 +29,7 @@ def delete(db: Session, table: Type[Base], id: str) -> Optional[HTTPException]:
     db.commit()
 
 
-def get_by_id(db: Session, table: Type[Base], id: str) -> Base | HTTPException:
+def get_by_id(db: Session, table: Type[Base], id: str) -> Union[Base, HTTPException]:
     """
 
     @rtype: object
@@ -42,7 +42,7 @@ def get_by_id(db: Session, table: Type[Base], id: str) -> Base | HTTPException:
     return result
 
 
-def get_all(db: Session, table: Type[Base]) -> list[Base] | HTTPException:
+def get_all(db: Session, table: Type[Base]) -> Union[list[Base], HTTPException]:
     # how to query SELECT *
     results = db.query(table).all()
     if not results:

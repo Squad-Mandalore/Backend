@@ -1,6 +1,6 @@
 from datetime import date, datetime
 import enum
-from typing import Optional
+from typing import Optional, Union
 import uuid
 
 from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey
@@ -145,7 +145,7 @@ class BackupCode(Base):
     administrator: Mapped["Administrator"] = relationship("Administrator", back_populates="codes")
     trainer: Mapped["Trainer"] = relationship("Trainer", back_populates="codes")
 
-    def __init__(self, user: Trainer | Administrator, code: str):
+    def __init__(self, user: Union[Trainer, Administrator], code: str):
         if isinstance(user, Administrator):
             self.administrator = user
         else:

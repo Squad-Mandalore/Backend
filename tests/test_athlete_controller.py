@@ -1,11 +1,28 @@
 from datetime import date
 from uuid import UUID
 
-from sqlalchemy.orm import session
+import pytest
 
-from src.models.models import Athlete, Gender
+from src.models.models import Athlete, Gender, Base
 from tests.define_test_variables import client, TestVariables
 
+@pytest.fixture
+def session():
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import sessionmaker
+
+    # Replace the connection string with your actual database connection details.
+    engine = create_engine("sqlite:///:memory:", echo=True, connect_args={"check_same_thread": False})
+    #engine = create_engine("sqlite:///db/test_test.db", echo=True, connect_args={"check_same_thread": False})
+
+    Base.metadata.create_all(bind=engine)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    yield session
+
+    session.close()
+    Base.metadata.drop_all(bind=engine)
 
 def add_test_athlete(session) -> Athlete:
     athlete = Athlete("ole361", "ole@mail", "12345",

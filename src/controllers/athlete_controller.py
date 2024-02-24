@@ -38,10 +38,11 @@ async def get_athlete_by_id(id: uuid.UUID, db: Session = Depends(get_db), ) -> B
 
 
 @router.delete("/{id}", response_model=AthleteSchema, status_code=status.HTTP_200_OK)
-async def delete_by_id(id: uuid.UUID, db: Session = Depends(get_db)) -> None:
-    athlete: Optional[HTTPException] = delete(db, Athlete, id)
+async def delete_by_id(id: str, db: Session = Depends(get_db)) -> None:
+    athlete: Optional[HTTPException] = delete(db, Athlete, UUID(id))
     if isinstance(athlete, HTTPException):
         raise athlete
+    raise HTTPException(status_code=status.HTTP_200_OK, detail="Athlete deleted")
 
 
 @router.post("/", response_model=AthleteSchema, status_code=status.HTTP_201_CREATED)

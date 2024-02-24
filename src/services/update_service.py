@@ -6,10 +6,9 @@ from sqlalchemy.orm import Session
 from src.models.models import Base
 
 
-def update_properties(athleteDb: Base, schema: BaseModel, db: Session):
+def update_properties(obj: BaseModel, schema: BaseModel):
     now = datetime.now()
-    for attr, value in schema.__dict__.items():
-        if value is not None:
-            setattr(athleteDb, attr, value)
-    athleteDb.last_edited_at = now
-    db.commit()
+    update_fields = schema.dict(exclude_unset=True)
+    for field, value in update_fields.items():
+        setattr(obj, field, value)
+    obj.last_edited_at = now

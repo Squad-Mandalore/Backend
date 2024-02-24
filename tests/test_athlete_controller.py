@@ -56,7 +56,7 @@ def test_get_athlete_by_id(client, session) -> None:
 
 def test_delete_athlete(client, session) -> None:
     postResponse: Response = post_athlete("user55", client)
-    id: str = str(postResponse.json()[id])
+    id: str = str(postResponse.json()["id"])
     response = client.delete(TestVariables.BASEURL + f"/athletes/{id}", headers=TestVariables.HEADERS)
     assert response.status_code == 200, f" {str(response.status_code)}: {str(response.content)}"
 
@@ -75,5 +75,5 @@ def test_put_athlete(client, session) -> None:
     }
     response = client.put(TestVariables.BASEURL + f"/athletes/{id}", json=body, headers=TestVariables.HEADERS)
     athlete = client.get(TestVariables.BASEURL + f"/athletes/{id}", headers=TestVariables.HEADERS)
-    assert athlete.json()["firstname"] == "markus"
+    assert athlete.json()["firstname"] == "markus", f" {str(response.status_code)}: {str(response.content)} athlete id is: {id}"
     assert athlete.json()["lastname"] == "quarkus"

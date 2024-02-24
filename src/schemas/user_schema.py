@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -10,7 +11,11 @@ class UserDtoSchema(BaseModel):
     firstname: str
     lastname: str
 
-
+class UpdateDtoSchema(BaseModel):
+    username: Optional[str]
+    email: Optional[str]
+    firstname: Optional[str]
+    lastname: Optional[str]
 class UserSchema(BaseModel):
     # model_config = ConfigDict()
     id: uuid.UUID

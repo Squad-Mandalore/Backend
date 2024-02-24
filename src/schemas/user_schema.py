@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class UserDtoSchema(BaseModel):
     username: str
     email: str
-    password: str
+    unhashed_password: str
     firstname: str
     lastname: str
 

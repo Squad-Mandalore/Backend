@@ -44,13 +44,13 @@ async def delete_by_id(id: uuid.UUID, db: Session = Depends(get_db)) -> None:
         raise athlete
 
 
-@router.post("/post", response_model=AthleteSchema, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=AthleteSchema, status_code=status.HTTP_201_CREATED)
 async def create_athlete(athlete_dto_schema: AthleteDtoSchema, db: Session = Depends(get_db)) -> Base:
-    hashed_password, salt = hash_and_spice_password(athlete_dto_schema.password)    #TODO typing
-    athlete = Athlete(athlete_dto_schema.username, athlete_dto_schema.email, hashed_password,
-                      athlete_dto_schema.firstname, athlete_dto_schema.lastname, salt, athlete_dto_schema.birthday, UUID(athlete_dto_schema.trainer_id), athlete_dto_schema.has_disease,
-                      athlete_dto_schema.gender)
+    athlete_dto_schema.trainer_id = UUID(athlete_dto_schema.trainer_id)
+    athlete_dict = athlete_dto_schema.dict(exclude_unset=True)
+    athlete = Athlete(**athlete_dict)
     add(db, athlete)
+
     if isinstance(athlete, HTTPException):
         raise athlete
     return athlete

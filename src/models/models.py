@@ -7,6 +7,7 @@ from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from src.services.password_service import hash_and_spice_password
 
 
 class Base(DeclarativeBase):
@@ -34,8 +35,9 @@ class User(Base):
 
     __mapper_args__ = {"polymorphic_on": "type", "polymorphic_abstract": True}
 
-    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str):
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str):
         now = datetime.now()
+        hashed_password, salt = hash_and_spice_password(unhashed_password)
         self.username = username
         self.email = email
         self.hashed_password = hashed_password
@@ -45,7 +47,7 @@ class User(Base):
         self.created_at = now
         self.last_edited_at = now
         self.last_password_change = now
-
+        self.id = uuid.uuid4()
 
 
 class Administrator(User):
@@ -57,9 +59,9 @@ class Administrator(User):
 
     __mapper_args__ = {"polymorphic_identity": "administrator"}
 
-    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str,
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
                  uses_otp: bool):
-        super().__init__(username, email, hashed_password, firstname, lastname, salt)
+        super().__init__(username, email, unhashed_password, firstname, lastname)
         uses_otp = uses_otp
 
 
@@ -75,9 +77,9 @@ class Trainer(User):
 
     __mapper_args__ = {"polymorphic_identity": "trainer"}
 
-    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str,
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
                  uses_otp: bool, birthday: Optional[date]):
-        super().__init__(username, email, hashed_password, firstname, lastname, salt)
+        super().__init__(username, email, unhashed_password, firstname, lastname)
         self.uses_otp = uses_otp
         self.birthday = birthday
 
@@ -96,9 +98,9 @@ class Athlete(User):
 
     __mapper_args__ = {"polymorphic_identity": "athlete"}
 
-    def __init__(self, username: str, email: str, hashed_password: str, firstname: str, lastname: str, salt: str,
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
                  birthday: date, trainer_id: Optional[uuid.UUID], has_disease: bool = False, gender: Gender = Gender.DIVERSE):
-        super().__init__(username, email, hashed_password, firstname, lastname, salt)
+        super().__init__(username, email, unhashed_password, firstname, lastname)
         self.birthday = birthday
         self.trainer_id = trainer_id
         self.gender = gender

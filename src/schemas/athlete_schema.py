@@ -12,11 +12,13 @@ class AthleteDtoSchema(UserDtoSchema):
     has_disease: bool
     trainer_id: Optional[str]
 
-class AthleteUpdateSchema(UpdateDtoSchema):
-    birthday: Optional[str]
-    trainer_id: Optional[str]
-    has_disease: Optional[bool]
-    gender: Optional[str]
+class AthleteUpadteDtoSchema(UpdateDtoSchema):
+    birthday: Optional[date] = None
+    gender: Optional[Gender] = None
+    has_disease: Optional[bool] = None
+    trainer_id: Optional[str] = None
+
+
 class AthleteSchema(UserSchema):
     # model_config = ConfigDict()
     birthday: date

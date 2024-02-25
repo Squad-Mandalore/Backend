@@ -50,7 +50,10 @@ def test_trainer(session):
 
 def test_athlete(session):
     trainer = Trainer(username="trainer_athlete", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer",  uses_otp=False, birthday=None)
-    athlete = Athlete(username="athlete", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainer.id)
+    session.add(trainer)
+    session.commit()
+    trainerDb = session.query(Trainer).filter(Athlete.username == "trainer_athlete").first()
+    athlete = Athlete(username="athlete", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
     session.add(athlete)
     session.commit()
     athlete = session.query(Athlete).filter(Athlete.username == "athlete").first()
@@ -59,7 +62,7 @@ def test_athlete(session):
     assert athlete.username == "athlete"
     assert athlete.email == "athlete"
     assert athlete.trainer_id == trainer.id
-    #assert trainer.athletes[0] == athlete          //TODO find acurate test
+    assert trainer.athletes[0] == athlete
 
 def test_category(session):
     category = Category(title="category")
@@ -72,7 +75,10 @@ def test_category(session):
 
 def test_certificate(session):
     trainer = Trainer(username="trainer_athlete_certificate", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer",  uses_otp=False, birthday=None)
-    athlete = Athlete(username="athlete_certificate", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainer.id)
+    session.add(trainer)
+    session.commit()
+    trainerDb = session.query(Trainer).filter(Athlete.username == "trainer_athlete_certificate").first()
+    athlete = Athlete(username="athlete_certificate", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
     certificate = Certificate(title="certificate", blob=b"blob", athlete=athlete, uploader=trainer)
     session.add(certificate)
     session.commit()
@@ -122,7 +128,10 @@ def test_exercise(session):
 
 def test_completes(session):
     trainer = Trainer(username="trainer_athlete_completes", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
-    athlete = Athlete(username="athlete_completes", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainer.id)
+    session.add(trainer)
+    session.commit()
+    trainerDb = session.query(Trainer).filter(Athlete.username == "trainer_athlete_completes").first()
+    athlete = Athlete(username="athlete_completes", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
     category = Category(title="category_exercise_completes")
     exercise = Exercise(title="exercise_completes", category=category, from_age=10, to_age=20)
     completes = Completes(athlete=athlete, exercise=exercise, tracked_at=datetime.now(), completed_at=datetime.now(), result="result", points=1)

@@ -47,7 +47,6 @@ class User(Base):
         self.created_at = now
         self.last_edited_at = now
         self.last_password_change = now
-        self.id = uuid.uuid4()
 
 
 class Administrator(User):

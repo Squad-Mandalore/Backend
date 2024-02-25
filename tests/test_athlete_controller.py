@@ -1,3 +1,5 @@
+from uuid import UUID
+
 import pytest
 from fastapi.openapi.models import Response
 from sqlalchemy import create_engine

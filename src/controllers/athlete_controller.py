@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_all, get_db, get_by_id, delete, add
 from src.models.models import Athlete, Base
-from src.schemas.athlete_schema import AthleteSchema, AthleteDtoSchema, AthleteUpdateSchema
+from src.schemas.athlete_schema import AthleteSchema, AthleteDtoSchema, AthleteUpadteDtoSchema
 from src.services.update_service import update_properties
 
 router = APIRouter(
@@ -29,7 +29,7 @@ async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
 
 
 @router.get("/{id}", response_model=AthleteSchema, status_code=status.HTTP_200_OK)
-async def get_athlete_by_id(id: uuid.UUID, db: Session = Depends(get_db), ) -> Base:
+async def get_athlete_by_id(id: str, db: Session = Depends(get_db), ) -> Base:
     athlete: Union[Base, HTTPException] = get_by_id(db, Athlete, id)
     if isinstance(athlete, HTTPException):
         raise athlete
@@ -38,7 +38,7 @@ async def get_athlete_by_id(id: uuid.UUID, db: Session = Depends(get_db), ) -> B
 
 @router.delete("/{id}", response_model=AthleteSchema, status_code=status.HTTP_200_OK)
 async def delete_by_id(id: str, db: Session = Depends(get_db)) -> None:
-    athlete: Optional[HTTPException] = delete(db, Athlete, UUID(id))
+    athlete: Optional[HTTPException] = delete(db, Athlete, id)
     if isinstance(athlete, HTTPException):
         raise athlete
     raise HTTPException(status_code=status.HTTP_200_OK, detail="Athlete deleted")
@@ -57,7 +57,7 @@ async def create_athlete(athlete_dto_schema: AthleteDtoSchema, db: Session = Dep
 
 
 @router.put("/{id}", response_model=AthleteSchema, status_code=status.HTTP_202_ACCEPTED)
-async def update_athlete(id: str, athlete_update_schema: AthleteUpdateSchema, db: Session = Depends(get_db)) -> Base:
+async def update_athlete(id: str, athlete_update_schema: AthleteUpadteDtoSchema, db: Session = Depends(get_db)) -> Base:
     athlete_db: Union[Base, HTTPException] = get_by_id(db, Athlete, id)
     if isinstance(athlete_db, HTTPException):
         raise athlete_db

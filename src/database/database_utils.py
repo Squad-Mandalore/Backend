@@ -22,7 +22,7 @@ def add(db: Session, db_model: Base) -> None:
 
 
 def delete(db: Session, table: Type[Base], id: str) -> Optional[HTTPException]:
-    result = db.query(table).filter(table.id == id).first()
+    result = db.query(table).filter(table.id == uuid.UUID(id)).first()
     if not result:
         return HTTPException(status_code=404, detail="User not found")
     db.delete(result)
@@ -35,7 +35,7 @@ def get_by_id(db: Session, table: Type[Base], id: str) -> Union[Base, HTTPExcept
     @rtype: object
     """
     # how to query SELECT * WHERE id = id
-    result = db.query(table).filter(table.id == id).first()
+    result = db.query(table).filter(table.id == uuid.UUID(id)).first()
     if not result:
         return HTTPException(status_code=404, detail="User not found")
 

@@ -12,10 +12,10 @@ class UserDtoSchema(BaseModel):
     lastname: str
 
 class UpdateDtoSchema(BaseModel):
-    username: Optional[str]
-    email: Optional[str]
-    firstname: Optional[str]
-    lastname: Optional[str]
+    username: Optional[str] = None
+    email: Optional[str] = None
+    firstname: Optional[str] = None
+    lastname: Optional[str] = None
 class UserSchema(BaseModel):
     # model_config = ConfigDict()
     id: uuid.UUID

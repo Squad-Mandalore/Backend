@@ -9,8 +9,8 @@ def session():
     from sqlalchemy.orm import sessionmaker
 
     # Replace the connection string with your actual database connection details.
-    #engine = create_engine("sqlite:///:memory:", echo=True, connect_args={"check_same_thread": False})
-    engine = create_engine("sqlite:///db/test_test.db", connect_args={"check_same_thread": False})
+    engine = create_engine("sqlite:///:memory:", echo=True, connect_args={"check_same_thread": False})
+    #engine = create_engine("sqlite:///db/test_test.db", connect_args={"check_same_thread": False})
 
     Base.metadata.create_all(bind=engine)
     Session = sessionmaker(bind=engine)
@@ -19,7 +19,7 @@ def session():
     yield session
 
     session.close()
-    #Base.metadata.drop_all(bind=engine)
+    Base.metadata.drop_all(bind=engine)
 
 def test_user(session):
     with pytest.raises(InvalidRequestError):

@@ -35,7 +35,7 @@ async def get_athlete_by_id(id: str, db: Session = Depends(get_db), ) -> Base:
     return athlete
 
 
-@router.delete("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_200_OK)
+@router.delete("/{id}", status_code=status.HTTP_200_OK)
 async def delete_by_id(id: str, db: Session = Depends(get_db)) -> None:
     athlete: Optional[HTTPException] = delete(Athlete, id, db)
 

@@ -46,7 +46,7 @@ def test_trainer(session):
     assert trainer.id is not None
     assert trainer.username == "trainer"
     assert trainer.email == "trainer"
-    
+
 
 def test_athlete(session):
     trainer = Trainer(username="trainer_athlete", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer",  uses_otp=False, birthday=None)
@@ -79,7 +79,10 @@ def test_certificate(session):
     session.commit()
     trainerDb = session.query(Trainer).filter(Athlete.username == "trainer_athlete_certificate").first()
     athlete = Athlete(username="athlete_certificate", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
-    certificate = Certificate(title="certificate", blob=b"blob", athlete=athlete, uploader=trainer)
+    session.add(athlete)
+    session.commit()
+    athleteDb = session.query(Athlete).filter(Athlete.username == "athlete_certificate").first()
+    certificate = Certificate(title="certificate", blob=b"blob", athlete_id=athleteDb.id, uploader=trainerDb.id)
     session.add(certificate)
     session.commit()
     certificate = session.query(Certificate).filter(Certificate.title == "certificate").first()
@@ -93,7 +96,10 @@ def test_certificate(session):
 
 def test_code_administrator(session):
     admin = Administrator(username="admin_code", email="admin", unhashed_password="admin", firstname="admin", lastname="admin", uses_otp=False)
-    code = BackupCode(code="test_admin", user=admin)
+    session.add(admin)
+    session.commit()
+    adminDb = session.query(Administrator).filter(Administrator.username == "admin_code").first()
+    code = BackupCode(code="test_admin", user_id=adminDb.id)
     session.add(code)
     session.commit()
     code = session.query(BackupCode).filter(BackupCode.code == "test_admin").first()
@@ -105,7 +111,10 @@ def test_code_administrator(session):
 
 def test_code_trainer(session):
     trainer = Trainer(username="trainer_code", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
-    code = BackupCode(code="test_trainer", user=trainer)
+    session.add(trainer)
+    session.commit()
+    trainerDb = session.query(Trainer).filter(Trainer.username == "trainer_code").first()
+    code = BackupCode(code="test_trainer", user_id=trainerDb.id)
     session.add(code)
     session.commit()
     code = session.query(BackupCode).filter(BackupCode.code == "test_trainer").first()
@@ -117,7 +126,10 @@ def test_code_trainer(session):
 
 def test_exercise(session):
     category = Category(title="category_exercise")
-    exercise = Exercise(title="exercise", category=category, from_age=10, to_age=20)
+    session.add(category)
+    session.commit()
+    categoryDb = session.query(Category).filter(Category.title == "category_exercise").first()
+    exercise = Exercise(title="exercise", category_id=categoryDb.id, from_age=10, to_age=20)
     session.add(exercise)
     session.commit()
     exercise = session.query(Exercise).filter(Exercise.title == "exercise").first()
@@ -132,9 +144,18 @@ def test_completes(session):
     session.commit()
     trainerDb = session.query(Trainer).filter(Athlete.username == "trainer_athlete_completes").first()
     athlete = Athlete(username="athlete_completes", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
+    session.add(athlete)
+    session.commit()
+    athleteDb = session.query(Athlete).filter(Athlete.username == "athlete_completes").first()
     category = Category(title="category_exercise_completes")
-    exercise = Exercise(title="exercise_completes", category=category, from_age=10, to_age=20)
-    completes = Completes(athlete=athlete, exercise=exercise, tracked_at=datetime.now(), completed_at=datetime.now(), result="result", points=1)
+    session.add(category)
+    session.commit()
+    categoryDb = session.query(Category).filter(Category.title == "category_exercise_completes").first()
+    exercise = Exercise(title="exercise_completes", category_id=categoryDb.id, from_age=10, to_age=20)
+    session.add(exercise)
+    session.commit()
+    exerciseDb = session.query(Exercise).filter(Exercise.title == "exercise_completes").first()
+    completes = Completes(athlete_id=athleteDb.id, exercise_id=exerciseDb.id, tracked_at=datetime.now(), completed_at=datetime.now(), result="result", points=1)
     session.add(completes)
     session.commit()
     completes = session.query(Completes).filter(Completes.result == "result").first()

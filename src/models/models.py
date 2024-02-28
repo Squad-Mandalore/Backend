@@ -67,7 +67,7 @@ class Administrator(User):
 class Trainer(User):
     __tablename__ = "trainer"
     id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
-    uses_otp: Mapped[bool] = mapped_column(default=False)
+    uses_otp: Mapped[bool]
     birthday: Mapped[Optional[date]]
 
     athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer",
@@ -76,8 +76,8 @@ class Trainer(User):
 
     __mapper_args__ = {"polymorphic_identity": "trainer"}
 
-    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
-                 uses_otp: bool, birthday: Optional[date]):
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, birthday: Optional[date],
+                 uses_otp: bool = False):
         super().__init__(username, email, unhashed_password, firstname, lastname)
         self.uses_otp = uses_otp
         self.birthday = birthday
@@ -98,7 +98,7 @@ class Athlete(User):
     __mapper_args__ = {"polymorphic_identity": "athlete"}
 
     def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
-                 birthday: date, trainer_id: Optional[uuid.UUID], has_disease: bool = False, gender: Gender = Gender.DIVERSE):
+                 birthday: date, trainer_id: uuid.UUID, has_disease: bool = False, gender: Gender = Gender.DIVERSE):
         super().__init__(username, email, unhashed_password, firstname, lastname)
         self.birthday = birthday
         self.trainer_id = trainer_id
@@ -130,9 +130,9 @@ class Certificate(Base):
     athlete: Mapped["Athlete"] = relationship(back_populates="certificates")
     uploader: Mapped["Trainer"] = relationship()
 
-    def __init__(self, athlete: Athlete, uploader: Trainer, title: str, blob: bytes):
-        self.athlete = athlete
-        self.uploader = uploader
+    def __init__(self, athlete_id: uuid.UUID, uploader: uuid.UUID, title: str, blob: bytes):
+        self.athlete_id = athlete_id
+        self.uploaded_by = uploader
         self.title = title
         self.blob = blob
 
@@ -146,11 +146,8 @@ class BackupCode(Base):
     administrator: Mapped["Administrator"] = relationship("Administrator", back_populates="codes")
     trainer: Mapped["Trainer"] = relationship("Trainer", back_populates="codes")
 
-    def __init__(self, user: Union[Trainer, Administrator], code: str):
-        if isinstance(user, Administrator):
-            self.administrator = user
-        else:
-            self.trainer = user
+    def __init__(self, user_id: uuid.UUID, code: str):
+        self.user_id = user_id
         self.code = code
         self.created_at = datetime.now()
 
@@ -170,9 +167,9 @@ class Exercise(Base):
         CheckConstraint('from_age < to_age'),
     )
 
-    def __init__(self, title: str, category: Category, from_age: int, to_age: int):
+    def __init__(self, title: str, category_id: uuid.UUID, from_age: int, to_age: int):
         self.title = title
-        self.category = category
+        self.category_id = category_id
         self.from_age = from_age
         self.to_age = to_age
 
@@ -190,10 +187,10 @@ class Completes(Base):
     athlete: Mapped["Athlete"] = relationship()
     exercise: Mapped["Exercise"] = relationship()
 
-    def __init__(self, athlete: Athlete, exercise: Exercise, tracked_at: datetime, completed_at: datetime, result: str,
+    def __init__(self, athlete_id: uuid.UUID, exercise_id: uuid.UUID, tracked_at: datetime, completed_at: datetime, result: str,
                  points: int, dbs: bool = False):
-        self.athlete = athlete
-        self.exercise = exercise
+        self.athlete_id = athlete_id
+        self.exercise_id = exercise_id
         self.tracked_at = tracked_at
         self.completed_at = completed_at
         self.result = result
@@ -221,7 +218,7 @@ class Rule(Base):
     )
 
     def __init__(self, gender: Gender, from_age: int, to_age: int, bronze: str, silver: str, gold: str, year: date,
-                 exercise: Exercise):
+                 exercise_id: uuid.UUID):
         self.gender = gender
         self.from_age = from_age
         self.to_age = to_age
@@ -229,4 +226,4 @@ class Rule(Base):
         self.silver = silver
         self.gold = gold
         self.year = year
-        self.exercise = exercise
+        self.exercise_id = exercise_id

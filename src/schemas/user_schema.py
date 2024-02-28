@@ -1,24 +1,24 @@
-import uuid
 from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
 
-class UserDtoSchema(BaseModel):
+class UserPostSchema(BaseModel):
     username: str
     email: str
     unhashed_password: str
     firstname: str
     lastname: str
 
-class UpdateDtoSchema(BaseModel):
+class UserPatchSchema(BaseModel):
     username: Optional[str] = None
     email: Optional[str] = None
     firstname: Optional[str] = None
     lastname: Optional[str] = None
-class UserSchema(BaseModel):
+
+class UserResponseSchema(BaseModel):
     # model_config = ConfigDict()
-    id: uuid.UUID
+    id: str
     username: str
     email: str
     firstname: str

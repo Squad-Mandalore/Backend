@@ -1,6 +1,6 @@
 from datetime import date, datetime
 import enum
-from typing import Optional, Union
+from typing import Optional
 import uuid
 
 from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey
@@ -9,6 +9,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.services.password_service import hash_and_spice_password
 
+def get_uuid() -> str:
+    return str(uuid.uuid4())
 
 class Base(DeclarativeBase):
     pass
@@ -21,7 +23,7 @@ class Gender(enum.Enum):
 
 class User(Base):
     __tablename__ = "user"
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
     username: Mapped[str] = mapped_column(unique=True)
     email: Mapped[str]
     hashed_password: Mapped[str]
@@ -51,7 +53,7 @@ class User(Base):
 
 class Administrator(User):
     __tablename__ = "administrator"
-    id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
+    id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
     uses_otp: Mapped[bool] = mapped_column(default=False)
 
     codes: Mapped[list["BackupCode"]] = relationship(back_populates="administrator")
@@ -66,7 +68,7 @@ class Administrator(User):
 
 class Trainer(User):
     __tablename__ = "trainer"
-    id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
+    id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
     uses_otp: Mapped[bool]
     birthday: Mapped[Optional[date]]
 
@@ -85,11 +87,11 @@ class Trainer(User):
 
 class Athlete(User):
     __tablename__ = "athlete"
-    id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
+    id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
     birthday: Mapped[date]
     gender: Mapped[Gender] = mapped_column(Enum(Gender))
     has_disease: Mapped[bool]
-    trainer_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("trainer.id"))
+    trainer_id: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
 
     trainer: Mapped["Trainer"] = relationship(back_populates="athletes", primaryjoin="Trainer.id==Athlete.trainer_id")
     completes: Mapped[list["Completes"]] = relationship(back_populates="athlete")
@@ -98,7 +100,7 @@ class Athlete(User):
     __mapper_args__ = {"polymorphic_identity": "athlete"}
 
     def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
-                 birthday: date, trainer_id: uuid.UUID, has_disease: bool = False, gender: Gender = Gender.DIVERSE):
+                 birthday: date, trainer_id: str, has_disease: bool = False, gender: Gender = Gender.DIVERSE):
         super().__init__(username, email, unhashed_password, firstname, lastname)
         self.birthday = birthday
         self.trainer_id = trainer_id
@@ -108,7 +110,7 @@ class Athlete(User):
 
 class Category(Base):
     __tablename__ = "category"
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
     title: Mapped[str]
 
     exercises: Mapped[list["Exercise"]] = relationship(back_populates="category",
@@ -120,17 +122,17 @@ class Category(Base):
 
 class Certificate(Base):
     __tablename__ = "certificate"
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
-    athlete_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
+    athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
     uploaded_at: Mapped[datetime] = mapped_column(default=datetime.now)
-    uploaded_by: Mapped[uuid.UUID] = mapped_column(ForeignKey("trainer.id"))
+    uploaded_by: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
     title: Mapped[str]
     blob: Mapped[bytes] = mapped_column(BLOB)
 
     athlete: Mapped["Athlete"] = relationship(back_populates="certificates")
     uploader: Mapped["Trainer"] = relationship()
 
-    def __init__(self, athlete_id: uuid.UUID, uploader: uuid.UUID, title: str, blob: bytes):
+    def __init__(self, athlete_id: str, uploader: str, title: str, blob: bytes):
         self.athlete_id = athlete_id
         self.uploaded_by = uploader
         self.title = title
@@ -139,14 +141,14 @@ class Certificate(Base):
 
 class BackupCode(Base):
     __tablename__ = "backup_code"
-    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("user.id"), primary_key=True)
+    user_id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
     code: Mapped[str] = mapped_column(primary_key=True)
     created_at: Mapped[datetime]
 
     administrator: Mapped["Administrator"] = relationship("Administrator", back_populates="codes")
     trainer: Mapped["Trainer"] = relationship("Trainer", back_populates="codes")
 
-    def __init__(self, user_id: uuid.UUID, code: str):
+    def __init__(self, user_id: str, code: str):
         self.user_id = user_id
         self.code = code
         self.created_at = datetime.now()
@@ -154,9 +156,9 @@ class BackupCode(Base):
 
 class Exercise(Base):
     __tablename__ = "exercise"
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
     title: Mapped[str]
-    category_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("category.id"))
+    category_id: Mapped[str] = mapped_column(ForeignKey("category.id"))
     from_age: Mapped[int]
     to_age: Mapped[int]
 
@@ -167,7 +169,7 @@ class Exercise(Base):
         CheckConstraint('from_age < to_age'),
     )
 
-    def __init__(self, title: str, category_id: uuid.UUID, from_age: int, to_age: int):
+    def __init__(self, title: str, category_id: str, from_age: int, to_age: int):
         self.title = title
         self.category_id = category_id
         self.from_age = from_age
@@ -176,8 +178,8 @@ class Exercise(Base):
 
 class Completes(Base):
     __tablename__ = "completes"
-    athlete_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
-    exercise_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("exercise.id"), primary_key=True)
+    athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
+    exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id"), primary_key=True)
     tracked_at: Mapped[datetime]
     completed_at: Mapped[datetime]
     result: Mapped[str]
@@ -187,7 +189,7 @@ class Completes(Base):
     athlete: Mapped["Athlete"] = relationship()
     exercise: Mapped["Exercise"] = relationship()
 
-    def __init__(self, athlete_id: uuid.UUID, exercise_id: uuid.UUID, tracked_at: datetime, completed_at: datetime, result: str,
+    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: datetime, completed_at: datetime, result: str,
                  points: int, dbs: bool = False):
         self.athlete_id = athlete_id
         self.exercise_id = exercise_id
@@ -200,7 +202,7 @@ class Completes(Base):
 
 class Rule(Base):
     __tablename__ = "rule"
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
+    id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
     gender: Mapped[Gender] = mapped_column(Enum(Gender))
     from_age: Mapped[int]
     to_age: Mapped[int]
@@ -209,7 +211,7 @@ class Rule(Base):
     gold: Mapped[str]
     year: Mapped[date]
 
-    exercise_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("exercise.id"))
+    exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id"))
 
     exercise: Mapped[Exercise] = relationship()
 
@@ -218,7 +220,7 @@ class Rule(Base):
     )
 
     def __init__(self, gender: Gender, from_age: int, to_age: int, bronze: str, silver: str, gold: str, year: date,
-                 exercise_id: uuid.UUID):
+                 exercise_id: str):
         self.gender = gender
         self.from_age = from_age
         self.to_age = to_age

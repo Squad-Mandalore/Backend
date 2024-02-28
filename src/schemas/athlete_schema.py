@@ -1,27 +1,26 @@
-import uuid
 from datetime import date
 from typing import Optional
 
 from src.models.models import Gender
-from src.schemas.user_schema import UserSchema, UserDtoSchema, UpdateDtoSchema
+from src.schemas.user_schema import UserPatchSchema, UserPostSchema, UserResponseSchema
 
 
-class AthleteDtoSchema(UserDtoSchema):
+class AthletePostSchema(UserPostSchema):
     birthday: date
     gender: Gender
     has_disease: bool
-    trainer_id: Optional[str]
+    trainer_id: str
 
-class AthleteUpadteDtoSchema(UpdateDtoSchema):
+class AthletePatchSchema(UserPatchSchema):
     birthday: Optional[date] = None
     gender: Optional[Gender] = None
     has_disease: Optional[bool] = None
     trainer_id: Optional[str] = None
 
 
-class AthleteSchema(UserSchema):
+class AthleteResponseSchema(UserResponseSchema):
     # model_config = ConfigDict()
     birthday: date
     gender: Gender
     has_disease: bool
-    trainer_id: Optional[uuid.UUID]
+    trainer_id: str

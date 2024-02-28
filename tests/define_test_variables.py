@@ -1,4 +1,3 @@
-import pytest
 from fastapi.testclient import TestClient
 from src.main import app
 
@@ -9,8 +8,4 @@ class TestVariables():
     BASEURL: str = 'http://127.0.0.1:8000'
     EXAMPLE_PASSWORD: dict = {"password": "Go is the GOAT"}
 
-
-@pytest.fixture(scope="module")
-def client():
-    client = TestClient(app)
-    return client
+client = TestClient(app)

@@ -1,7 +1,8 @@
 from typing import Optional, Type, Union
-import uuid
-from sqlalchemy.orm import Session
+
 from fastapi import HTTPException
+from sqlalchemy.orm import Session
+
 from src.database.database_setup import SessionLocal
 from src.models.models import Base
 
@@ -14,45 +15,39 @@ def get_db():
         db.close()
 
 # Type warning does not apply here
-def add(db: Session, db_model: Base) -> None:
+def add(db_model: Base, db: Session) -> None:
     # Errorhandling needs to be done
     db.add(db_model)
     db.commit()
     db.refresh(db_model)       # i dont know what this does
 
 
-def delete(db: Session, table: Type[Base], id: str) -> Optional[HTTPException]:
-    result = db.query(table).filter(table.id == uuid.UUID(id)).first()
-    if not result:
-        return HTTPException(status_code=404, detail="User not found")
+def delete(table: Type[Base], id: str, db: Session) -> Optional[HTTPException]:
+    result: Base | HTTPException = get_by_id(table, id, db)
+    if isinstance(result, HTTPException):
+        return result
     db.delete(result)
     db.commit()
 
 
-def get_by_id(db: Session, table: Type[Base], id: str) -> Union[Base, HTTPException]:
+def get_by_id(table: Type[Base], id: str, db: Session) -> Base | HTTPException:
     """
 
     @rtype: object
     """
     # how to query SELECT * WHERE id = id
-    result = db.query(table).filter(table.id == uuid.UUID(id)).first()
+    result: Base | None = db.query(table).filter(table.id == id).first()
     if not result:
         return HTTPException(status_code=404, detail="User not found")
 
     return result
 
 
-def get_all(db: Session, table: Type[Base]) -> Union[list[Base], HTTPException]:
+def get_all(table: Type[Base], db: Session) -> list[Base]:
     # how to query SELECT *
-    results = db.query(table).all()
-    if not results:
-        return HTTPException(status_code=404, detail="No users found")
-
+    results: list[Base] = db.query(table).all()
     return results
 
-
-def get_uuid() -> str:
-    return str(uuid.uuid4())
 
 # # how to filter
 # r1 = db.query(Person).filter(Person.age == 19)

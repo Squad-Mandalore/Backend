@@ -54,7 +54,7 @@ async def create_athlete(athlete_post_schema: AthletePostSchema, db: Session = D
     return athlete
 
 
-@router.put("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_202_ACCEPTED)
+@router.patch("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_202_ACCEPTED)
 async def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, db: Session = Depends(get_db)) -> Base:
     athlete_db: Base | HTTPException = get_by_id(Athlete, id, db)
 

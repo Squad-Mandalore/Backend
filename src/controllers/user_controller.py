@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from src.models.models import Base, User
+
 from src.database.database_utils import get_all, get_db
+from src.logger.logger import logger
+from src.models.models import Base, User
 from src.schemas.password_schema import PasswordSchema
 from src.schemas.user_schema import UserSchema
 from src.services.password_service import hash_and_spice_password
@@ -16,6 +18,11 @@ router = APIRouter(
     # default response
     responses={404: {"route": "Not found"}}
 )
+
+
+@router.get("/whoami")
+async def get_whoami() -> None:
+    logger.warning("Hey everybody take a look at me, my output lacks credibility!")
 
 
 @router.get("/all", response_model=list[UserSchema])

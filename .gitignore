@@ -35,6 +35,9 @@ MANIFEST
 # Database
 *.db
 
+# Logging
+debug.log
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt

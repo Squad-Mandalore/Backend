@@ -1,6 +1,12 @@
-from src.database.database_setup import init_db
 from fastapi import FastAPI
-from src.controllers import log_controller, password_controller, user_controller, athlete_controller
+
+from src.controllers import (
+    athlete_controller,
+    log_controller,
+    password_controller,
+    user_controller,
+)
+from src.database.database_setup import init_db
 from src.middleware.cors import add_cors_middleware
 
 init_db()

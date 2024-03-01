@@ -1,5 +1,3 @@
-from typing import Optional
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -10,6 +8,7 @@ from src.schemas.athlete_schema import (
     AthletePostSchema,
     AthleteResponseSchema,
 )
+from src.services.auth_service import get_current_user, oauth2_bearer
 from src.services.update_service import update_properties
 
 router = APIRouter(
@@ -18,9 +17,9 @@ router = APIRouter(
     # documentation tag
     tags=["athletes"],
     # default response
-    responses={404: {"route": "Not found"}}
+    responses={404: {"route": "Not found"}},
+    dependencies=[Depends(get_current_user) ]
 )
-
 
 @router.get("/all", response_model=list[AthleteResponseSchema], status_code=status.HTTP_200_OK)
 async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
@@ -28,20 +27,16 @@ async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
 
 @router.get("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_200_OK)
 async def get_athlete_by_id(id: str, db: Session = Depends(get_db), ) -> Base:
-    athlete: Base | HTTPException = get_by_id(Athlete, id, db)
+    athlete: Base | None = get_by_id(Athlete, id, db)
 
-    if isinstance(athlete, HTTPException):
-        raise athlete
+    if athlete is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")
     return athlete
 
 
 @router.delete("/{id}", status_code=status.HTTP_200_OK)
 async def delete_by_id(id: str, db: Session = Depends(get_db)) -> None:
-    athlete: Optional[HTTPException] = delete(Athlete, id, db)
-
-    if isinstance(athlete, HTTPException):
-        raise athlete
-
+    return delete(Athlete, id, db)
 
 @router.post("/", response_model=AthleteResponseSchema, status_code=status.HTTP_201_CREATED)
 async def create_athlete(athlete_post_schema: AthletePostSchema, db: Session = Depends(get_db)) -> Base:
@@ -56,12 +51,12 @@ async def create_athlete(athlete_post_schema: AthletePostSchema, db: Session = D
 
 @router.patch("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_202_ACCEPTED)
 async def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, db: Session = Depends(get_db)) -> Base:
-    athlete_db: Base | HTTPException = get_by_id(Athlete, id, db)
+    athlete: Base | None = get_by_id(Athlete, id, db)
 
-    if isinstance(athlete_db, HTTPException):
-        raise athlete_db
-    update_properties(athlete_db, athlete_patch_schema, db)
-    return athlete_db
+    if athlete is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")
+    update_properties(athlete, athlete_patch_schema, db)
+    return athlete
 
 
 

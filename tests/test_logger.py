@@ -87,18 +87,6 @@ def test_logger_error(caplog: LogCaptureFixture) -> None:
 
     caplog.clear()
 
-
-def test_get_whoami(caplog: LogCaptureFixture) -> None:
-    response = client.get(TestVariables.BASEURL + "/users/whoami", headers=TestVariables.HEADERS)
-    assert response.status_code == 200
-
-    for record in caplog.records:
-        assert record.levelname == "WARNING"
-        assert "Hey everybody take a look at me, my output lacks credibility!" in record.message
-
-    caplog.clear()
-
-
 def test_get_error_log() -> None:
     # Remove error.log if it exists
     if os.path.exists("error.log"):

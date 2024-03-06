@@ -6,14 +6,12 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 from sqlalchemy.orm import Session
-from starlette.authentication import AuthCredentials, UnauthenticatedUser
 
 from src.database.database_utils import get_by_id, get_db
 from src.models.models import User
 from src.schemas.auth_schema import Token
 from src.services.password_service import hash_and_spice_password
 
-from src.logger.logger import logger
 
 ALGORITHM = "HS256"
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/login")
@@ -40,7 +38,7 @@ async def get_user_tokens(user: User, refresh_token: Optional[str] = None):
 
     return Token(access_token=access_token, refresh_token=refresh_token, token_type="bearer")
 
-def create_access_token(user_id: str, username: str, user_type: str, expires_delta: timedelta) -> str:
+def create_access_token(user_id: str, username: str, user_type: str, expires_delta: pitimedelta) -> str:
     expire = datetime.now(tz=timezone.utc) + expires_delta
     token_type = "access"
     to_encode = {"sub": username, "user_id": user_id, "user_type": user_type, "exp": expire, "token_type": token_type}

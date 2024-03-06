@@ -8,7 +8,7 @@ from src.schemas.athlete_schema import (
     AthletePostSchema,
     AthleteResponseSchema,
 )
-from src.services.auth_service import get_current_user, oauth2_bearer
+from src.services.auth_service import get_current_user
 from src.services.update_service import update_properties
 
 router = APIRouter(

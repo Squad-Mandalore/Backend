@@ -44,7 +44,7 @@ def test_patch_athlete() -> None:
     assert response.json()["firstname"] == "markus"
     assert response.json()["lastname"] == "quarkus"
     assert response.json()["birthday"] is not None
-    assert response.json()["last_edited_at"][:-5] == datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-5]
+    assert response.json()["last_edited_at"][:-6] == datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-6]
 
 def test_delete_athlete() -> None:
     athlete_id = test_athlete['id']

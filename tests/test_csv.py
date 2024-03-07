@@ -25,13 +25,19 @@ def session():
     Base.metadata.drop_all(bind=engine)
 
 def create_athletes(session):
-    trainer = Trainer(username="trainer_athlete", email="trainer", hashed_password="trainer", firstname="trainer", lastname="trainer", salt="trainer", uses_otp=False, birthday=None)
-    athlete = Athlete(username="athlete", email="athlete", hashed_password="athlete", firstname="athlete", lastname="athlete", salt="athlete", birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer=trainer)
+    trainer = Trainer(username="trainer_athlete", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
     session.add(trainer)
+    session.commit()
+
+    trainerDb = session.query(Trainer).filter(Athlete.username == "trainer_athlete").first()
+    athlete = Athlete(username="athlete", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete", birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
     session.add(athlete)
-    session.add(athlete)
+    session.commit()
+
+    athlete2 = Athlete(username="athlete2", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete", birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
+    session.add(athlete2)
     session.commit()
 
 def test_athlete_csv(session):
     create_athletes(session)
-    create_csv(session, Athlete, 'test_athletes.csv')
+    create_csv(session)

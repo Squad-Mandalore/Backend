@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from os import getenv
-from typing import Literal, Optional, cast
+from typing import cast
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -16,51 +16,58 @@ from src.services.password_service import hash_and_spice_password
 ALGORITHM = "HS256"
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/login")
 
-def authenticate_user(username: str, password: str, db: Session) -> User | Literal[False]:
+def authenticate_user(username: str, password: str, db: Session) -> User | HTTPException:
     user = db.query(User).filter(User.username == username).first()
     if not user or not verify_password(user, password):
-        return False
+        return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password", headers={"WWW-Authenticate": "Bearer"},)
     return user
 
-async def get_token(form_data, db: Session) -> Token:
+def get_tokens(form_data, db: Session) -> Token | HTTPException:
     user = authenticate_user(form_data.username, form_data.password, db)
-    if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password")
-    return await get_user_tokens(user)
+    if isinstance(user, HTTPException):
+        return user
+    return get_user_tokens(user)
 
-async def get_refresh_token(refresh_token: str, db: Session) -> Token:
-    return await get_user_tokens(get_current_user(refresh_token,db), refresh_token)
+def get_refreshed_tokens(refresh_token: str, db: Session) -> Token | HTTPException:
+    user = get_current_user(refresh_token,db)
+    if isinstance(user, HTTPException):
+        return user
+    return get_user_tokens(user, refresh_token)
 
-async def get_user_tokens(user: User, refresh_token: Optional[str] = None):
-    access_token = create_access_token(user.id, user.username, user.type, timedelta(minutes=1))
+def get_user_tokens(user: User, refresh_token: str | None = None) -> Token:
+    access_token = create_access_token(user.id, user.username, user.type, timedelta(minutes=15))
     if not refresh_token:
         refresh_token = create_refresh_token(user.id, user.username, user.type, timedelta(days=30))
 
     return Token(access_token=access_token, refresh_token=refresh_token, token_type="bearer")
 
-def create_access_token(user_id: str, username: str, user_type: str, expires_delta: pitimedelta) -> str:
-    expire = datetime.now(tz=timezone.utc) + expires_delta
-    token_type = "access"
-    to_encode = {"sub": username, "user_id": user_id, "user_type": user_type, "exp": expire, "token_type": token_type}
-    encoded_jwt = jwt.encode(to_encode, getenv('JWT_KEY', 'test'), algorithm=ALGORITHM)
-    return encoded_jwt
+def create_access_token(user_id: str, username: str, user_type: str, expires_delta: timedelta) -> str:
+    return create_token(user_id, username, user_type, expires_delta, "access")
 
 def create_refresh_token(user_id: str, username: str, user_type: str, expires_delta: timedelta) -> str:
+    return create_token(user_id, username, user_type, expires_delta, "refresh")
+
+def create_token(user_id: str, username: str, user_type: str, expires_delta: timedelta, token_type: str) -> str:
     expire = datetime.now(tz=timezone.utc) + expires_delta
-    token_type = "refresh"
     to_encode = {"sub": username, "user_id": user_id, "user_type": user_type, "exp": expire, "token_type": token_type}
     encoded_jwt = jwt.encode(to_encode, getenv('JWT_KEY', 'test'), algorithm=ALGORITHM)
     return encoded_jwt
 
-def get_current_user(token: str = Depends(oauth2_bearer), db: Session  = Depends(get_db)) -> User | None:
+def get_current_user(token: str = Depends(oauth2_bearer), db: Session  = Depends(get_db)) -> User | HTTPException:
+    token = validate_token(token)
+    if isinstance(token, HTTPException):
+        return token
+    user = get_by_id(User, token["user_id"], db)
+    if user is None:
+        return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token", headers={"WWW-Authenticate": "Bearer"},)
+    return cast(User, user)
+    
+def validate_token(token: str) -> dict | HTTPException:
     try:
         payload = jwt.decode(token, getenv('JWT_KEY', 'test'), algorithms=[ALGORITHM])
-        user = get_by_id(User, payload["user_id"], db)
-        if user is None:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
-        return cast(User, user)
+        return payload
     except jwt.exceptions.ExpiredSignatureError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
+        return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired", headers={"WWW-Authenticate": "Bearer"},)
 
 def verify_password(user: User, password: str) -> bool:
     # check the password

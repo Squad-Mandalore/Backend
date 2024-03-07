@@ -5,6 +5,7 @@ from src.controllers import (
     log_controller,
     password_controller,
     user_controller,
+    auth_controller
 )
 from src.database.database_setup import init_db
 from src.middleware.cors import add_cors_middleware
@@ -18,3 +19,4 @@ app.include_router(password_controller.router)
 app.include_router(user_controller.router)
 app.include_router(athlete_controller.router)
 app.include_router(log_controller.router)
+app.include_router(auth_controller.router)

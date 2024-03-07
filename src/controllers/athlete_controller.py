@@ -18,15 +18,19 @@ router = APIRouter(
     tags=["athletes"],
     # default response
     responses={404: {"route": "Not found"}},
-    dependencies=[Depends(get_current_user) ]
 )
 
 @router.get("/all", response_model=list[AthleteResponseSchema], status_code=status.HTTP_200_OK)
-async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
+async def get_all_entries(user: get_current_user = Depends(), db: Session = Depends(get_db)) -> list[Base]:
+    if isinstance(user, HTTPException):
+        raise user
     return get_all(Athlete, db)
 
 @router.get("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_200_OK)
-async def get_athlete_by_id(id: str, db: Session = Depends(get_db), ) -> Base:
+async def get_athlete_by_id(id: str, user: get_current_user = Depends(), db: Session = Depends(get_db), ) -> Base:
+    if isinstance(user, HTTPException):
+        raise user
+    
     athlete: Base | None = get_by_id(Athlete, id, db)
 
     if athlete is None:
@@ -35,11 +39,17 @@ async def get_athlete_by_id(id: str, db: Session = Depends(get_db), ) -> Base:
 
 
 @router.delete("/{id}", status_code=status.HTTP_200_OK)
-async def delete_by_id(id: str, db: Session = Depends(get_db)) -> None:
+async def delete_by_id(id: str, user: get_current_user = Depends(), db: Session = Depends(get_db)) -> None:
+    if isinstance(user, HTTPException):
+        raise user
+    
     return delete(Athlete, id, db)
 
 @router.post("/", response_model=AthleteResponseSchema, status_code=status.HTTP_201_CREATED)
-async def create_athlete(athlete_post_schema: AthletePostSchema, db: Session = Depends(get_db)) -> Base:
+async def create_athlete(athlete_post_schema: AthletePostSchema, user: get_current_user = Depends(), db: Session = Depends(get_db)) -> Base:
+    if isinstance(user, HTTPException):
+        raise user
+    
     athlete_dict = athlete_post_schema.model_dump(exclude_unset=True)
     athlete = Athlete(**athlete_dict)
     add(athlete, db)
@@ -50,7 +60,10 @@ async def create_athlete(athlete_post_schema: AthletePostSchema, db: Session = D
 
 
 @router.patch("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_202_ACCEPTED)
-async def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, db: Session = Depends(get_db)) -> Base:
+async def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, user: get_current_user = Depends(), db: Session = Depends(get_db)) -> Base:
+    if isinstance(user, HTTPException):
+        raise user
+    
     athlete: Base | None = get_by_id(Athlete, id, db)
 
     if athlete is None:

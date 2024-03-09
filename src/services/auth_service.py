@@ -13,6 +13,7 @@ from src.schemas.auth_schema import Token
 from src.services.password_service import hash_and_spice_password
 
 ALGORITHM = "HS256"
+JWT_KEY = getenv('JWT_KEY', 'test')
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 def authenticate_user(username: str, password: str, db: Session) -> User:
@@ -46,7 +47,7 @@ def create_refresh_token(user_id: str, username: str, user_type: str, expires_de
 def create_token(user_id: str, username: str, user_type: str, expires_delta: timedelta, token_type: str) -> str:
     expire = datetime.now(tz=timezone.utc) + expires_delta
     to_encode = {"sub": username, "user_id": user_id, "user_type": user_type, "exp": expire, "token_type": token_type}
-    encoded_jwt = jwt.encode(to_encode, getenv('JWT_KEY', 'test'), algorithm=ALGORITHM)
+    encoded_jwt = jwt.encode(to_encode, JWT_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
 def get_current_user(token: str = Depends(oauth2_bearer), db: Session  = Depends(get_db)) -> User:
@@ -58,7 +59,7 @@ def get_current_user(token: str = Depends(oauth2_bearer), db: Session  = Depends
 
 def validate_token(token: str) -> dict:
     try:
-        payload = jwt.decode(token, getenv('JWT_KEY', 'test'), algorithms=[ALGORITHM])
+        payload = jwt.decode(token, JWT_KEY, algorithms=[ALGORITHM])
         return payload
     except jwt.exceptions.ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired", headers={"WWW-Authenticate": "Bearer"},)

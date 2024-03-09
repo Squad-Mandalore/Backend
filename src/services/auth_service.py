@@ -12,30 +12,26 @@ from src.models.models import User
 from src.schemas.auth_schema import Token
 from src.services.password_service import hash_and_spice_password
 
-
 ALGORITHM = "HS256"
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/login")
 
-def authenticate_user(username: str, password: str, db: Session) -> User | HTTPException:
+def authenticate_user(username: str, password: str, db: Session) -> User:
     user = db.query(User).filter(User.username == username).first()
+    db.refresh(user)
     if not user or not verify_password(user, password):
-        return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password", headers={"WWW-Authenticate": "Bearer"},)
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password", headers={"WWW-Authenticate": "Bearer"},)
     return user
 
-def get_tokens(form_data, db: Session) -> Token | HTTPException:
+def get_tokens(form_data, db: Session) -> Token:
     user = authenticate_user(form_data.username, form_data.password, db)
-    if isinstance(user, HTTPException):
-        return user
     return get_user_tokens(user)
 
-def get_refreshed_tokens(refresh_token: str, db: Session) -> Token | HTTPException:
+def get_refreshed_tokens(refresh_token: str, db: Session) -> Token:
     user = get_current_user(refresh_token,db)
-    if isinstance(user, HTTPException):
-        return user
     return get_user_tokens(user, refresh_token)
 
 def get_user_tokens(user: User, refresh_token: str | None = None) -> Token:
-    access_token = create_access_token(user.id, user.username, user.type, timedelta(minutes=15))
+    access_token = create_access_token(user.id, user.username, user.type, timedelta(minutes=1))
     if not refresh_token:
         refresh_token = create_refresh_token(user.id, user.username, user.type, timedelta(days=30))
 
@@ -53,21 +49,19 @@ def create_token(user_id: str, username: str, user_type: str, expires_delta: tim
     encoded_jwt = jwt.encode(to_encode, getenv('JWT_KEY', 'test'), algorithm=ALGORITHM)
     return encoded_jwt
 
-def get_current_user(token: str = Depends(oauth2_bearer), db: Session  = Depends(get_db)) -> User | HTTPException:
-    token = validate_token(token)
-    if isinstance(token, HTTPException):
-        return token
-    user = get_by_id(User, token["user_id"], db)
+def get_current_user(token: str = Depends(oauth2_bearer), db: Session  = Depends(get_db)) -> User:
+    decoded_token = validate_token(token)
+    user = get_by_id(User, decoded_token["user_id"], db)
     if user is None:
-        return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token", headers={"WWW-Authenticate": "Bearer"},)
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token", headers={"WWW-Authenticate": "Bearer"},)
     return cast(User, user)
-    
-def validate_token(token: str) -> dict | HTTPException:
+
+def validate_token(token: str) -> dict:
     try:
         payload = jwt.decode(token, getenv('JWT_KEY', 'test'), algorithms=[ALGORITHM])
         return payload
     except jwt.exceptions.ExpiredSignatureError:
-        return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired", headers={"WWW-Authenticate": "Bearer"},)
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired", headers={"WWW-Authenticate": "Bearer"},)
 
 def verify_password(user: User, password: str) -> bool:
     # check the password

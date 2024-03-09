@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from src.controllers import (
@@ -10,9 +11,12 @@ from src.controllers import (
 from src.database.database_setup import init_db
 from src.middleware.cors import add_cors_middleware
 
-init_db()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 add_cors_middleware(app)
 app.include_router(password_controller.router)

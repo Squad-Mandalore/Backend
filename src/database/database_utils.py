@@ -2,12 +2,12 @@ from typing import Optional, Type
 
 from sqlalchemy.orm import Session
 
-from src.database.database_setup import SessionLocal
+from src.database.database_setup import engine
 from src.models.models import Base
 
  # Dependency
 def get_db():
-    db = SessionLocal()
+    db = Session(engine)
     try:
         yield db
     finally:

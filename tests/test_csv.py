@@ -3,7 +3,7 @@
 from datetime import date
 import pytest
 from src.models.models import Athlete, Base, Gender, Trainer
-from src.services.csv_service import create_csv
+from src.services.csv_service import create_csv, parse_csv
 
 
 @pytest.fixture
@@ -38,6 +38,7 @@ def create_athletes(session):
     session.add(athlete2)
     session.commit()
 
-def test_athlete_csv(session):
+def test_csv(session):
     create_athletes(session)
     create_csv(session)
+    parse_csv()

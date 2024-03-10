@@ -20,7 +20,6 @@ class Gender(enum.Enum):
     FEMALE = 'f'
     DIVERSE = 'd'
 
-
 class User(Base):
     __tablename__ = "user"
     id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)

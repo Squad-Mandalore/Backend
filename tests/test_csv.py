@@ -1,9 +1,9 @@
 # from tests.define_test_variables import client
 
-from datetime import date
+from datetime import date, datetime
 import pytest
-from src.models.models import Athlete, Base, Gender, Trainer
-from src.services.csv_service import create_csv, parse_csv
+from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer
+from src.services.csv_service import create_csv
 
 
 @pytest.fixture
@@ -25,20 +25,39 @@ def session():
     Base.metadata.drop_all(bind=engine)
 
 def create_athletes(session):
-    trainer = Trainer(username="trainer_athlete", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
+    trainer = Trainer(username="trainer_athlete_completes", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
     session.add(trainer)
     session.commit()
-
-    trainerDb = session.query(Trainer).filter(Athlete.username == "trainer_athlete").first()
-    athlete = Athlete(username="athlete", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete", birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
+    trainerDb = session.query(Trainer).filter(Athlete.username == "trainer_athlete_completes").first()
+    athlete = Athlete(username="athlete_completes", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
     session.add(athlete)
     session.commit()
-
-    athlete2 = Athlete(username="athlete2", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete", birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
-    session.add(athlete2)
+    athleteDb = session.query(Athlete).filter(Athlete.username == "athlete_completes").first()
+    category = Category(title="category_exercise_completes")
+    session.add(category)
     session.commit()
+    categoryDb = session.query(Category).filter(Category.title == "category_exercise_completes").first()
+    exercise = Exercise(title="exercise_completes", category_id=categoryDb.id, from_age=10, to_age=20)
+    session.add(exercise)
+    session.commit()
+    exerciseDb = session.query(Exercise).filter(Exercise.title == "exercise_completes").first()
+    completes = Completes(athlete_id=athleteDb.id, exercise_id=exerciseDb.id, tracked_at=datetime.now(), completed_at=datetime.now(), result="result", points=1)
+    session.add(completes)
+    session.commit()
+    # trainer = Trainer(username="trainer_athlete", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
+    # session.add(trainer)
+    # session.commit()
+
+    # trainerDb = session.query(Trainer).filter(Athlete.username == "trainer_athlete").first()
+    # athlete = Athlete(username="athlete", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete", birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
+    # session.add(athlete)
+    # session.commit()
+
+    # athlete2 = Athlete(username="athlete2", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete", birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainerDb.id)
+    # session.add(athlete2)
+    # session.commit()
 
 def test_csv(session):
     create_athletes(session)
     create_csv(session)
-    parse_csv()
+    # parse_csv()

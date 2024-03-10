@@ -180,7 +180,7 @@ class Completes(Base):
     athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
     exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id"), primary_key=True)
     tracked_at: Mapped[datetime]
-    completed_at: Mapped[datetime]
+    completed_at: Mapped[datetime | None]
     result: Mapped[str]
     points: Mapped[int]
     dbs: Mapped[bool] = mapped_column(default=False)
@@ -188,7 +188,7 @@ class Completes(Base):
     athlete: Mapped["Athlete"] = relationship()
     exercise: Mapped["Exercise"] = relationship()
 
-    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: datetime, completed_at: datetime, result: str,
+    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: datetime, completed_at: datetime | None, result: str,
                  points: int, dbs: bool = False):
         self.athlete_id = athlete_id
         self.exercise_id = exercise_id

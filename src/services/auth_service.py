@@ -18,7 +18,6 @@ oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 def authenticate_user(username: str, password: str, db: Session) -> User:
     user = db.query(User).filter(User.username == username).first()
-    db.refresh(user)
     if not user or not verify_password(user, password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password", headers={"WWW-Authenticate": "Bearer"},)
     return user
@@ -34,7 +33,7 @@ def get_refreshed_tokens(refresh_token: str, db: Session) -> Token:
 def get_user_tokens(user: User, refresh_token: str | None = None) -> Token:
     access_token = create_access_token(user.id, user.username, user.type, timedelta(minutes=1))
     if not refresh_token:
-        refresh_token = create_refresh_token(user.id, user.username, user.type, timedelta(days=30))
+        refresh_token = create_refresh_token(user.id, user.username, user.type, timedelta(minutes=2))
 
     return Token(access_token=access_token, refresh_token=refresh_token, token_type="bearer")
 
@@ -50,7 +49,7 @@ def create_token(user_id: str, username: str, user_type: str, expires_delta: tim
     encoded_jwt = jwt.encode(to_encode, JWT_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-def get_current_user(token: str = Depends(oauth2_bearer), db: Session  = Depends(get_db)) -> User:
+def get_current_user(token: str = Depends(oauth2_bearer), db: Session = Depends(get_db)) -> User:
     decoded_token = validate_token(token)
     user = get_by_id(User, decoded_token["user_id"], db)
     if user is None:

@@ -42,13 +42,10 @@ def client_fixture(session: Session):
     app.dependency_overrides[get_current_user] = get_current_user_override
 
     client = TestClient(app)
-    yield client
-    app.dependency_overrides.clear()
-
-@pytest.fixture(name="token")
-def token_fixture(client: TestClient):
     response = client.post(
         "/auth/login",
         data={"username": "init", "password": "admin"},
     )
-    return response.json()["access_token"]
+    TestVariables.HEADERS['authorization'] = f'Bearer {response.json()["access_token"]}'
+    yield client
+    app.dependency_overrides.clear()

@@ -3,8 +3,6 @@ from fastapi.testclient import TestClient
 
 from tests.define_test_variables import TestVariables, client_fixture, session_fixture
 
-
-
 def test_login(client: TestClient):
     headers = { 'content-type': 'application/x-www-form-urlencoded' }
     body = 'grant_type=password&username=init&password=admin'

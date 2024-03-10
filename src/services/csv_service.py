@@ -44,16 +44,16 @@ def create_csv(db: Session) -> None:
 
     write_csv(trainers, 'Trainer', '')
     for trainer_count, trainer in enumerate(trainers):
-        write_csv(trainer.athletes, 'Athlete', str(trainer_count))
+        write_csv(trainer.athletes, 'Athlete', '_' + str(trainer_count))
         for athlete_count, athlete in enumerate(trainer.athletes):
-            write_csv(athlete.completes, 'Completes', f'{trainer_count}_{athlete_count}')
+            write_csv(athlete.completes, 'Completes', f'_{trainer_count}_{athlete_count}')
 
 def write_csv(entities: Sequence[Base], entity_type: str, suffix: str) -> None:
     if not entities:
         return
 
     config = entity_config[entity_type]
-    filename = f"{config['filename'].split('.')[0]}_{suffix}.csv"
+    filename = f"{config['filename'].split('.')[0]}{suffix}.csv"
     with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(config['header'])

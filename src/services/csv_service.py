@@ -24,7 +24,7 @@ entity_config = {
     },
     'Completes': {
         'header': ['Name', 'Vorname', 'Geschlecht', 'Geburtsjahr', 'Geburtstag', 'Übung', 'Kategorie', 'Datum', 'Ergebnis', 'Punkte', 'DBS'],
-        'filename': 'exercise.csv',
+        'filename': 'completes.csv',
         'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points', 'dbs']
     }
 }
@@ -42,11 +42,17 @@ def create_csv(db: Session) -> None:
     if isinstance(trainers, HTTPException):
         raise trainers
 
+    athletes: Sequence[Athlete] | HTTPException = cast(Sequence[Athlete], get_all(Athlete, db))
+    if isinstance(athletes, HTTPException):
+        raise athletes
+
+    completes: Sequence[Completes] | HTTPException = cast(Sequence[Completes], get_all(Completes, db))
+    if isinstance(completes, HTTPException):
+        raise completes
+
     write_csv(trainers, 'Trainer', '')
-    for trainer_count, trainer in enumerate(trainers):
-        write_csv(trainer.athletes, 'Athlete', '_' + str(trainer_count))
-        for athlete_count, athlete in enumerate(trainer.athletes):
-            write_csv(athlete.completes, 'Completes', f'_{trainer_count}_{athlete_count}')
+    write_csv(athletes, 'Athlete', '')
+    write_csv(completes, 'Completes', '')
 
 def write_csv(entities: Sequence[Base], entity_type: str, suffix: str) -> None:
     if not entities:

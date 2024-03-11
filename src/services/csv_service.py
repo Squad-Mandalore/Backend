@@ -50,16 +50,16 @@ def create_csv(db: Session) -> None:
     if isinstance(completes, HTTPException):
         raise completes
 
-    write_csv(trainers, 'Trainer', '')
-    write_csv(athletes, 'Athlete', '')
-    write_csv(completes, 'Completes', '')
+    write_csv(trainers, 'Trainer')
+    write_csv(athletes, 'Athlete')
+    write_csv(completes, 'Completes')
 
-def write_csv(entities: Sequence[Base], entity_type: str, suffix: str) -> None:
+def write_csv(entities: Sequence[Base], entity_type: str) -> None:
     if not entities:
         return
 
     config = entity_config[entity_type]
-    filename = f"{config['filename'].split('.')[0]}{suffix}.csv"
+    filename = config['filename']
     with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(config['header'])

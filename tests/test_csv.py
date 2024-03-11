@@ -3,7 +3,7 @@
 from datetime import date, datetime
 import pytest
 from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer
-from src.services.csv_service import create_csv, parse_csv
+from src.services.csv_service import create_csv
 
 
 @pytest.fixture

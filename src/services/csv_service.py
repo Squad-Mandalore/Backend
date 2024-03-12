@@ -11,7 +11,7 @@ from src.database.database_utils import add, get_all, get_db
 from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer
 
 # Those header are a crime against humans in general
-entity_config = {
+entity_config: dict = {
     'Trainer': {
         'header': ['E-Mail-Adresse', 'Vorname', 'Nachname', 'Defaultpasswort'],
         'filename': 'trainer.csv',
@@ -58,8 +58,8 @@ def write_csv(entities: Sequence[Base], entity_type: str) -> None:
     if not entities:
         return
 
-    config = entity_config[entity_type]
-    filename = config['filename']
+    config: dict = entity_config[entity_type]
+    filename: str = config['filename']
     with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(config['header'])
@@ -69,7 +69,7 @@ def write_csv(entities: Sequence[Base], entity_type: str) -> None:
 
 
 def get_values(entity: Base, config: dict) -> list:
-    values = []
+    values: list = []
     for attribute in config['attributes']:
         if attribute in value_transformers:
             value = value_transformers[attribute](getattr(entity, attribute.split('.')[0]))

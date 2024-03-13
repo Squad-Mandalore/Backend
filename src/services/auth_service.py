@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from src.database.database_utils import get_by_id, get_db
 from src.models.models import User
 from src.schemas.auth_schema import Token
-from src.services.password_service import hash_and_spice_password
+from src.services.password_service import verify_password
 
 ALGORITHM = "HS256"
 JWT_KEY = getenv('JWT_KEY', 'test')
@@ -62,8 +62,3 @@ def validate_token(token: str) -> dict:
         return payload
     except jwt.exceptions.ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired", headers={"WWW-Authenticate": "Bearer"},)
-
-def verify_password(user: User, password: str) -> bool:
-    # check the password
-    hashed_password, _ = hash_and_spice_password(password, user.salt)
-    return hashed_password == user.hashed_password

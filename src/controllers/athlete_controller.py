@@ -27,7 +27,7 @@ async def get_all_entries(db: Session = Depends(get_db)) -> list[Base]:
     return get_all(Athlete, db)
 
 @router.get("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_200_OK)
-async def get_athlete_by_id(id: str, db: Session = Depends(get_db), ) -> Base:
+async def get_athlete_by_id(id: str, db: Session = Depends(get_db)) -> Base:
     athlete: Base | HTTPException = get_by_id(Athlete, id, db)
 
     if isinstance(athlete, HTTPException):

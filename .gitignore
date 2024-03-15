@@ -35,6 +35,9 @@ MANIFEST
 # Database
 *.db
 
+# CSV
+*.csv
+
 # Logging
 debug.log
 

@@ -16,9 +16,11 @@ from src.services.auth_service import ALGORITHM, get_current_user, oauth2_bearer
 # Description: This file contains the test variables that are used in the test cases
 
 class TestVariables():
-    HEADERS: dict = {'content-type': 'application/json', 'authorization':''}
     BASEURL: str = 'http://127.0.0.1:8000'
-    EXAMPLE_PASSWORD: dict = {"password": "Go is the GOAT"}
+    headers: dict = {}
+    access_token: str
+    refresh_token: str
+    test_athlete: dict = {}
 
 @pytest.fixture(name="session", scope="session")
 def session_fixture():
@@ -46,6 +48,6 @@ def client_fixture(session: Session):
         "/auth/login",
         data={"username": "init", "password": "admin"},
     )
-    TestVariables.HEADERS['authorization'] = f'Bearer {response.json()["access_token"]}'
+    TestVariables.headers['authorization'] = f'Bearer {response.json()["access_token"]}'
     yield client
     app.dependency_overrides.clear()

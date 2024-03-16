@@ -6,8 +6,11 @@ from sqlalchemy.orm import Session
 from src.models.models import Category, Exercise, Gender, Rule
 from src.logger.logger import logger
 
+value_dict: dict = {}
+
 def parse_values(db: Session) -> None:
     with open('values.json', 'r') as file:
+        global value_dict
         value_dict: dict = json.load(file)
         try:
             for category_data in value_dict['category']:

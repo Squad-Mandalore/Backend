@@ -1,13 +1,12 @@
 from datetime import datetime
 import json
 
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from src.models.models import Category, Exercise, Gender, Rule
 from src.logger.logger import logger
 
-def parse_values(db: Session) -> HTTPException | None:
+def parse_values(db: Session) -> None:
     with open('values.json', 'r') as file:
         value_dict: dict = json.load(file)
         try:

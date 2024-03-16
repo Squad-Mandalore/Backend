@@ -17,7 +17,7 @@ SessionLocal = sessionmaker(bind=engine)
 
 # create db shiat
 def init_db() -> None:
-    if not os.path.exists('.' + db_path):
+    if not os.path.exists(f'.{db_path}'):
         logger.info("Creating database")
         Base.metadata.create_all(bind=engine)
         parse_values(SessionLocal())

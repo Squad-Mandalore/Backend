@@ -35,8 +35,14 @@ MANIFEST
 # Database
 *.db
 
+# CSV
+*.csv
+
 # Logging
 debug.log
+
+# CSV
+*.csv
 
 # Installer logs
 pip-log.txt

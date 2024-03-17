@@ -16,12 +16,14 @@ router = APIRouter(
     #responses={404: {"route": "Not found"}}
 )
 
-@router.get("/error.log", response_class=FileResponse)
-async def read_debug_log() -> FileResponse:
-    if not os.path.exists("error.log"):
-        raise HTTPException(status_code=404, detail="Log file not found")
+error_log_path: str = "error.log"
 
-    return FileResponse("error.log")
+@router.get("/error.log", response_class=FileResponse, status_code=status.HTTP_200_OK)
+async def read_error_log() -> FileResponse:
+    if not os.path.exists(f"{error_log_path}"):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Log file not found")
+
+    return FileResponse(f"{error_log_path}")
 
 
 @router.post("/debug", status_code=status.HTTP_200_OK)

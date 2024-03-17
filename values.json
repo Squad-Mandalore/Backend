@@ -1,0 +1,2011 @@
+{
+    "category": [
+        {
+            "title": "Ausdauer",
+            "exercise": [
+                {
+                    "title": "800 m Lauf",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:05:40:000",
+                            "silver": "00:05:00:000",
+                            "gold": "00:04:15:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:05:40:000",
+                            "silver": "00:05:00:000",
+                            "gold": "00:04:15:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:05:25:000",
+                            "silver": "00:04:40:000",
+                            "gold": "00:03:55:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:05:35:000",
+                            "silver": "00:04:50:000",
+                            "gold": "00:04:10:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:05:05:000",
+                            "silver": "00:04:20:000",
+                            "gold": "00:03:35:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:05:20:000",
+                            "silver": "00:04:40:000",
+                            "gold": "00:04:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:04:45:000",
+                            "silver": "00:04:00:000",
+                            "gold": "00:03:15:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:05:10:000",
+                            "silver": "00:04:25:000",
+                            "gold": "00:03:45:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:04:20:000",
+                            "silver": "00:03:40:000",
+                            "gold": "00:03:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:05:00:000",
+                            "silver": "00:04:20:000",
+                            "gold": "00:04:35:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:04:05:000",
+                            "silver": "00:03:25:000",
+                            "gold": "00:02:45:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:04:50:000",
+                            "silver": "00:04:05:000",
+                            "gold": "00:03:25:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "3000 m Lauf",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:17:50:000",
+                            "silver": "00:15:50:000",
+                            "gold": "00:13:50:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:20:50:000",
+                            "silver": "00:18:50:000",
+                            "gold": "00:16:50:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "10 km Lauf",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "01:03:20:000",
+                            "silver": "00:57:20:000",
+                            "gold": "00:51:20:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "01:24:40:000",
+                            "silver": "01:18:40:000",
+                            "gold": "01:12:40:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "7,5 km Walking / Nordic Walking",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "01:13:00:000",
+                            "silver": "01:15:00:000",
+                            "gold": "00:59:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "01:09:30:000",
+                            "silver": "01:06:00:000",
+                            "gold": "01:02:00:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Dauer-/Geländelauf",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:10:00:000",
+                            "silver": "00:15:00:000",
+                            "gold": "00:20:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:08:00:000",
+                            "silver": "00:12:00:000",
+                            "gold": "00:17:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:12:00:000",
+                            "silver": "00:17:00:000",
+                            "gold": "00:23:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:10:00:000",
+                            "silver": "00:15:00:000",
+                            "gold": "00:20:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:17:00:000",
+                            "silver": "00:25:00:000",
+                            "gold": "00:35:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:15:00:000",
+                            "silver": "00:20:00:000",
+                            "gold": "00:30:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:25:00:000",
+                            "silver": "00:35:00:000",
+                            "gold": "00:45:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:20:00:000",
+                            "silver": "00:30:00:000",
+                            "gold": "00:40:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:35:00:000",
+                            "silver": "00:45:00:000",
+                            "gold": "01:00:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:30:00:000",
+                            "silver": "00:40:00:000",
+                            "gold": "00:50:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:55:00:000",
+                            "silver": "01:10:00:000",
+                            "gold": "01:30:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:45:00:000",
+                            "silver": "01:00:00:000",
+                            "gold": "01:15:00:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Schwimmen 200 m",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:09:00:000",
+                            "silver": "00:07:20:000",
+                            "gold": "00:06:10:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:09:00:000",
+                            "silver": "00:07:40:000",
+                            "gold": "00:06:20:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:08:00:000",
+                            "silver": "00:06:45:000",
+                            "gold": "00:05:40:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:08:00:000",
+                            "silver": "00:07:00:000",
+                            "gold": "00:05:55:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:07:00:000",
+                            "silver": "00:06:20:000",
+                            "gold": "00:05:10:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:07:20:000",
+                            "silver": "00:06:25:000",
+                            "gold": "00:05:30:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+		{
+                    "title": "Schwimmen 400 m",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:13:30:000",
+                            "silver": "00:11:30:000",
+                            "gold": "00:09:45:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:14:50:000",
+                            "silver": "00:12:55:000",
+                            "gold": "00:11:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:12:00:000",
+                            "silver": "00:10:15:000",
+                            "gold": "00:08:50:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:13:05:000",
+                            "silver": "00:11:40:000",
+                            "gold": "00:10:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:11:00:000",
+                            "silver": "00:09:40:000",
+                            "gold": "00:08:20:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:11:50:000",
+                            "silver": "00:10:30:000",
+                            "gold": "00:09:05:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Schwimmen 800 m",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:22:35:000",
+                            "silver": "00:19:50:000",
+                            "gold": "00:17:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:24:00:000",
+                            "silver": "00:21:10:000",
+                            "gold": "00:18:25:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Radfahren 5 km",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:26:30:000",
+                            "silver": "00:23:30:000",
+                            "gold": "00:20:30:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:27:00:000",
+                            "silver": "00:24:00:000",
+                            "gold": "00:21:00:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Radfahren 10 km",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:48:30:000",
+                            "silver": "00:41:00:000",
+                            "gold": "00:33:30:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:50:30:000",
+                            "silver": "00:43:00:000",
+                            "gold": "00:35:30:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:43:00:000",
+                            "silver": "00:37:00:000",
+                            "gold": "00:31:30:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:45:00:000",
+                            "silver": "00:39:30:000",
+                            "gold": "00:33:30:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:32:00:000",
+                            "silver": "00:28:00:000",
+                            "gold": "00:24:00:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:38:00:000",
+                            "silver": "00:32:30:000",
+                            "gold": "00:28:30:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:27:00:000",
+                            "silver": "00:23:30:000",
+                            "gold": "00:20:30:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:32:30:000",
+                            "silver": "00:28:30:000",
+                            "gold": "00:25:00:000",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Radfahren 20 km",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:47:00:000",
+                            "silver": "00:42:30:000",
+                            "gold": "00:38:30:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:57:30:000",
+                            "silver": "00:52:00:000",
+                            "gold": "00:46:30:000",
+                            "year": 2024
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Kraft",
+            "exercise": [
+                {
+                    "title": "Werfen Schlagball 80 g",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "000:012:00",
+                            "silver": "000:015:00",
+                            "gold": "000:017:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "000:006:00",
+                            "silver": "000:009:00",
+                            "gold": "000:012:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "000:017:00",
+                            "silver": "000:020:00",
+                            "gold": "000:023:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "000:009:00",
+                            "silver": "000:012:00",
+                            "gold": "000:015:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:021:00",
+                            "silver": "000:025:00",
+                            "gold": "000:028:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:01:00",
+                            "silver": "000:015:00",
+                            "gold": "000:018:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:015:00",
+                            "silver": "000:018:00",
+                            "gold": "000:022:00",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Werfen Wurfball 200 g",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:026:00",
+                            "silver": "000:030:00",
+                            "gold": "000:033:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:030:00",
+                            "silver": "000:034:00",
+                            "gold": "000:037:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:020:00",
+                            "silver": "000:024:00",
+                            "gold": "000:027:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:034:00",
+                            "silver": "000:038:00",
+                            "gold": "000:042:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "000:024:00",
+                            "silver": "000:027:00",
+                            "gold": "000:031:00",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Medizinball 1 kg",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "000:002:50",
+                            "silver": "000:003:50",
+                            "gold": "000:004:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "000:002:50",
+                            "silver": "000:003:50",
+                            "gold": "000:004:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "000:003:00",
+                            "silver": "000:004:00",
+                            "gold": "000:005:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "000:003:00",
+                            "silver": "000:004:00",
+                            "gold": "000:005:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:005:50",
+                            "silver": "000:006:50",
+                            "gold": "000:007:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:005:00",
+                            "silver": "000:006:00",
+                            "gold": "000:007:00",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Medizinball 2 kg",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:011:00",
+                            "silver": "000:013:00",
+                            "gold": "000:014:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:005:50",
+                            "silver": "000:007:50",
+                            "gold": "000:009:00",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Kugelstoßen 3 kg",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:006:25",
+                            "silver": "000:006:75",
+                            "gold": "000:007:25",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:004:75",
+                            "silver": "000:005:25",
+                            "gold": "000:005:75",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:005:50",
+                            "silver": "000:006:00",
+                            "gold": "000:006:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:005:75",
+                            "silver": "000:006:25",
+                            "gold": "000:006:75",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Kugelstoßen 4 kg",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:007:00",
+                            "silver": "000:007:50",
+                            "gold": "000:008:00",
+                            "year": 2024
+                        },
+			{
+			    "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:006:50",
+                            "silver": "000:007:00",
+                            "gold": "000:007:50",
+                            "year": 2024
+			}
+                    ]
+                },
+                {
+                    "title": "Kugelstoßen 5 kg",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:007:50",
+                            "silver": "000:008:00",
+                            "gold": "000:008:50",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Kugelstoßen 6 kg",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:007:75",
+                            "silver": "000:008:25",
+                            "gold": "000:008:75",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Steinstoßen 5 kg",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:010:65",
+                            "silver": "000:011:25",
+                            "gold": "000:011:85",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Steinstoßen 10 kg",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:009:30",
+                            "silver": "000:010:10",
+                            "gold": "000:010:95",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Standweitsprung",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "000:001:15",
+                            "silver": "000:001:35",
+                            "gold": "000:001:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "000:001:05",
+                            "silver": "000:001:25",
+                            "gold": "000:001:40",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "000:001:30",
+                            "silver": "000:001:50",
+                            "gold": "000:001:65",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "000:001:15",
+                            "silver": "000:001:30",
+                            "gold": "000:001:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:001:50",
+                            "silver": "000:001:70",
+                            "gold": "000:001:85",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:001:30",
+                            "silver": "000:001:45",
+                            "gold": "000:001:65",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:001:70",
+                            "silver": "000:001:90",
+                            "gold": "000:002:05",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:001:40",
+                            "silver": "000:001:60",
+                            "gold": "000:001:80",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:001:90",
+                            "silver": "000:002:05",
+                            "gold": "000:002:25",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:001:55",
+                            "silver": "000:001:70",
+                            "gold": "000:001:90",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:002:05",
+                            "silver": "000:002:20",
+                            "gold": "000:002:40",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:001:65",
+                            "silver": "000:001:80",
+                            "gold": "000:002:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:002:10",
+                            "silver": "000:002:30",
+                            "gold": "000:002:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:001:65",
+                            "silver": "000:001:85",
+                            "gold": "000:002:05",
+                            "year": 2024
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Schnelligkeit",
+            "exercise": [
+                {
+                    "title": "Laufen 30 m",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:00:07:700",
+                            "silver": "00:00:06:800",
+                            "gold": "00:00:06:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:00:08:000",
+                            "silver": "00:00:07:100",
+                            "gold": "00:00:06:300",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:00:07:200",
+                            "silver": "00:00:06:400",
+                            "gold": "00:00:05:700",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:00:07:400",
+                            "silver": "00:00:06:600",
+                            "gold": "00:00:05:700",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Laufen 50 m",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:00:10:300",
+                            "silver": "00:00:09:300",
+                            "gold": "00:00:08:400",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:00:11:000",
+                            "silver": "00:00:10:100",
+                            "gold": "00:00:09:100",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:00:09:700",
+                            "silver": "00:00:08:900",
+                            "gold": "00:00:08:100",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:00:10:600",
+                            "silver": "00:00:09:600",
+                            "gold": "00:00:08:500",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Laufen 100 m",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:00:17:000",
+                            "silver": "00:00:15:400",
+                            "gold": "00:00:14:100",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:00:18:600",
+                            "silver": "00:00:17:000",
+                            "gold": "00:00:15:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:00:16:300",
+                            "silver": "00:00:14:800",
+                            "gold": "00:00:13:800",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:00:17:600",
+                            "silver": "00:00:16:300",
+                            "gold": "00:00:15:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:00:16:000",
+                            "silver": "00:00:14:600",
+                            "gold": "00:00:13:200",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:00:18:200",
+                            "silver": "00:00:16:500",
+                            "gold": "00:00:15:300",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "25 m Schwimmen",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:00:46:000",
+                            "silver": "00:00:38:000",
+                            "gold": "00:00:30:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "00:00:46:500",
+                            "silver": "00:00:38:500",
+                            "gold": "00:00:30:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:00:41:000",
+                            "silver": "00:00:33:000",
+                            "gold": "00:00:26:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:00:42:000",
+                            "silver": "00:00:34:000",
+                            "gold": "00:00:28:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:00:36:000",
+                            "silver": "00:00:29:000",
+                            "gold": "00:00:22:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:00:39:000",
+                            "silver": "00:00:31:500",
+                            "gold": "00:00:25:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:00:33:000",
+                            "silver": "00:00:27:000",
+                            "gold": "00:00:21:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:00:35:000",
+                            "silver": "00:00:29:000",
+                            "gold": "00:00:23:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:00:31:000",
+                            "silver": "00:00:25:500",
+                            "gold": "00:00:20:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:00:33:000",
+                            "silver": "00:00:27:500",
+                            "gold": "00:00:21:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:00:29:500",
+                            "silver": "00:00:24:500",
+                            "gold": "00:00:19:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:00:30:500",
+                            "silver": "00:00:25:500",
+                            "gold": "00:00:20:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:00:28:000",
+                            "silver": "00:00:23:000",
+                            "gold": "00:00:17:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:00:29:500",
+                            "silver": "00:00:24:000",
+                            "gold": "00:00:18:500",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "200 m Radfahren",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:00:38:000",
+                            "silver": "00:00:33:000",
+                            "gold": "00:00:28:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "00:00:41:000",
+                            "silver": "00:00:36:000",
+                            "gold": "00:00:31:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:00:35:000",
+                            "silver": "00:00:30:500",
+                            "gold": "00:00:26:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "00:00:37:000",
+                            "silver": "00:00:32:000",
+                            "gold": "00:00:27:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:00:29:500",
+                            "silver": "00:00:26:000",
+                            "gold": "00:00:22:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "00:00:31:000",
+                            "silver": "00:00:27:000",
+                            "gold": "00:00:23:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:00:24:000",
+                            "silver": "00:00:21:500",
+                            "gold": "00:00:19:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "00:00:27:000",
+                            "silver": "00:00:24:500",
+                            "gold": "00:00:21:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:00:22:000",
+                            "silver": "00:00:19:500",
+                            "gold": "00:00:17:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "00:00:25:000",
+                            "silver": "00:00:22:500",
+                            "gold": "00:00:20:000",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:00:20:500",
+                            "silver": "00:00:18:000",
+                            "gold": "00:00:15:500",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "00:00:24:000",
+                            "silver": "00:00:22:000",
+                            "gold": "00:00:19:500",
+                            "year": 2024
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Koordination",
+            "exercise": [
+                {
+                    "title": "Hochsprung",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:000:85",
+                            "silver": "000:000:95",
+                            "gold": "000:001:05",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:000:80",
+                            "silver": "000:000:90",
+                            "gold": "000:001:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:000:95",
+                            "silver": "000:001:05",
+                            "gold": "000:001:15",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:000:90",
+                            "silver": "000:001:00",
+                            "gold": "000:001:10",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:001:10",
+                            "silver": "000:001:20",
+                            "gold": "000:001:30",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:000:95",
+                            "silver": "000:001:05",
+                            "gold": "000:001:15",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:001:20",
+                            "silver": "000:001:30",
+                            "gold": "000:001:40",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:001:05",
+                            "silver": "000:001:15",
+                            "gold": "000:001:25",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:001:30",
+                            "silver": "000:001:40",
+                            "gold": "000:001:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:001:10",
+                            "silver": "000:001:20",
+                            "gold": "000:001:30",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Zonenweitsprung",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "0018",
+                            "silver": "0021",
+                            "gold": "0024",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "0018",
+                            "silver": "0021",
+                            "gold": "0024",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "0027",
+                            "silver": "0030",
+                            "gold": "0033",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "0024",
+                            "silver": "0027",
+                            "gold": "0030",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Weitsprung",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:002:60",
+                            "silver": "000:002:90",
+                            "gold": "000:003:20",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "000:002:30",
+                            "silver": "000:002:60",
+                            "gold": "000:002:90",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:003:20",
+                            "silver": "000:003:50",
+                            "gold": "000:003:80",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:002:80",
+                            "silver": "000:003:10",
+                            "gold": "000:003:40",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:003:80",
+                            "silver": "000:004:10",
+                            "gold": "000:004:40",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:003:20",
+                            "silver": "000:003:50",
+                            "gold": "000:003:80",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:004:30",
+                            "silver": "000:004:60",
+                            "gold": "000:004:90",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:003:40",
+                            "silver": "000:003:70",
+                            "gold": "000:004:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:004:50",
+                            "silver": "000:004:80",
+                            "gold": "000:005:10",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:003:40",
+                            "silver": "000:003:70",
+                            "gold": "000:004:00",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Drehwurf",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "0015",
+                            "silver": "0018",
+                            "gold": "0024",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "0012",
+                            "silver": "0015",
+                            "gold": "0021",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "0021",
+                            "silver": "0027",
+                            "gold": "0033",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "0018",
+                            "silver": "0021",
+                            "gold": "0027",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "0033",
+                            "silver": "0039",
+                            "gold": "0045",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "0027",
+                            "silver": "0030",
+                            "gold": "0036",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Schleuderball",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:019:50",
+                            "silver": "000:024:00",
+                            "gold": "000:027:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "000:017:00",
+                            "silver": "000:019:50",
+                            "gold": "000:022:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:023:50",
+                            "silver": "000:028:00",
+                            "gold": "000:032:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "000:019:50",
+                            "silver": "000:022:50",
+                            "gold": "000:025:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:027:50",
+                            "silver": "000:032:00",
+                            "gold": "000:036:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "000:022:00",
+                            "silver": "000:025:00",
+                            "gold": "000:028:00",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:031:50",
+                            "silver": "000:036:00",
+                            "gold": "000:040:50",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "000:023:50",
+                            "silver": "000:026:50",
+                            "gold": "000:029:00",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Seilspringen Grundsprung vorwärts mit oder ohne Zwischensprung ODER Galoppsprung",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "0010",
+                            "silver": "0015",
+                            "gold": "0025",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "0010",
+                            "silver": "0015",
+                            "gold": "0025",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "0010",
+                            "silver": "0015",
+                            "gold": "0025",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "0010",
+                            "silver": "0015",
+                            "gold": "0025",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Seilspringen Grundsprung vorwärts ohne Zwischensprung",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "0020",
+                            "silver": "0030",
+                            "gold": "0040",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "0020",
+                            "silver": "0030",
+                            "gold": "0040",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Seilspringen Grundsprung rückwärts ohne Zwischensprung",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "0010",
+                            "silver": "0020",
+                            "gold": "0030",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "0010",
+                            "silver": "0020",
+                            "gold": "0030",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Seilspringen Kreuzdurchschlag ohne Zwischensprung",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "0010",
+                            "silver": "0015",
+                            "gold": "0020",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "0010",
+                            "silver": "0015",
+                            "gold": "0020",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "0010",
+                            "silver": "0015",
+                            "gold": "0020",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "0010",
+                            "silver": "0015",
+                            "gold": "0020",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Seilspringen Doppeldurchschlag mit oder ohne Zwischensprung",
+                    "from_age": 6,
+                    "to_age": 999,
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "0005",
+                            "silver": "0010",
+                            "gold": "0015",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "0005",
+                            "silver": "0010",
+                            "gold": "0015",
+                            "year": 2024
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

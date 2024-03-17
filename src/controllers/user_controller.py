@@ -12,7 +12,7 @@ router = APIRouter(
     # documentation tag
     tags=["users"],
     # default response
-    responses={404: {"route": "Not found"}}
+    #responses={404: {"route": "Not found"}}
 )
 
 '''

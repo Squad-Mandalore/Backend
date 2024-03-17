@@ -13,7 +13,7 @@ router = APIRouter(
     # documentation tag
     tags=["log"],
     # default response
-    responses={404: {"route": "Not found"}}
+    #responses={404: {"route": "Not found"}}
 )
 
 @router.get("/error.log", response_class=FileResponse)

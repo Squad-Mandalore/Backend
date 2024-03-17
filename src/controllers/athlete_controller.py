@@ -17,7 +17,7 @@ router = APIRouter(
     # documentation tag
     tags=["athletes"],
     # default response
-    responses={404: {"route": "Not found"}},
+    #responses={404: {"route": "Not found"}},
 )
 
 @router.get("/all", response_model=list[AthleteResponseSchema], status_code=status.HTTP_200_OK)

@@ -9,7 +9,7 @@ from src.services import auth_service
 router = APIRouter(
     prefix="/auth",
     tags=["auth"],
-    responses={404: {"route": "Not found"}}
+    #responses={404: {"route": "Not found"}}
 )
 
 @router.post("/login", response_model=Token, status_code=status.HTTP_200_OK)

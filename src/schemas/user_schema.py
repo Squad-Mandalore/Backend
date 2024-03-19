@@ -26,3 +26,4 @@ class UserResponseSchema(BaseModel):
     created_at: datetime
     last_password_change: datetime
     last_edited_at: datetime
+    type: str

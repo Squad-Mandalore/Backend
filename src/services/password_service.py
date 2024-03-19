@@ -2,7 +2,9 @@ import hashlib
 from random import choice
 import random
 from string import ascii_letters
-from typing import Callable
+from typing import Callable, Optional
+
+from fastapi import HTTPException
 
 # TODO: Those 2 should not be visible like this, they should be set at environment level (we are a public repo)
 # This can be done via GitHub secrets and our CI/CD pipeline
@@ -62,3 +64,14 @@ def hash_password(password: str, keychain_number: int = KEYCHAIN_NUMBER) -> str:
         hashed_password = hashlib.sha256(hashed_password.encode()).hexdigest()
 
     return hashed_password
+
+def verify_password(user, password: str) -> bool:
+    # check the password
+    hashed_password, _ = hash_and_spice_password(password, user.salt)
+    return hashed_password == user.hashed_password
+
+def validate_password(password: str) -> Optional[HTTPException]:
+    if len(password) < 12:
+        return HTTPException(status_code=400, detail="Password must be at least 12 characters long")
+
+    return None

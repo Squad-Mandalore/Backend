@@ -4,9 +4,7 @@ from sqlalchemy.orm import Session
 from src.database.database_utils import get_all, get_db
 from src.models.models import Base, User
 from src.schemas.user_schema import UserResponseSchema
-from src.services.password_service import hash_and_spice_password
-from src.services.password_validation_service import validate_password
-from src.services.user_service import check_password
+from src.services.password_service import hash_and_spice_password, validate_password
 
 router = APIRouter(
     # routing prefix
@@ -14,7 +12,7 @@ router = APIRouter(
     # documentation tag
     tags=["users"],
     # default response
-    responses={404: {"route": "Not found"}}
+    #responses={404: {"route": "Not found"}}
 )
 
 '''

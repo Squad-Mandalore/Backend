@@ -1,26 +1,8 @@
 from src.services.csv_service import create_csv, entity_config
-from tests.define_test_variables import client, TestVariables
+from tests.define_test_variables import client_fixture, session_fixture, TestVariables
 from datetime import date, datetime
 import pytest
 from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer
-
-@pytest.fixture
-def session():
-    from sqlalchemy import create_engine
-    from sqlalchemy.orm import sessionmaker
-
-    # Replace the connection string with your actual database connection details.
-    engine = create_engine("sqlite:///:memory:", connect_args={"check_same_thread": False})
-    #engine = create_engine("sqlite:///db/test_test.db", echo=True, connect_args={"check_same_thread": False})
-
-    Base.metadata.create_all(bind=engine)
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    yield session
-
-    session.close()
-    Base.metadata.drop_all(bind=engine)
 
 def create_athletes(session):
     trainer = Trainer(username="trainer_athlete_completes", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
@@ -39,7 +21,7 @@ def create_athletes(session):
     session.add(completes)
     session.commit()
 
-def test_csv(session):
+def test_csv(session,client):
     create_athletes(session)
     create_csv(session)
     response = client.get(TestVariables.BASEURL + "/csv/trainer.csv")

@@ -1,9 +1,10 @@
 import os
+
 from fastapi import APIRouter, HTTPException, status
 from starlette.responses import FileResponse
-from src.schemas.log_schema import LogSchema
 
 from src.logger.logger import frontend_logger
+from src.schemas.log_schema import LogSchema
 
 
 router = APIRouter(
@@ -12,7 +13,7 @@ router = APIRouter(
     # documentation tag
     tags=["log"],
     # default response
-    responses={404: {"route": "Not found"}}
+    #responses={404: {"route": "Not found"}}
 )
 
 error_log_path: str = "error.log"

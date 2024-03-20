@@ -12,7 +12,7 @@ router = APIRouter(
     # documentation tag
     tags=["csv"],
     # default response
-    responses={404: {"route": "Not found"}}
+    #responses={404: {"route": "Not found"}}
 )
 
 @router.get("/trainer.csv", response_class=FileResponse, status_code=status.HTTP_200_OK)

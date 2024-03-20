@@ -14,6 +14,7 @@ def get_db():
         db.close()
 
 # Type warning does not apply here
+# TODO: All those methods should have error handling with try except
 def add(db_model: Base, db: Session) -> None:
     # Errorhandling needs to be done
     db.add(db_model)

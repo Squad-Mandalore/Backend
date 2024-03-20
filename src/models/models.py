@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 import enum
 from typing import Optional
 import uuid
@@ -59,7 +59,8 @@ class Administrator(User):
 
     __mapper_args__ = {"polymorphic_identity": "administrator"}
 
-    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, uses_otp: bool):
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
+                 uses_otp: bool):
         super().__init__(username, email, unhashed_password, firstname, lastname)
         uses_otp = uses_otp
 
@@ -68,7 +69,7 @@ class Trainer(User):
     __tablename__ = "trainer"
     id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
     uses_otp: Mapped[bool]
-    birthday: Mapped[Optional[datetime]]
+    birthday: Mapped[Optional[date]]
 
     athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer",
                                                      primaryjoin="Trainer.id==Athlete.trainer_id")
@@ -76,7 +77,8 @@ class Trainer(User):
 
     __mapper_args__ = {"polymorphic_identity": "trainer"}
 
-    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, birthday: Optional[datetime], uses_otp: bool = False):
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, birthday: Optional[date],
+                 uses_otp: bool = False):
         super().__init__(username, email, unhashed_password, firstname, lastname)
         self.uses_otp = uses_otp
         self.birthday = birthday
@@ -85,7 +87,7 @@ class Trainer(User):
 class Athlete(User):
     __tablename__ = "athlete"
     id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
-    birthday: Mapped[datetime]
+    birthday: Mapped[date]
     gender: Mapped[Gender] = mapped_column(Enum(Gender))
     has_disease: Mapped[bool]
     trainer_id: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
@@ -97,7 +99,7 @@ class Athlete(User):
     __mapper_args__ = {"polymorphic_identity": "athlete"}
 
     def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
-                 birthday: datetime, trainer_id: str, has_disease: bool = False, gender: Gender = Gender.DIVERSE):
+                 birthday: date, trainer_id: str, has_disease: bool = False, gender: Gender = Gender.DIVERSE):
         super().__init__(username, email, unhashed_password, firstname, lastname)
         self.birthday = birthday
         self.trainer_id = trainer_id
@@ -187,7 +189,8 @@ class Completes(Base):
     athlete: Mapped["Athlete"] = relationship()
     exercise: Mapped["Exercise"] = relationship()
 
-    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: datetime, completed_at: datetime | None, result: str, points: int, dbs: bool = False):
+    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: datetime, completed_at: datetime | None, result: str,
+                 points: int, dbs: bool = False):
         self.athlete_id = athlete_id
         self.exercise_id = exercise_id
         self.tracked_at = tracked_at
@@ -206,7 +209,7 @@ class Rule(Base):
     bronze: Mapped[str]
     silver: Mapped[str]
     gold: Mapped[str]
-    year: Mapped[datetime]
+    year: Mapped[date]
 
     exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id"))
 
@@ -216,7 +219,8 @@ class Rule(Base):
         CheckConstraint('from_age < to_age'),
     )
 
-    def __init__(self, gender: Gender, from_age: int, to_age: int, bronze: str, silver: str, gold: str, year: datetime, exercise_id: str):
+    def __init__(self, gender: Gender, from_age: int, to_age: int, bronze: str, silver: str, gold: str, year: date,
+                 exercise_id: str):
         self.gender = gender
         self.from_age = from_age
         self.to_age = to_age

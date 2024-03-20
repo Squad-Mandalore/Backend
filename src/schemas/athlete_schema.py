@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 
 from pydantic import BaseModel
@@ -8,49 +8,49 @@ from src.schemas.user_schema import UserPatchSchema, UserPostSchema, UserRespons
 
 
 class AthletePostSchema(UserPostSchema):
-    birthday: datetime
+    birthday: date
     gender: Gender
     has_disease: bool
     trainer_id: str
 
 class AthletePatchSchema(UserPatchSchema):
-    birthday: Optional[datetime] = None
+    birthday: Optional[date] = None
     gender: Optional[Gender] = None
     has_disease: Optional[bool] = None
     trainer_id: Optional[str] = None
 
-class TrainerModel(UserResponseSchema):
+class TrainerResponseSchema(UserResponseSchema):
     id: str
     uses_otp: bool
-    birthday: datetime
+    birthday: date
 
 class AthleteResponseSchema(UserResponseSchema):
-    birthday: datetime
+    birthday: date
     gender: Gender
     has_disease: bool
-    trainer_id: TrainerModel
+    trainer_id: TrainerResponseSchema
 
-class CategoryModel(BaseModel):
+class CategorySchema(BaseModel):
     id: str
     title: str
 
-class ExerciseModel(BaseModel):
+class ExerciseSchema(BaseModel):
     id: str
     title: str
-    category: CategoryModel  # Nested CategoryModel
+    category: CategorySchema  # Nested CategoryModel
     from_age: int
     to_age: int
 
-class CompletesModel(BaseModel):
+class CompletesSchema(BaseModel):
     athlete_id: str
-    exercise_id: ExerciseModel
+    exercise_id: ExerciseSchema
     tracked_at: datetime
     completed_at: Optional[datetime]
     result: str
     points: int
     dbs: bool
 
-class CertificateModel(BaseModel):
+class CertificateSchema(BaseModel):
     id: str
     athlete_id: str
     uploaded_at: datetime
@@ -59,6 +59,6 @@ class CertificateModel(BaseModel):
     blob: str
 
 class AthleteFullResponseSchema(AthleteResponseSchema):
-    completes: list[CompletesModel]
-    certificates: list[CertificateModel]
+    completes: list[CompletesSchema]
+    certificates: list[CertificateSchema]
 

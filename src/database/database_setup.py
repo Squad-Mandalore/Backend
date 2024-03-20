@@ -17,12 +17,8 @@ def init_db() -> None:
     if not os.path.exists(f'.{db_path}'):
         logger.info("Creating database")
         Base.metadata.create_all(bind=engine)
-        parse_values(Session(engine))
-
-@event.listens_for(Administrator.__table__, "after_create")
-def insert_initial_data(target, connection, **kw) -> None:
-    with Session(connection.engine) as session:
-        admin = Administrator(username="init", unhashed_password="admin", email="admin", firstname="admin", lastname="admin", uses_otp=False)
-        session.add(admin)
-        session.commit()
-    logger.info("Inserted initial data")
+        with Session(engine) as session:
+            parse_values(Session(engine))
+            admin = Administrator(username="init", unhashed_password="admin", email="admin", firstname="admin", lastname="admin", uses_otp=False)
+            session.add(admin)
+            session.commit()

@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_by_id, get_db
 from src.main import app
-from src.models.models import Base, User
+from src.models.models import Administrator, Base, User
 from src.services.auth_service import ALGORITHM, get_current_user, oauth2_bearer
 
 # Description: This file contains the test variables that are used in the test cases
@@ -29,6 +29,9 @@ def session_fixture():
     )
     Base.metadata.create_all(engine)
     with Session(engine) as session:
+        admin = Administrator(username="init", unhashed_password="admin", email="admin", firstname="admin", lastname="admin", uses_otp=False)
+        session.add(admin)
+        session.commit()
         yield session
 
 @pytest.fixture(name="client")
@@ -42,6 +45,7 @@ def client_fixture(session: Session):
 
     app.dependency_overrides[get_db] = get_session_override
     app.dependency_overrides[get_current_user] = get_current_user_override
+
 
     client = TestClient(app)
     response = client.post(

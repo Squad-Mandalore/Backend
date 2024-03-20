@@ -9,10 +9,6 @@ from src.services import update_service
 
 def create_athlete(athlete_post_schema: AthletePostSchema, db: Session) -> Athlete:
     athlete_dict = athlete_post_schema.model_dump(exclude_unset=True)
-    # check if trainer_id exists
-    if not database_utils.get_by_id(Trainer, athlete_dict["trainer_id"], db):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trainer not found")
-
     athlete = Athlete(**athlete_dict)
     database_utils.add(athlete, db)
     return athlete
@@ -22,6 +18,7 @@ def get_athlete_by_id(id: str, db: Session) -> Athlete:
 
     if athlete is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")
+
     return cast(Athlete, athlete)
 
 def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, db: Session) -> Athlete:
@@ -29,10 +26,6 @@ def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, db: Sessio
 
     if athlete is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")
-
-    # check if trainer_id exists
-    if athlete_patch_schema.trainer_id and not database_utils.get_by_id(Trainer, athlete_patch_schema.trainer_id, db):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trainer not found")
 
     update_service.update_properties(athlete, athlete_patch_schema, db)
     return cast(Athlete, athlete)

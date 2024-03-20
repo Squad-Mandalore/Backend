@@ -2,11 +2,20 @@ from datetime import datetime
 
 from fastapi.testclient import TestClient
 from httpx import Response
+from sqlalchemy.orm import Session
 
 #client_fixture, session_fixture are fixtures that are used to create a test client and a session for the test cases !!DO NOT REMOVE!!
+from src.models.models import Trainer
 from tests.define_test_variables import TestVariables, client_fixture, session_fixture
 
-def test_post_athlete(client: TestClient):
+def test_post_athlete(session: Session, client: TestClient):
+    trainer: Trainer = Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
+    session.add(trainer)
+    session.commit()
+    trainer_new = session.query(Trainer).filter(Trainer.username == "trainer").first()
+    if trainer_new is None:
+        assert False, "Trainer not found"
+
     body = {
         "username": "username",
         "email": "ole@mail",
@@ -14,10 +23,11 @@ def test_post_athlete(client: TestClient):
         "firstname": "ole",
         "lastname": "grundmann",
         "birthday": "2024-02-18",
-        "trainer_id": "16d094b1-e9cf-4cf4-b3ea-6a832582adf2",
+        "trainer_id": f"{trainer_new.id}",
         "has_disease": True,
         "gender": "m"
     }
+
     response = client.post("/athletes", json=body, headers=TestVariables.headers)
     assert response.status_code == 201, f"{response.status_code} {response.json()}"
 

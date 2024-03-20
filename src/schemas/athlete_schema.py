@@ -22,13 +22,13 @@ class AthletePatchSchema(UserPatchSchema):
 class TrainerResponseSchema(UserResponseSchema):
     id: str
     uses_otp: bool
-    birthday: date
+    birthday: Optional[date]
 
 class AthleteResponseSchema(UserResponseSchema):
     birthday: date
     gender: Gender
     has_disease: bool
-    trainer_id: TrainerResponseSchema
+    trainer: TrainerResponseSchema
 
 class CategorySchema(BaseModel):
     id: str

@@ -43,6 +43,12 @@ def test_get_athlete_by_id(client: TestClient):
     assert response.status_code == 200
     assert response.json()['username'] == "username"
 
+def test_get_full_athlete_by_id(client: TestClient):
+    athlete_id = TestVariables.test_athlete['id']
+    response = client.get(f"/athletes/{athlete_id}/full", headers=TestVariables.headers)
+    assert response.status_code == 200
+    assert response.json()['username'] == "username"
+
 def test_patch_athlete(client: TestClient) -> None:
     athlete_id = TestVariables.test_athlete['id']
     body = {

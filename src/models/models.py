@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 import enum
 from typing import Optional
 import uuid
@@ -68,7 +68,7 @@ class Trainer(User):
     __tablename__ = "trainer"
     id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
     uses_otp: Mapped[bool]
-    birthday: Mapped[Optional[date]]
+    birthday: Mapped[Optional[datetime]]
 
     athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer",
                                                      primaryjoin="Trainer.id==Athlete.trainer_id")
@@ -76,7 +76,7 @@ class Trainer(User):
 
     __mapper_args__ = {"polymorphic_identity": "trainer"}
 
-    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, birthday: Optional[date], uses_otp: bool = False):
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, birthday: Optional[datetime], uses_otp: bool = False):
         super().__init__(username, email, unhashed_password, firstname, lastname)
         self.uses_otp = uses_otp
         self.birthday = birthday
@@ -85,7 +85,7 @@ class Trainer(User):
 class Athlete(User):
     __tablename__ = "athlete"
     id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
-    birthday: Mapped[date]
+    birthday: Mapped[datetime]
     gender: Mapped[Gender] = mapped_column(Enum(Gender))
     has_disease: Mapped[bool]
     trainer_id: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
@@ -97,7 +97,7 @@ class Athlete(User):
     __mapper_args__ = {"polymorphic_identity": "athlete"}
 
     def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
-                 birthday: date, trainer_id: str, has_disease: bool = False, gender: Gender = Gender.DIVERSE):
+                 birthday: datetime, trainer_id: str, has_disease: bool = False, gender: Gender = Gender.DIVERSE):
         super().__init__(username, email, unhashed_password, firstname, lastname)
         self.birthday = birthday
         self.trainer_id = trainer_id
@@ -206,7 +206,7 @@ class Rule(Base):
     bronze: Mapped[str]
     silver: Mapped[str]
     gold: Mapped[str]
-    year: Mapped[date]
+    year: Mapped[datetime]
 
     exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id"))
 
@@ -216,7 +216,7 @@ class Rule(Base):
         CheckConstraint('from_age < to_age'),
     )
 
-    def __init__(self, gender: Gender, from_age: int, to_age: int, bronze: str, silver: str, gold: str, year: date, exercise_id: str):
+    def __init__(self, gender: Gender, from_age: int, to_age: int, bronze: str, silver: str, gold: str, year: datetime, exercise_id: str):
         self.gender = gender
         self.from_age = from_age
         self.to_age = to_age

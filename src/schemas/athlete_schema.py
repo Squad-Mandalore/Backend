@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
@@ -8,23 +8,27 @@ from src.schemas.user_schema import UserPatchSchema, UserPostSchema, UserRespons
 
 
 class AthletePostSchema(UserPostSchema):
-    birthday: date
+    birthday: datetime
     gender: Gender
     has_disease: bool
     trainer_id: str
 
 class AthletePatchSchema(UserPatchSchema):
-    birthday: Optional[date] = None
+    birthday: Optional[datetime] = None
     gender: Optional[Gender] = None
     has_disease: Optional[bool] = None
     trainer_id: Optional[str] = None
 
+class TrainerModel(UserResponseSchema):
+    id: str
+    uses_otp: bool
+    birthday: datetime
 
 class AthleteResponseSchema(UserResponseSchema):
-    birthday: date
+    birthday: datetime
     gender: Gender
     has_disease: bool
-    trainer_id: str
+    trainer_id: TrainerModel
 
 class CategoryModel(BaseModel):
     id: str
@@ -40,8 +44,8 @@ class ExerciseModel(BaseModel):
 class CompletesModel(BaseModel):
     athlete_id: str
     exercise_id: ExerciseModel
-    tracked_at: date
-    completed_at: Optional[date]
+    tracked_at: datetime
+    completed_at: Optional[datetime]
     result: str
     points: int
     dbs: bool
@@ -49,7 +53,7 @@ class CompletesModel(BaseModel):
 class CertificateModel(BaseModel):
     id: str
     athlete_id: str
-    uploaded_at: date
+    uploaded_at: datetime
     uploaded_by: str
     title: str
     blob: str

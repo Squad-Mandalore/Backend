@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from src.services.password_validation_service import validate_password
+from src.services.password_service import validate_password
 
 
 def test_validate_password():

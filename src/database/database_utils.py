@@ -1,14 +1,13 @@
-from typing import Optional, Type, Union
+from typing import Optional, Type
 
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from src.database.database_setup import SessionLocal
+from src.database.database_setup import engine
 from src.models.models import Base
 
  # Dependency
 def get_db():
-    db = SessionLocal()
+    db = Session(engine)
     try:
         yield db
     finally:
@@ -22,24 +21,19 @@ def add(db_model: Base, db: Session) -> None:
     db.refresh(db_model)       # i dont know what this does
 
 
-def delete(table: Type[Base], id: str, db: Session) -> Optional[HTTPException]:
-    result: Base | HTTPException = get_by_id(table, id, db)
-    if isinstance(result, HTTPException):
-        return result
+def delete(table: Type[Base], id: str, db: Session) -> None:
+    result: Base | None = get_by_id(table, id, db)
     db.delete(result)
     db.commit()
 
 
-def get_by_id(table: Type[Base], id: str, db: Session) -> Base | HTTPException:
+def get_by_id(table: Type[Base], id: str, db: Session) -> Optional[Base]:
     """
 
     @rtype: object
     """
     # how to query SELECT * WHERE id = id
     result: Base | None = db.query(table).filter(table.id == id).first()
-    if not result:
-        return HTTPException(status_code=404, detail="User not found")
-
     return result
 
 

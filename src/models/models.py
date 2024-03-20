@@ -123,7 +123,7 @@ class Certificate(Base):
     __tablename__ = "certificate"
     id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
     athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
-    uploaded_at: Mapped[datetime] = mapped_column(default=datetime.now)
+    uploaded_at: Mapped[datetime]
     uploaded_by: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
     title: Mapped[str]
     blob: Mapped[bytes] = mapped_column(BLOB)
@@ -136,6 +136,7 @@ class Certificate(Base):
         self.uploaded_by = uploader
         self.title = title
         self.blob = blob
+        self.uploaded_at = datetime.now()
 
 
 class BackupCode(Base):

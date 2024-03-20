@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from src.database.database_utils import get_db
 from src.models.models import Athlete, Base, User
 from src.schemas.athlete_schema import (
+    AthleteFullResponseSchema,
     AthletePatchSchema,
     AthletePostSchema,
     AthleteResponseSchema,
@@ -26,6 +27,10 @@ async def get_all_athletes(user: User = Depends(get_current_user), db: Session =
 
 @router.get("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_200_OK)
 async def get_athlete(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Athlete:
+    return athlete_service.get_athlete_by_id(id, db)
+
+@router.get("/full/{id}", response_model=AthleteFullResponseSchema, status_code=status.HTTP_200_OK)
+async def get_athlete_full(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Athlete:
     return athlete_service.get_athlete_by_id(id, db)
 
 @router.delete("/{id}", status_code=status.HTTP_200_OK)

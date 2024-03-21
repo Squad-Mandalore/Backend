@@ -35,5 +35,5 @@ def update_completes(id: str, completes_patch_schema: CompletesPatchSchema, db: 
 def delete_completes(id: str, db: Session) -> None:
     return database_utils.delete(Completes, id, db)
 
-def get_all_completess(db: Session) -> list[Completes]:
+def get_all_completes(db: Session) -> list[Completes]:
     return cast(list[Completes], database_utils.get_all(Completes, db))

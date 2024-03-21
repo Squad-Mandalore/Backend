@@ -137,7 +137,7 @@ def create_trainer(line: dict) -> Trainer:
         username=f"{line['firstname']} {line['lastname']}"
     )
 
-def create_athlete(line: dict):
+def create_athlete(line: dict) -> Athlete:
     current_user = Depends(get_current_user)
     return Athlete(
         firstname=line['firstname'],
@@ -151,34 +151,53 @@ def create_athlete(line: dict):
         trainer_id=current_user.id
     )
 
-def create_completes(line: dict, db: Session = Depends(get_db)):
+def create_completes(line: dict, db: Session = Depends(get_db)) -> Completes:
     # 'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points', 'dbs']
     athlete = db.query(Athlete).filter(Athlete.firstname == line['athlete.firstname'], Athlete.lastname == line['athlete.lastname']).first()
     if not athlete:
         raise ValueError(f"Athlete {line['athlete.firstname']} {line['athlete.lastname']} not found")
 
-    category = create_category(line)
-    exercise = create_exercise(line, category)
+    category = create_category(line, db)
+    exercise = create_exercise(line, category, db)
 
-    Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=line['tracked_at'], completed_at=None, result=line['result'], points=line['points'], dbs=line['dbs'])
+    return Completes(
+        athlete_id=athlete.id,
+        exercise_id=exercise.id,
+        tracked_at=line['tracked_at'],
+        completed_at=None,
+        result=line['result'],
+        points=line['points'],
+        dbs=line['dbs']
+    )
 
 def create_category(line: dict, db: Session) -> Category:
-    # find category by title
     category = db.query(Category).filter(Category.title == line['exercise.category.title']).first()
     if not category:
+        category = Category(
+            title=line['exercise.category.title'],
+        )
+        db.add(category)
+        db.flush()
+        return category
 
-    return Category(
-        title=line['exercise.category.title'],
-    )
+    return category
 
-def create_exercise(line: dict, category: Category) -> Exercise:
-    # TODO: find exercise by title as soon as it is implemented
-    return Exercise(
-        title=line['exercise.title'],
-        category_id=category.id,
-        from_age=10,
-        to_age=20
-    )
+
+def create_exercise(line: dict, category: Category, db: Session) -> Exercise:
+    exercise = db.query(Exercise).filter(Exercise.title == line['exercise.title']).first()
+    if not exercise:
+        exercise = Exercise(
+            title=line['exercise.title'],
+            category_id=category.id,
+            from_age=10,
+            to_age=20
+        )
+        db.add(exercise)
+        db.flush()
+        return exercise
+
+    return exercise
+
 
 def get_gender(abbreviation: str) -> Gender:
     if abbreviation == Gender.MALE.value:

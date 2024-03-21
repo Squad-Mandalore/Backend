@@ -1,15 +1,17 @@
 import csv
 import random
 import string
-from datetime import datetime
+from datetime import date, datetime
 from typing import Any, Callable, Sequence, cast
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
+from starlette.status import HTTP_400_BAD_REQUEST
 
 from src.database.database_utils import add, get_all, get_db
-from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer
+from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer, User
 from src.services.auth_service import get_current_user
+from src.logger.logger import logger
 
 # Those header are a crime against humans in general
 entity_config: dict = {
@@ -36,6 +38,7 @@ value_transformers: dict[str, Callable[[Any], Any]] = {
     'birthday': lambda d: d.strftime('%d.%m.%Y'),
     'birthday_year': lambda d: d.year,
     'gender': lambda g: g.value if g == Gender.MALE else 'w',
+    'tracked_at': lambda d: d.strftime('%d.%m.%Y'),
 }
 
 def create_csv(db: Session) -> None:
@@ -96,66 +99,87 @@ def generate_random_password(length: int = 12) -> str:
     random_string = ''.join(random.choices(characters, k=length))
     return random_string
 
-def parse_csv(filename: str, db: Session) -> None:
+async def parse_csv(file: UploadFile, current_user: User, db: Session) -> dict | None:
     object_creator = None
+    file_content = await file.read()
+    content_str = file_content.decode("utf-8")
+    lines = content_str.splitlines()
+    reader = csv.DictReader(lines)
+    header = reader.fieldnames
+
+    if header is None:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File is empty")
+
+    header_mapping = {
+        tuple(entity_config['Trainer']['header']): lambda line: create_trainer(line, db),
+        tuple(entity_config['Athlete']['header']): lambda line: create_athlete(line, current_user, db),
+        tuple(entity_config['Completes']['header']): lambda line: create_completes(line, db),
+    }
+
+    object_creator = header_mapping.get(tuple(header))
+
+    if object_creator is None:
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail=f"Header {header} not supported")
+
+    transaction = db.begin_nested()
+    user_flag = False
     try:
-        with open(filename, 'r') as file:
-            reader = csv.DictReader(file)
-            header = reader.fieldnames
-            if header is None:
-                raise ValueError("File is empty")
+        for line in reader:
+            object = object_creator(line)
+            if object:
+                db.add(object)
+            else:
+                if header == entity_config['Athlete']['header']:
+                    user_flag = True
 
-            header_mapping = {
-                tuple(entity_config['Trainer']['header']): create_trainer,
-                tuple(entity_config['Athlete']['header']): create_athlete,
-                tuple(entity_config['Completes']['header']): create_completes,
-            }
-
-            object_creator = header_mapping.get(tuple(header))
-
-            if object_creator is None:
-                raise ValueError(f"Header {header} not supported")
-
-            for line in reader:
-                object = object_creator(line)
-                if object:
-                    add(object, db)
-
-    except FileNotFoundError:
-        raise FileNotFoundError("File not found")
+        transaction.commit()
     except Exception as e:
-        raise e
+        if isinstance(e, HTTPException):
+            raise
+        transaction.rollback()
+        logger.error(f"Error while parsing csv: {e}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Error while parsing csv")
 
-def create_trainer(line: dict) -> Trainer:
+
+    if user_flag:
+        return {"detail": "Users were skipped"}
+
+def create_trainer(line: dict, db: Session) -> Trainer:
+    # check if the email with first and lastname is already taken
+    if db.query(Trainer).filter(Trainer.email == line['E-Mail-Adresse']).first():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Trainer with email {line['E-Mail-Adresse']} already exists")
+
     return Trainer(
-        email=line['email'],
-        firstname=line['firstname'],
-        lastname=line['lastname'],
-        unhashed_password=line['password'],
+        email=line['E-Mail-Adresse'],
+        firstname=line['Vorname'],
+        lastname=line['Nachname'],
+        unhashed_password=line['Defaultpasswort'],
         birthday=None,
-        # what if the username is already taken?
-        username=f"{line['firstname']} {line['lastname']}"
+        username=f"{line['Vorname']} {line['Nachname']} {line['E-Mail-Adresse']}",
     )
 
-def create_athlete(line: dict) -> Athlete:
-    current_user = Depends(get_current_user)
+def create_athlete(line: dict, current_user: User, db: Session) -> Athlete | None:
+    # check if the email with birthday is already taken
+    if db.query(Athlete).filter(Athlete.email == line['E-Mail'], Athlete.birthday == datetime.strptime(line['Geburtsdatum(TT.MM.JJJJ)'], "%d.%m.%Y")).first():
+        return None
+
     return Athlete(
-        firstname=line['firstname'],
-        lastname=line['lastname'],
-        email=line['email'],
-        birthday=datetime.strptime(line['birthday'], "%Y-%m-%dT%H:%M:%S.%f"),
-        gender=get_gender(line['gender']),
-        # what if the username is already taken?
-        username=f"{line['firstname']} {line['lastname']}",
+        firstname=line['Vorname'],
+        lastname=line['Nachname'],
+        email=line['E-Mail'],
+        birthday=datetime.strptime(line['Geburtsdatum(TT.MM.JJJJ)'], "%d.%m.%Y").date(),
+        gender=get_gender(line['Geschlecht(m/w)']),
+        username=f"{line['Vorname']} {line['Nachname']} {line['E-Mail']}",
         unhashed_password=generate_random_password(),
         trainer_id=current_user.id
     )
 
-def create_completes(line: dict, db: Session = Depends(get_db)) -> Completes:
+def create_completes(line: dict, db: Session) -> Completes:
     # 'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points', 'dbs']
-    athlete = db.query(Athlete).filter(Athlete.firstname == line['athlete.firstname'], Athlete.lastname == line['athlete.lastname']).first()
+    # 'header': ['Name', 'Vorname', 'Geschlecht', 'Geburtsjahr', 'Geburtstag', 'Übung', 'Kategorie', 'Datum', 'Ergebnis', 'Punkte', 'DBS'],
+    athlete = db.query(Athlete).filter(Athlete.firstname == line['Vorname'], Athlete.lastname == line['Name'], Athlete.birthday == datetime.strptime(line['Geburtstag'], "%d.%m.%Y").date()).first()
     if not athlete:
-        raise ValueError(f"Athlete {line['athlete.firstname']} {line['athlete.lastname']} not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Athlete {line['Vorname']} {line['Name']} {line['Geburtstag']} not found")
 
     category = create_category(line, db)
     exercise = create_exercise(line, category, db)
@@ -163,18 +187,18 @@ def create_completes(line: dict, db: Session = Depends(get_db)) -> Completes:
     return Completes(
         athlete_id=athlete.id,
         exercise_id=exercise.id,
-        tracked_at=line['tracked_at'],
+        tracked_at=datetime.strptime(line['Datum'], "%d.%m.%Y").date(),
         completed_at=None,
-        result=line['result'],
-        points=line['points'],
-        dbs=line['dbs']
+        result=line['Ergebnis'],
+        points=line['Punkte'],
+        dbs=line['DBS'].lower() == 'true'
     )
 
 def create_category(line: dict, db: Session) -> Category:
-    category = db.query(Category).filter(Category.title == line['exercise.category.title']).first()
+    category = db.query(Category).filter(Category.title == line['Kategorie']).first()
     if not category:
         category = Category(
-            title=line['exercise.category.title'],
+            title=line['Kategorie'],
         )
         db.add(category)
         db.flush()
@@ -182,12 +206,11 @@ def create_category(line: dict, db: Session) -> Category:
 
     return category
 
-
 def create_exercise(line: dict, category: Category, db: Session) -> Exercise:
-    exercise = db.query(Exercise).filter(Exercise.title == line['exercise.title']).first()
+    exercise = db.query(Exercise).filter(Exercise.title == line['Übung']).first()
     if not exercise:
         exercise = Exercise(
-            title=line['exercise.title'],
+            title=line['Übung'],
             category_id=category.id,
             from_age=10,
             to_age=20

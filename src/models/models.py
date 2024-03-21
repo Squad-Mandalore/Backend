@@ -50,19 +50,6 @@ class User(Base):
         self.last_password_change = now
 
 
-class Administrator(User):
-    __tablename__ = "administrator"
-    id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
-    uses_otp: Mapped[bool] = mapped_column(default=False)
-
-    codes: Mapped[list["BackupCode"]] = relationship(back_populates="administrator")
-
-    __mapper_args__ = {"polymorphic_identity": "administrator"}
-
-    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str,
-                 uses_otp: bool):
-        super().__init__(username, email, unhashed_password, firstname, lastname)
-        uses_otp = uses_otp
 
 
 class Trainer(User):
@@ -73,8 +60,6 @@ class Trainer(User):
 
     athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer",
                                                      primaryjoin="Trainer.id==Athlete.trainer_id")
-    codes: Mapped[list["BackupCode"]] = relationship(back_populates="trainer")
-
     __mapper_args__ = {"polymorphic_identity": "trainer"}
 
     def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, birthday: Optional[date],
@@ -83,6 +68,14 @@ class Trainer(User):
         self.uses_otp = uses_otp
         self.birthday = birthday
 
+class Administrator(Trainer):
+    __tablename__ = "administrator"
+    id: Mapped[str] = mapped_column(ForeignKey("trainer.id"), primary_key=True)
+
+    __mapper_args__ = {"polymorphic_identity": "administrator"}
+
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, uses_otp: bool):
+        super().__init__(username, email, unhashed_password, firstname, lastname, None)
 
 class Athlete(User):
     __tablename__ = "athlete"
@@ -139,21 +132,6 @@ class Certificate(Base):
         self.uploaded_at = datetime.now()
 
 
-class BackupCode(Base):
-    __tablename__ = "backup_code"
-    user_id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
-    code: Mapped[str] = mapped_column(primary_key=True)
-    created_at: Mapped[datetime]
-
-    administrator: Mapped["Administrator"] = relationship("Administrator", back_populates="codes")
-    trainer: Mapped["Trainer"] = relationship("Trainer", back_populates="codes")
-
-    def __init__(self, user_id: str, code: str):
-        self.user_id = user_id
-        self.code = code
-        self.created_at = datetime.now()
-
-
 class Exercise(Base):
     __tablename__ = "exercise"
     id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
@@ -180,8 +158,8 @@ class Completes(Base):
     __tablename__ = "completes"
     athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
     exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id"), primary_key=True)
-    tracked_at: Mapped[datetime]
-    completed_at: Mapped[datetime | None]
+    tracked_at: Mapped[date]
+    completed_at: Mapped[date | None]
     result: Mapped[str]
     points: Mapped[int]
     dbs: Mapped[bool] = mapped_column(default=False)
@@ -189,7 +167,7 @@ class Completes(Base):
     athlete: Mapped["Athlete"] = relationship()
     exercise: Mapped["Exercise"] = relationship()
 
-    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: datetime, completed_at: datetime | None, result: str,
+    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: date, completed_at: date | None, result: str,
                  points: int, dbs: bool = False):
         self.athlete_id = athlete_id
         self.exercise_id = exercise_id

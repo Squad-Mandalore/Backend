@@ -25,7 +25,7 @@ class TestVariables():
 @pytest.fixture(name="session", scope="session")
 def session_fixture():
     engine = create_engine(
-            "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool, echo=True
+            "sqlite://", connect_args={"check_same_thread": False}, poolclass=StaticPool
     )
     Base.metadata.create_all(engine)
     with Session(engine) as session:

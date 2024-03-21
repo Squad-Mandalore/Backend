@@ -2,7 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class CertificateSchema(BaseModel):
+class CertificateResponseSchema(BaseModel):
     id: str
     athlete_id: str
     uploaded_at: datetime

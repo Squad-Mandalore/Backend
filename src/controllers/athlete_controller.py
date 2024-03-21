@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_db
-from src.models.models import Athlete, Base, User
+from src.models.models import Athlete, User
 from src.schemas.athlete_schema import (
     AthleteFullResponseSchema,
     AthletePatchSchema,
@@ -42,6 +42,6 @@ async def create_athlete(athlete_post_schema: AthletePostSchema, user: User = De
     return athlete_service.create_athlete(athlete_post_schema, db)
 
 @router.patch("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_202_ACCEPTED)
-async def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Base:
+async def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Athlete:
     return athlete_service.update_athlete(id, athlete_patch_schema, db)
 

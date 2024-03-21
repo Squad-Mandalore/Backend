@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 from src.database.database_utils import add, get_all, get_db
 from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer
+from src.services.auth_service import get_current_user
 
 # Those header are a crime against humans in general
 entity_config: dict = {
@@ -95,89 +96,98 @@ def generate_random_password(length: int = 12) -> str:
     random_string = ''.join(random.choices(characters, k=length))
     return random_string
 
-# def parse_csv(db: Session) -> None:
-#     object_creator = None
-#     try:
-#         with open("trainer.csv0", 'r') as file:
-#             reader = csv.DictReader(file)
-#             header = reader.fieldnames
-#             if header is None:
-#                 raise ValueError("File is empty")
+def parse_csv(filename: str, db: Session) -> None:
+    object_creator = None
+    try:
+        with open(filename, 'r') as file:
+            reader = csv.DictReader(file)
+            header = reader.fieldnames
+            if header is None:
+                raise ValueError("File is empty")
 
-#             header_mapping = {
-#                 tuple(entity_config['Trainer']['header']): create_trainer,
-#                 tuple(entity_config['Athlete']['header']): create_athlete,
-#                 tuple(entity_config['Completes']['header']): create_exercise,
-#             }
+            header_mapping = {
+                tuple(entity_config['Trainer']['header']): create_trainer,
+                tuple(entity_config['Athlete']['header']): create_athlete,
+                tuple(entity_config['Completes']['header']): create_completes,
+            }
 
-#             object_creator = header_mapping.get(tuple(header))
+            object_creator = header_mapping.get(tuple(header))
 
-#             if object_creator is None:
-#                 raise ValueError(f"Header {header} not supported")
+            if object_creator is None:
+                raise ValueError(f"Header {header} not supported")
 
-#             for line in reader:
-#                 object = object_creator(line)
-#                 if object:
-#                     add(object, db)
+            for line in reader:
+                object = object_creator(line)
+                if object:
+                    add(object, db)
 
-#     except FileNotFoundError:
-#         raise FileNotFoundError("File not found")
-#     except Exception as e:
-#         raise e
+    except FileNotFoundError:
+        raise FileNotFoundError("File not found")
+    except Exception as e:
+        raise e
 
-# def create_trainer(line: dict) -> Trainer:
-#     return Trainer(
-#         email=line['email'],
-#         firstname=line['firstname'],
-#         lastname=line['lastname'],
-#         unhashed_password=line['password'],
-#         birthday=None,
-#         username=f"{line['firstname']} {line['lastname']}"
-#     )
+def create_trainer(line: dict) -> Trainer:
+    return Trainer(
+        email=line['email'],
+        firstname=line['firstname'],
+        lastname=line['lastname'],
+        unhashed_password=line['password'],
+        birthday=None,
+        # what if the username is already taken?
+        username=f"{line['firstname']} {line['lastname']}"
+    )
 
-# def create_athlete(line: dict):
-#     return Athlete(
-#         firstname=line['firstname'],
-#         lastname=line['lastname'],
-#         email=line['email'],
-#         birthday=datetime.strptime(line['birthday'], "%Y-%m-%dT%H:%M:%S.%f"),
-#         gender=get_gender(line['gender']),
-#         username=f"{line['firstname']} {line['lastname']}",
-#         unhashed_password=generate_random_password(),
-#         trainer_id=Depends(get_current_user)
-#     )
+def create_athlete(line: dict):
+    current_user = Depends(get_current_user)
+    return Athlete(
+        firstname=line['firstname'],
+        lastname=line['lastname'],
+        email=line['email'],
+        birthday=datetime.strptime(line['birthday'], "%Y-%m-%dT%H:%M:%S.%f"),
+        gender=get_gender(line['gender']),
+        # what if the username is already taken?
+        username=f"{line['firstname']} {line['lastname']}",
+        unhashed_password=generate_random_password(),
+        trainer_id=current_user.id
+    )
 
-# def create_completes(line: dict, db: Session = Depends(get_db)):
-#     # 'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points', 'dbs']
-#     athlete = db.query(Athlete).filter(Athlete.firstname == line['athlete.firstname'], Athlete.lastname == line['athlete.lastname']).first()
-#     category = create_category(line)
-#     exercise = create_exercise(line, category)
+def create_completes(line: dict, db: Session = Depends(get_db)):
+    # 'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points', 'dbs']
+    athlete = db.query(Athlete).filter(Athlete.firstname == line['athlete.firstname'], Athlete.lastname == line['athlete.lastname']).first()
+    if not athlete:
+        raise ValueError(f"Athlete {line['athlete.firstname']} {line['athlete.lastname']} not found")
 
-#     Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=line['tracked_at'], completed_at=None, result=line['result'], points=line['points'], dbs=line['dbs'])
+    category = create_category(line)
+    exercise = create_exercise(line, category)
 
-# def create_category(line: dict) -> Category:
-#     # TODO: find category by title as soon as it is implemented
-#     return Category(
-#         title=line['exercise.category.title'],
-#     )
+    Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=line['tracked_at'], completed_at=None, result=line['result'], points=line['points'], dbs=line['dbs'])
 
-# def create_exercise(line: dict, category: Category) -> Exercise:
-#     # TODO: find exercise by title as soon as it is implemented
-#     return Exercise(
-#         title=line['exercise.title'],
-#         category_id=category.id,
-#         from_age=10,
-#         to_age=20
-#     )
+def create_category(line: dict, db: Session) -> Category:
+    # find category by title
+    category = db.query(Category).filter(Category.title == line['exercise.category.title']).first()
+    if not category:
 
-# def get_gender(abbreviation: str) -> Gender:
-#     if abbreviation == Gender.MALE.value:
-#         return Gender.MALE
-#     if abbreviation == Gender.FEMALE.value:
-#         return Gender.FEMALE
-#     if abbreviation == Gender.DIVERSE.value:
-#         return Gender.DIVERSE
-#     else:
-#         return Gender.FEMALE
+    return Category(
+        title=line['exercise.category.title'],
+    )
+
+def create_exercise(line: dict, category: Category) -> Exercise:
+    # TODO: find exercise by title as soon as it is implemented
+    return Exercise(
+        title=line['exercise.title'],
+        category_id=category.id,
+        from_age=10,
+        to_age=20
+    )
+
+def get_gender(abbreviation: str) -> Gender:
+    if abbreviation == Gender.MALE.value:
+        return Gender.MALE
+    if abbreviation == Gender.FEMALE.value:
+        return Gender.FEMALE
+    if abbreviation == Gender.DIVERSE.value:
+        return Gender.DIVERSE
+    else:
+        return Gender.FEMALE
 
 

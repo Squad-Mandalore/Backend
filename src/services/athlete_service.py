@@ -3,7 +3,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from src.database import database_utils
-from src.models.models import Athlete, Base, Trainer
+from src.models.models import Athlete, Base
 from src.schemas.athlete_schema import AthletePatchSchema, AthletePostSchema
 from src.services import update_service
 

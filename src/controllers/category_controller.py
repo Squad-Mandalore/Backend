@@ -25,10 +25,6 @@ async def get_all_categorys(user: User = Depends(get_current_user), db: Session 
 async def get_category(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Category:
     return category_service.get_category_by_id(id, db)
 
-@router.get("/{id}/full", response_model=CategoryResponseSchema, status_code=status.HTTP_200_OK)
-async def get_category_full(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Category:
-    return category_service.get_category_by_id(id, db)
-
 @router.delete("/{id}", status_code=status.HTTP_200_OK)
 async def delete_ahtlete(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> None:
     return category_service.delete_category(id, db)

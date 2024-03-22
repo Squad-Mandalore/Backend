@@ -11,12 +11,10 @@ from src.schemas.user_schema import UserPatchSchema, UserPostSchema, UserRespons
 class AthletePostSchema(UserPostSchema):
     birthday: date
     gender: Gender
-    trainer_id: str
 
 class AthletePatchSchema(UserPatchSchema):
     birthday: Optional[date] = None
     gender: Optional[Gender] = None
-    trainer_id: Optional[str] = None
 
 class AthleteResponseSchema(UserResponseSchema):
     birthday: date

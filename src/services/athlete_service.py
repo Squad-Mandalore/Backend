@@ -7,9 +7,9 @@ from src.models.models import Athlete, Base
 from src.schemas.athlete_schema import AthletePatchSchema, AthletePostSchema
 from src.services import update_service
 
-def create_athlete(athlete_post_schema: AthletePostSchema, db: Session) -> Athlete:
+def create_athlete(athlete_post_schema: AthletePostSchema, trainer_id: str, db: Session) -> Athlete:
     athlete_dict = athlete_post_schema.model_dump(exclude_unset=True)
-    athlete = Athlete(**athlete_dict)
+    athlete = Athlete(**athlete_dict, trainer_id=trainer_id)
     database_utils.add(athlete, db)
     return athlete
 

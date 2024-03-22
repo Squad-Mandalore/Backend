@@ -39,7 +39,7 @@ async def delete_ahtlete(id: str, user: User = Depends(get_current_user), db: Se
 
 @router.post("/", response_model=AthleteResponseSchema, status_code=status.HTTP_201_CREATED)
 async def create_athlete(athlete_post_schema: AthletePostSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Athlete:
-    return athlete_service.create_athlete(athlete_post_schema, db)
+    return athlete_service.create_athlete(athlete_post_schema, user.id, db)
 
 @router.patch("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_202_ACCEPTED)
 async def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Athlete:

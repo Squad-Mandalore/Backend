@@ -64,7 +64,7 @@ def write_csv(entities: Sequence[Base], entity_type: str) -> None:
 
     config: dict = entity_config[entity_type]
     filename: str = config['filename']
-    with open(filename, 'w', newline='') as file:
+    with open(filename, 'w', encoding='utf-8', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(config['header'])
 
@@ -113,7 +113,7 @@ async def parse_csv(file: UploadFile, current_user: User, db: Session) -> dict |
     header_mapping = {
         tuple(entity_config['Trainer']['header']): lambda line: create_trainer(line, db),
         tuple(entity_config['Athlete']['header']): lambda line: create_athlete(line, current_user, db),
-        tuple(entity_config['Completes']['header']): lambda line: create_completes(line, db),
+        tuple(entity_config['Completes']['header']): lambda line: create_completes(line, current_user, db),
     }
 
     object_creator = header_mapping.get(tuple(header))
@@ -154,7 +154,6 @@ def create_trainer(line: dict, db: Session) -> Trainer:
         firstname=line['Vorname'],
         lastname=line['Nachname'],
         unhashed_password=line['Defaultpasswort'],
-        birthday=None,
         username=f"{line['Vorname']} {line['Nachname']} {line['E-Mail-Adresse']}",
     )
 
@@ -174,7 +173,7 @@ def create_athlete(line: dict, current_user: User, db: Session) -> Athlete | Non
         trainer_id=current_user.id
     )
 
-def create_completes(line: dict, db: Session) -> Completes:
+def create_completes(line: dict, current_user: User, db: Session) -> Completes:
     # 'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points', 'dbs']
     # 'header': ['Name', 'Vorname', 'Geschlecht', 'Geburtsjahr', 'Geburtstag', 'Übung', 'Kategorie', 'Datum', 'Ergebnis', 'Punkte', 'DBS'],
     athlete = db.query(Athlete).filter(Athlete.firstname == line['Vorname'], Athlete.lastname == line['Name'], Athlete.birthday == datetime.strptime(line['Geburtstag'], "%d.%m.%Y").date()).first()
@@ -188,10 +187,9 @@ def create_completes(line: dict, db: Session) -> Completes:
         athlete_id=athlete.id,
         exercise_id=exercise.id,
         tracked_at=datetime.strptime(line['Datum'], "%d.%m.%Y").date(),
-        completed_at=None,
         result=line['Ergebnis'],
         points=line['Punkte'],
-        dbs=line['DBS'].lower() == 'true'
+        tracked_by=current_user.id,
     )
 
 def create_category(line: dict, db: Session) -> Category:

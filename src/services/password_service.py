@@ -1,15 +1,14 @@
 import hashlib
 from random import choice
 import random
+import os
 from string import ascii_letters
 from typing import Callable, Optional
 
 from fastapi import HTTPException
 
-# TODO: Those 2 should not be visible like this, they should be set at environment level (we are a public repo)
-# This can be done via GitHub secrets and our CI/CD pipeline
-KEYCHAIN_NUMBER = 42
-PEPPER = "I would rather be programming Go right now"
+KEYCHAIN_NUMBER = int(os.getenv("KEYCHAIN_NUMBER", 42))
+PEPPER = os.getenv("PEPPER", "I'm a pepper, you're a pepper, wouldn't you like to be a pepper too?")
 
 
 # this function is the entrypoint for hashing and spicing a password

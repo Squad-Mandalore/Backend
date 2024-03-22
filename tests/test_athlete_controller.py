@@ -15,7 +15,6 @@ def test_post_athlete(client: TestClient):
         "lastname": "grundmann",
         "birthday": "2024-02-18",
         "trainer_id": "16d094b1-e9cf-4cf4-b3ea-6a832582adf2",
-        "has_disease": True,
         "gender": "m"
     }
     response = client.post("/athletes", json=body, headers=TestVariables.headers)

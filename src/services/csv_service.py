@@ -25,7 +25,7 @@ entity_config: dict = {
     'Completes': {
         'header': ['Name', 'Vorname', 'Geschlecht', 'Geburtsjahr', 'Geburtstag', 'Übung', 'Kategorie', 'Datum', 'Ergebnis', 'Punkte', 'DBS'],
         'filename': 'completes.csv',
-        'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points', 'dbs']
+        'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points']
     }
 }
 

@@ -46,6 +46,10 @@ In order to make sure the project's package versions are not interfering with yo
 
 4. You've successfully installed all requirements! (To check your versions you can run ```pip list``` or ```pip freeze```)
 
+### Setting up environment variables
+
+Make sure you have the necessary variables set up in your environment variables (You can find the necessary variables in the Dockerfile file)
+
 ## Starting
 
 ```console
@@ -64,3 +68,11 @@ pytest
 
 The framework recognizes test files, when they start with 'test_'.
 Note that this approach does not work with in-memory databases.
+
+## Configuration
+
+### Secrets
+
+Secrets are stored in the [GitHub repository secrets](https://github.com/Squad-Mandalore/Backend/settings/secrets/actions).
+To add a secret to the repository, click on the "New repository secret" button and add the secret name and value.
+Additionally, you have to add them on the build-args in the Docker workflow file and in the Dockerfile respectively.

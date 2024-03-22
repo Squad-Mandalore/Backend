@@ -9,7 +9,7 @@ from src.models.models import Trainer
 from tests.define_test_variables import TestVariables, client_fixture, session_fixture
 
 def test_post_athlete(session: Session, client: TestClient):
-    trainer: Trainer = Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
+    trainer: Trainer = Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
     session.add(trainer)
     session.commit()
     trainer_new = session.query(Trainer).filter(Trainer.username == "trainer").first()
@@ -24,7 +24,6 @@ def test_post_athlete(session: Session, client: TestClient):
         "lastname": "grundmann",
         "birthday": "2024-02-18",
         "trainer_id": f"{trainer_new.id}",
-        "has_disease": True,
         "gender": "m"
     }
 

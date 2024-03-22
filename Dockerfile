@@ -1,4 +1,12 @@
- FROM python:slim
+FROM python:slim
+
+ARG PEPPER
+ARG KEYCHAIN_NUMBER
+ARG JWT_KEY
+
+ENV PEPPER=$PEPPER
+ENV KEYCHAIN_NUMBER=$KEYCHAIN_NUMBER
+ENV JWT_KEY=$JWT_KEY
 
 RUN apt-get update && \
     apt-get install -y \

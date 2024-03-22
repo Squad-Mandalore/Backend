@@ -19,6 +19,6 @@ def init_db() -> None:
         Base.metadata.create_all(bind=engine)
         with Session(engine) as session:
             parse_values(Session(engine))
-            admin = Administrator(username="init", unhashed_password="admin", email="admin", firstname="admin", lastname="admin", uses_otp=False)
+            admin = Administrator(username="init", unhashed_password="admin", email="admin", firstname="admin", lastname="admin")
             session.add(admin)
             session.commit()

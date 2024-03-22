@@ -4,10 +4,10 @@ from datetime import date, datetime
 from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer
 
 def create_athletes(session):
-    trainer = Trainer(username="trainer_athlete_completes", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False, birthday=None)
+    trainer = Trainer(username="trainer_athlete_completes", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
     session.add(trainer)
     session.flush()
-    athlete = Athlete(username="athlete_completes", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, has_disease=False, trainer_id=trainer.id)
+    athlete = Athlete(username="athlete_completes", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=Gender.DIVERSE, trainer_id=trainer.id)
     session.add(athlete)
     session.flush()
     category = Category(title="category_exercise_completes")
@@ -16,7 +16,7 @@ def create_athletes(session):
     exercise = Exercise(title="exercise_completes", category_id=category.id, from_age=10, to_age=20)
     session.add(exercise)
     session.flush()
-    completes = Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=datetime.now(), completed_at=datetime.now(), result="result", points=1)
+    completes = Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=datetime.now(), tracked_by=trainer.id, result="result", points=1)
     session.add(completes)
     session.commit()
 

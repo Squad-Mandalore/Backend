@@ -22,19 +22,19 @@ def add(db_model: Base, db: Session) -> None:
 
 
 def delete(table: Type[Base], id: str, db: Session) -> None:
-    result: Base | None = get_by_id(table, id, db)
+    result: Base | None = db.get(table, id)
     db.delete(result)
     db.commit()
 
 
-def get_by_id(table: Type[Base], id: str, db: Session) -> Optional[Base]:
-    """
-
-    @rtype: object
-    """
-    # how to query SELECT * WHERE id = id
-    result: Base | None = db.query(table).filter(table.id == id).first()
-    return result
+#def get_by_id(table: Type[Base], id: str, db: Session) -> Optional[Base]:
+#    """
+#
+#    @rtype: object
+#    """
+#    # how to query SELECT * WHERE id = id
+#    result: Base | None = db.get(table, id)
+#    return result
 
 
 def get_all(table: Type[Base], db: Session) -> list[Base]:

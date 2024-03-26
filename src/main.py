@@ -5,6 +5,7 @@ from src.controllers import (
     athlete_controller,
     log_controller,
     password_controller,
+    trainer_controller,
     user_controller,
     auth_controller
 )
@@ -27,3 +28,4 @@ app.include_router(athlete_controller.router)
 app.include_router(log_controller.router)
 app.include_router(csv_controller.router)
 app.include_router(auth_controller.router)
+app.include_router(trainer_controller.router)

@@ -12,14 +12,14 @@ def test_user(session):
         session.commit()
 
 def test_admin(session):
-    admin = models.Administrator(username="admin", email="admin", unhashed_password="admin", firstname="admin", lastname="admin")
-    session.add(admin)
+    admin1 = models.Administrator(username="admin1", email="admin1", unhashed_password="admin1", firstname="admin1", lastname="admin1")
+    session.add(admin1)
     session.commit()
-    admin = session.query(models.Administrator).filter(models.Administrator.username == "admin").first()
+    admin1 = session.query(models.Administrator).filter(models.Administrator.username == "admin1").first()
 
-    assert admin.id is not None
-    assert admin.username == "admin"
-    assert admin.email == "admin"
+    assert admin1.id is not None
+    assert admin1.username == "admin1"
+    assert admin1.email == "admin1"
 
 def test_trainer(session):
     trainer = models.Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")

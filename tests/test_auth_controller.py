@@ -4,7 +4,7 @@ from tests.define_test_variables import TestVariables, client_fixture, session_f
 
 def test_login(client: TestClient):
     headers = { 'content-type': 'application/x-www-form-urlencoded' }
-    body = 'grant_type=password&username=init&password=admin'
+    body = 'grant_type=password&username=admin&password=admin123'
 
     response = client.post("/auth/login", headers=headers, content=body)
     assert response.status_code == 200, f"{response.status_code}"

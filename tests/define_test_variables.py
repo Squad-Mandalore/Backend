@@ -30,7 +30,7 @@ def session_fixture():
     )
     Base.metadata.create_all(engine)
     with Session(engine) as session:
-        admin = Administrator(username="init", unhashed_password="admin", email="admin", firstname="admin", lastname="admin")
+        admin = Administrator(username="admin", unhashed_password="admin123", email="admin", firstname="admin", lastname="admin")
         session.add(admin)
         session.commit()
         yield session
@@ -51,7 +51,7 @@ def client_fixture(session: Session):
     client = TestClient(app)
     response = client.post(
         "/auth/login",
-        data={"username": "init", "password": "admin"},
+        data={"username": "admin", "password": "admin123"},
     )
     TestVariables.headers['authorization'] = f'Bearer {response.json()["access_token"]}'
     yield client

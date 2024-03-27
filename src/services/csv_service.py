@@ -58,6 +58,27 @@ def create_csv(db: Session) -> None:
     write_csv(athletes, 'Athlete')
     write_csv(completes, 'Completes')
 
+def create_trainer_csv(db: Session):
+    trainers: Sequence[Trainer] | HTTPException = cast(Sequence[Trainer], get_all(Trainer, db))
+    if isinstance(trainers, HTTPException):
+        raise trainers
+
+    write_csv(trainers, 'Trainer')
+
+def create_athlete_csv(db: Session):
+    athletes: Sequence[Athlete] | HTTPException = cast(Sequence[Athlete], get_all(Athlete, db))
+    if isinstance(athletes, HTTPException):
+        raise athletes
+
+    write_csv(athletes, 'Athlete')
+
+def create_completes_csv(db: Session):
+    completes: Sequence[Completes] | HTTPException = cast(Sequence[Completes], get_all(Completes, db))
+    if isinstance(completes, HTTPException):
+        raise completes
+
+    write_csv(completes, 'Completes')
+
 def write_csv(entities: Sequence[Base], entity_type: str) -> None:
     if not entities:
         return
@@ -65,7 +86,7 @@ def write_csv(entities: Sequence[Base], entity_type: str) -> None:
     config: dict = entity_config[entity_type]
     filename: str = config['filename']
     with open(filename, 'w', encoding='utf-8', newline='') as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file, delimiter=';')
         writer.writerow(config['header'])
 
         for enitity in entities:
@@ -104,11 +125,14 @@ async def parse_csv(file: UploadFile, current_user: User, db: Session) -> dict |
     file_content = await file.read()
     content_str = file_content.decode("utf-8")
     lines = content_str.splitlines()
-    reader = csv.DictReader(lines)
+    reader = csv.DictReader(lines, delimiter=';')
     header = reader.fieldnames
 
     if header is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="File is empty")
+
+    if header[0] == "Externe ID":
+        header = header[1:]
 
     header_mapping = {
         tuple(entity_config['Trainer']['header']): lambda line: create_trainer(line, db),
@@ -134,9 +158,9 @@ async def parse_csv(file: UploadFile, current_user: User, db: Session) -> dict |
 
         transaction.commit()
     except Exception as e:
+        transaction.rollback()
         if isinstance(e, HTTPException):
             raise
-        transaction.rollback()
         logger.error(f"Error while parsing csv: {e}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Error while parsing csv")
 
@@ -145,6 +169,10 @@ async def parse_csv(file: UploadFile, current_user: User, db: Session) -> dict |
         return {"detail": "Users were skipped"}
 
 def create_trainer(line: dict, db: Session) -> Trainer:
+    # check if values are not empty
+    if not line['E-Mail-Adresse'] or not line['Vorname'] or not line['Nachname'] or not line['Defaultpasswort']:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Values are missing")
+
     # check if the email with first and lastname is already taken
     if db.query(Trainer).filter(Trainer.email == line['E-Mail-Adresse']).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Trainer with email {line['E-Mail-Adresse']} already exists")
@@ -158,15 +186,23 @@ def create_trainer(line: dict, db: Session) -> Trainer:
     )
 
 def create_athlete(line: dict, current_user: User, db: Session) -> Athlete | None:
+    # check if values are not empty
+    if not line['Vorname'] or not line['Nachname'] or not line['E-Mail'] or not line['Geburtsdatum(TT.MM.JJJJ)']:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Values are missing")
     # check if the email with birthday is already taken
     if db.query(Athlete).filter(Athlete.email == line['E-Mail'], Athlete.birthday == datetime.strptime(line['Geburtsdatum(TT.MM.JJJJ)'], "%d.%m.%Y")).first():
         return None
+
+    try:
+        birthday = datetime.strptime(line['Geburtsdatum(TT.MM.JJJJ)'], "%d.%m.%Y").date()
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Birthday is not in the right format")
 
     return Athlete(
         firstname=line['Vorname'],
         lastname=line['Nachname'],
         email=line['E-Mail'],
-        birthday=datetime.strptime(line['Geburtsdatum(TT.MM.JJJJ)'], "%d.%m.%Y").date(),
+        birthday=birthday,
         gender=get_gender(line['Geschlecht(m/w)']),
         username=f"{line['Vorname']} {line['Nachname']} {line['E-Mail']}",
         unhashed_password=generate_random_password(),
@@ -176,7 +212,18 @@ def create_athlete(line: dict, current_user: User, db: Session) -> Athlete | Non
 def create_completes(line: dict, current_user: User, db: Session) -> Completes:
     # 'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points', 'dbs']
     # 'header': ['Name', 'Vorname', 'Geschlecht', 'Geburtsjahr', 'Geburtstag', 'Übung', 'Kategorie', 'Datum', 'Ergebnis', 'Punkte', 'DBS'],
-    athlete = db.query(Athlete).filter(Athlete.firstname == line['Vorname'], Athlete.lastname == line['Name'], Athlete.birthday == datetime.strptime(line['Geburtstag'], "%d.%m.%Y").date()).first()
+    # check if values are not empty
+    if not line['Name'] or not line['Vorname'] or not line['Geschlecht'] or not line['Übung'] or not line['Kategorie'] or not line['Datum'] or not line['Ergebnis'] or not line['Punkte']:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Values are missing")
+
+    if not line['Geburtstag']:
+        if not line['Geburtsjahr']:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Birthday is missing")
+        birthday = datetime.strptime(f"01.01.{line['Geburtsjahr']}", "%d.%m.%Y").date()
+    else:
+        birthday = datetime.strptime(line['Geburtstag'], "%d.%m.%Y").date()
+
+    athlete = db.query(Athlete).filter(Athlete.firstname == line['Vorname'], Athlete.lastname == line['Name'], Athlete.birthday == birthday).first()
     if not athlete:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Athlete {line['Vorname']} {line['Name']} {line['Geburtstag']} not found")
 

@@ -49,23 +49,9 @@ class User(Base):
         self.last_edited_at = now
         self.last_password_change = now
 
-
-class Administrator(User):
-    __tablename__ = "administrator"
-    id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
-    uses_otp: Mapped[bool]
-
-    __mapper_args__ = {"polymorphic_identity": "administrator"}
-
-    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, uses_otp: bool = False):
-        super().__init__(username, email, unhashed_password, firstname, lastname)
-        self.uses_otp = uses_otp
-
-
 class Trainer(User):
     __tablename__ = "trainer"
     id: Mapped[str] = mapped_column(ForeignKey("user.id"), primary_key=True)
-    uses_otp: Mapped[bool]
 
     athletes: Mapped[list["Athlete"]] = relationship(back_populates="trainer",
                                                      primaryjoin="Trainer.id==Athlete.trainer_id")
@@ -73,10 +59,17 @@ class Trainer(User):
 
     __mapper_args__ = {"polymorphic_identity": "trainer"}
 
-    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str, uses_otp: bool = False):
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str):
         super().__init__(username, email, unhashed_password, firstname, lastname)
-        self.uses_otp = uses_otp
 
+class Administrator(Trainer):
+    __tablename__ = "administrator"
+    id: Mapped[str] = mapped_column(ForeignKey("trainer.id"), primary_key=True)
+
+    __mapper_args__ = {"polymorphic_identity": "administrator"}
+
+    def __init__(self, username: str, email: str, unhashed_password: str, firstname: str, lastname: str):
+        super().__init__(username, email, unhashed_password, firstname, lastname)
 
 class Athlete(User):
     __tablename__ = "athlete"

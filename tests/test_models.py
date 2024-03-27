@@ -12,7 +12,7 @@ def test_user(session):
         session.commit()
 
 def test_admin(session):
-    admin = models.Administrator(username="admin", email="admin", unhashed_password="admin", firstname="admin", lastname="admin", uses_otp=False)
+    admin = models.Administrator(username="admin", email="admin", unhashed_password="admin", firstname="admin", lastname="admin")
     session.add(admin)
     session.commit()
     admin = session.query(models.Administrator).filter(models.Administrator.username == "admin").first()
@@ -22,7 +22,7 @@ def test_admin(session):
     assert admin.email == "admin"
 
 def test_trainer(session):
-    trainer = models.Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False)
+    trainer = models.Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
     session.add(trainer)
     session.commit()
     trainer = session.query(models.Trainer).filter(models.Trainer.username == "trainer").first()
@@ -33,7 +33,7 @@ def test_trainer(session):
 
 
 def test_athlete(session):
-    trainer = models.Trainer(username="trainer_athlete", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer",  uses_otp=False)
+    trainer = models.Trainer(username="trainer_athlete", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
     session.add(trainer)
     session.commit()
     trainerDb = session.query(models.Trainer).filter(models.Athlete.username == "trainer_athlete").first()
@@ -58,7 +58,7 @@ def test_category(session):
     assert category.title == "category"
 
 def test_certificate(session):
-    trainer = models.Trainer(username="trainer_athlete_certificate", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer",  uses_otp=False)
+    trainer = models.Trainer(username="trainer_athlete_certificate", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
     session.add(trainer)
     session.commit()
     trainerDb = session.query(models.Trainer).filter(models.Athlete.username == "trainer_athlete_certificate").first()
@@ -95,7 +95,7 @@ def test_exercise(session):
     assert category.exercises[0] == exercise
 
 def test_completes(session):
-    trainer = models.Trainer(username="trainer_athlete_completes", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer", uses_otp=False)
+    trainer = models.Trainer(username="trainer_athlete_completes", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
     session.add(trainer)
     session.commit()
     trainerDb = session.query(models.Trainer).filter(models.Athlete.username == "trainer_athlete_completes").first()

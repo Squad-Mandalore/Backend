@@ -1,6 +1,5 @@
 import os
 from sqlalchemy import create_engine
-from sqlalchemy import event
 from sqlalchemy.orm import Session
 from src.logger.logger import logger
 from src.models.models import Administrator, Base
@@ -19,6 +18,6 @@ def init_db() -> None:
         Base.metadata.create_all(bind=engine)
         with Session(engine) as session:
             parse_values(Session(engine))
-            admin = Administrator(username="init", unhashed_password="admin", email="admin", firstname="admin", lastname="admin")
+            admin = Administrator(username="admin", unhashed_password="admin123", email="admin", firstname="admin", lastname="admin")
             session.add(admin)
             session.commit()

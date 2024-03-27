@@ -42,6 +42,6 @@ async def read_completes_csv(db: Session = Depends(get_db)) -> FileResponse:
     return FileResponse(f"{entity_config['Completes']['filename']}")
 
 @router.post("/parse", status_code=status.HTTP_201_CREATED)
-async def parse_trainer_csv(file: UploadFile, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> dict | None:
+async def parse_csv_file(file: UploadFile, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> dict | None:
     response = await parse_csv(file, current_user, db)
     return response

@@ -30,7 +30,7 @@ def session_fixture():
     )
     Base.metadata.create_all(engine)
     with Session(engine) as session:
-        admin = Administrator(username="init", unhashed_password="admin", email="admin", firstname="admin", lastname="admin")
+        admin = Administrator(username="admin", unhashed_password="admin123", email="admin", firstname="admin", lastname="admin")
         session.add(admin)
         session.commit()
         yield session

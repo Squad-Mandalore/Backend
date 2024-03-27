@@ -1,10 +1,11 @@
 import csv
-from datetime import datetime
+from datetime import date, datetime
 import random
 import string
 from typing import Any, Callable, Sequence, cast
 
 from fastapi import HTTPException, UploadFile, status
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_400_BAD_REQUEST
 
@@ -182,7 +183,7 @@ def create_trainer(line: dict, db: Session) -> Trainer:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Values are missing")
 
     # check if the email with first and lastname is already taken
-    if db.query(Trainer).filter(Trainer.email == line['E-Mail-Adresse']).first():
+    if db.scalar(select(Trainer).where(Trainer.email == line['E-Mail-Adresse'])):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Trainer with email {line['E-Mail-Adresse']} already exists")
 
     return Trainer(
@@ -197,14 +198,15 @@ def create_athlete(line: dict, current_user: User, db: Session) -> Athlete | Non
     # check if values are not empty
     if not line['Vorname'] or not line['Nachname'] or not line['E-Mail'] or not line['Geburtsdatum(TT.MM.JJJJ)']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Values are missing")
-    # check if the email with birthday is already taken
-    if db.query(Athlete).filter(Athlete.email == line['E-Mail'], Athlete.birthday == datetime.strptime(line['Geburtsdatum(TT.MM.JJJJ)'], "%d.%m.%Y")).first():
-        return None
 
     try:
         birthday = datetime.strptime(line['Geburtsdatum(TT.MM.JJJJ)'], "%d.%m.%Y").date()
     except ValueError:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Birthday is not in the right format")
+
+    # check if the email with birthday is already taken
+    if db.scalar(select(Athlete).where(Athlete.email == line['E-Mail'], Athlete.birthday == birthday)):
+        return None
 
     return Athlete(
         firstname=line['Vorname'],
@@ -231,7 +233,12 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes:
     else:
         birthday = datetime.strptime(line['Geburtstag'], "%d.%m.%Y").date()
 
-    athlete = db.query(Athlete).filter(Athlete.firstname == line['Vorname'], Athlete.lastname == line['Name'], Athlete.birthday == birthday).first()
+    try:
+        tracked_at = datetime.strptime(line['Datum'], "%d.%m.%Y").date()
+    except ValueError:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Date is not in the right format")
+
+    athlete = db.scalar(select(Athlete).where(Athlete.firstname == line['Vorname'], Athlete.lastname == line['Name'], Athlete.birthday == birthday))
     if not athlete:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Athlete {line['Vorname']} {line['Name']} {line['Geburtstag']} not found")
 
@@ -241,14 +248,14 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes:
     return Completes(
         athlete_id=athlete.id,
         exercise_id=exercise.id,
-        tracked_at=datetime.strptime(line['Datum'], "%d.%m.%Y").date(),
+        tracked_at=tracked_at,
         result=line['Ergebnis'],
         points=line['Punkte'],
         tracked_by=current_user.id,
     )
 
 def create_category(line: dict, db: Session) -> Category:
-    category = db.query(Category).filter(Category.title == line['Kategorie']).first()
+    category = db.scalar(select(Category).where(Category.title == line['Kategorie']))
     if not category:
         category = Category(
             title=line['Kategorie'],
@@ -260,7 +267,7 @@ def create_category(line: dict, db: Session) -> Category:
     return category
 
 def create_exercise(line: dict, category: Category, db: Session) -> Exercise:
-    exercise = db.query(Exercise).filter(Exercise.title == line['Übung']).first()
+    exercise = db.scalar(select(Exercise).where(Exercise.title == line['Übung']))
     if not exercise:
         exercise = Exercise(
             title=line['Übung'],

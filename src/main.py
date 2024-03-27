@@ -1,15 +1,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from fastapi import FastAPI
 
-from src.controllers import (
-    athlete_controller,
-    auth_controller,
-    log_controller,
-    password_controller,
-    user_controller,
-)
 from src.controllers import (
     athlete_controller,
     auth_controller,
@@ -19,6 +11,7 @@ from src.controllers import (
     exercise_controller,
     log_controller,
     password_controller,
+    trainer_controller,
     user_controller,
 )
 from src.database.database_setup import init_db
@@ -41,3 +34,4 @@ app.include_router(auth_controller.router)
 app.include_router(category_controller.router)
 app.include_router(exercise_controller.router)
 app.include_router(completes_controller.router)
+app.include_router(trainer_controller.router)

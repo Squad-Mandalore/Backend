@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 import jwt
 from sqlalchemy.orm import Session
 
-from src.database.database_utils import get_by_id, get_db
+from src.database.database_utils import get_db
 from src.models.models import User
 from src.schemas.auth_schema import Token
 from src.services.password_service import verify_password
@@ -51,7 +51,7 @@ def create_token(user_id: str, username: str, user_type: str, expires_delta: tim
 
 def get_current_user(token: str = Depends(oauth2_bearer), db: Session = Depends(get_db)) -> User:
     decoded_token = validate_token(token)
-    user = get_by_id(User, decoded_token["user_id"], db)
+    user = db.get(User, decoded_token["user_id"])
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token", headers={"WWW-Authenticate": "Bearer"},)
     return cast(User, user)

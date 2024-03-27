@@ -1,7 +1,10 @@
-from datetime import date
-from typing import Optional
-from src.schemas.user_schema import UserResponseSchema
+from src.schemas.user_schema import UserPatchSchema, UserPostSchema, UserResponseSchema
 
+class TrainerPostSchema(UserPostSchema):
+    pass
+
+class TrainerPatchSchema(UserPatchSchema):
+    pass
 
 class TrainerResponseSchema(UserResponseSchema):
-    id: str
+    pass

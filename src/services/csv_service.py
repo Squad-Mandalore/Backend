@@ -1,17 +1,25 @@
 import csv
+from datetime import datetime
 import random
 import string
-from datetime import date, datetime
 from typing import Any, Callable, Sequence, cast
 
-from fastapi import Depends, HTTPException, UploadFile, status
+from fastapi import HTTPException, UploadFile, status
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_400_BAD_REQUEST
 
-from src.database.database_utils import add, get_all, get_db
-from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer, User
-from src.services.auth_service import get_current_user
+from src.database.database_utils import get_all
 from src.logger.logger import logger
+from src.models.models import (
+    Athlete,
+    Base,
+    Category,
+    Completes,
+    Exercise,
+    Gender,
+    Trainer,
+    User,
+)
 
 # Those header are a crime against humans in general
 entity_config: dict = {

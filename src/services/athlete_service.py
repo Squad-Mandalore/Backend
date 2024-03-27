@@ -14,7 +14,7 @@ def create_athlete(athlete_post_schema: AthletePostSchema, trainer_id: str, db: 
     return athlete
 
 def get_athlete_by_id(id: str, db: Session) -> Athlete:
-    athlete: Base | None = database_utils.get_by_id(Athlete, id, db)
+    athlete: Base | None = db.get(Athlete, id)
 
     if athlete is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")
@@ -22,7 +22,7 @@ def get_athlete_by_id(id: str, db: Session) -> Athlete:
     return cast(Athlete, athlete)
 
 def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, db: Session) -> Athlete:
-    athlete: Base | None = database_utils.get_by_id(Athlete, id, db)
+    athlete: Base | None = db.get(Athlete, id)
 
     if athlete is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")

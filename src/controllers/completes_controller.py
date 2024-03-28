@@ -19,7 +19,7 @@ router = APIRouter(
 
 @router.get("/all", response_model=list[CompletesResponseSchema], status_code=status.HTTP_200_OK)
 async def get_all_completess(user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Completes]:
-    return completes_service.get_all_completess(db)
+    return completes_service.get_all_completes(db)
 
 @router.get("/{id}", response_model=CompletesResponseSchema, status_code=status.HTTP_200_OK)
 async def get_completes(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Completes:

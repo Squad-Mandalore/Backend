@@ -6,7 +6,6 @@ from src.schemas.exercise_schema import ExerciseResponseSchema
 
 
 class CompletesPostSchema(BaseModel):
-    athlete_id: str
     exercise_id: str
     tracked_at: datetime
     result: str

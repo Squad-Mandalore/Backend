@@ -42,6 +42,8 @@ entity_config: dict = {
     }
 }
 
+response_message: dict = {}
+
 # Helper functions for value transformation
 value_transformers: dict[str, Callable[[Any], Any]] = {
     'hashed_password': lambda _: generate_random_password(),
@@ -156,15 +158,11 @@ async def parse_csv(file: UploadFile, current_user: User, db: Session) -> dict |
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail=f"Header {header} not supported")
 
     transaction = db.begin_nested()
-    user_flag = False
     try:
         for line in reader:
             object = object_creator(line)
             if object:
                 db.add(object)
-            else:
-                if header == entity_config['Athlete']['header']:
-                    user_flag = True
 
         transaction.commit()
     except HTTPException as e:
@@ -175,9 +173,7 @@ async def parse_csv(file: UploadFile, current_user: User, db: Session) -> dict |
         logger.error(f"Error while parsing csv: {e}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Error while parsing csv")
 
-
-    if user_flag:
-        return {"detail": "Users were skipped"}
+    return response_message
 
 def create_trainer(line: dict, db: Session) -> Trainer:
     # check if values are not empty
@@ -208,6 +204,9 @@ def create_athlete(line: dict, current_user: User, db: Session) -> Athlete | Non
 
     # check if the email with birthday is already taken
     if db.scalar(select(Athlete).where(Athlete.email == line['E-Mail'], Athlete.birthday == birthday)):
+        global response_message
+        # add error message to response_message
+        response_message[f"{line['Vorname']} {line['Nachname']} {line['E-Mail']}"] = "Athlete already exists"
         return None
 
     return Athlete(
@@ -261,6 +260,8 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
         )
     else:
         if int(line['Punkte']) > int(complete.points):
+            global response_message
+            response_message[f"{line['Vorname']} {line['Name']} {line['Datum']} {line['Übung']}"] = f"Points updated from {complete.points} to {line['Punkte']}"
             complete.points = line['Punkte']
             db.flush()
 

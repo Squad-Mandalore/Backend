@@ -283,6 +283,7 @@ def create_exercise(line: dict, category: Category, db: Session) -> Exercise:
 
 
 def get_gender(abbreviation: str) -> Gender:
+    abbreviation = abbreviation.lower()
     if abbreviation == Gender.MALE.value:
         return Gender.MALE
     if abbreviation == Gender.FEMALE.value:

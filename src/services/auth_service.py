@@ -31,9 +31,9 @@ def get_refreshed_tokens(refresh_token: str, db: Session) -> Token:
     return get_user_tokens(user, refresh_token)
 
 def get_user_tokens(user: User, refresh_token: str | None = None) -> Token:
-    access_token = create_access_token(user.id, user.username, user.type, timedelta(minutes=1))
+    access_token = create_access_token(user.id, user.username, user.type, timedelta(minutes=15))
     if not refresh_token:
-        refresh_token = create_refresh_token(user.id, user.username, user.type, timedelta(minutes=2))
+        refresh_token = create_refresh_token(user.id, user.username, user.type, timedelta(minutes=10080))
 
     return Token(access_token=access_token, refresh_token=refresh_token, token_type="bearer")
 

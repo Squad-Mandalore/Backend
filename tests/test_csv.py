@@ -31,7 +31,7 @@ def test_csv(session, client):
 
     response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("trainer.csv", open("trainer.csv", "rb"))}, headers=TestVariables.headers)
     assert response.status_code == 400, f"{response.text} {response.status_code}"
-    response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("athlete.csv", open("athlete.csv", "rb"))}, headers=TestVariables.headers)
+    response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("echte_athleten.csv", open("echte_athleten.csv", "rb"))}, headers=TestVariables.headers)
     assert response.status_code == 201, f"{response.text} {response.status_code}"
     # response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("kay.csv", open("kay.csv", "rb"))}, headers=TestVariables.headers)
     # assert response.status_code == 404, f"{response.text} {response.status_code}"

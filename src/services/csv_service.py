@@ -30,7 +30,7 @@ entity_config: dict = {
         'attributes': ['email', 'firstname', 'lastname', 'hashed_password']
     },
     'Athlete': {
-        'header': ['Vorname', 'Nachname', 'E-Mail', 'Geburtsdatum(TT.MM.JJJJ)', 'Geschlecht(m/w)'],
+        'header': ['Vorname', 'Nachname', 'E-Mail', 'Geburtsdatum', 'Geschlecht'],
         'filename': 'athlete.csv',
         'attributes': ['firstname', 'lastname', 'email', 'birthday', 'gender']
     },
@@ -196,11 +196,11 @@ def create_trainer(line: dict, db: Session) -> Trainer:
 
 def create_athlete(line: dict, current_user: User, db: Session) -> Athlete | None:
     # check if values are not empty
-    if not line['Vorname'] or not line['Nachname'] or not line['E-Mail'] or not line['Geburtsdatum(TT.MM.JJJJ)']:
+    if not line['Vorname'] or not line['Nachname'] or not line['E-Mail'] or not line['Geburtsdatum']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Values are missing")
 
     try:
-        birthday = datetime.strptime(line['Geburtsdatum(TT.MM.JJJJ)'], "%d.%m.%Y").date()
+        birthday = datetime.strptime(line['Geburtsdatum'], "%d.%m.%Y").date()
     except ValueError:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Birthday is not in the right format")
 
@@ -213,7 +213,7 @@ def create_athlete(line: dict, current_user: User, db: Session) -> Athlete | Non
         lastname=line['Nachname'],
         email=line['E-Mail'],
         birthday=birthday,
-        gender=get_gender(line['Geschlecht(m/w)']),
+        gender=get_gender(line['Geschlecht']),
         username=f"{line['Vorname']} {line['Nachname']} {line['E-Mail']}",
         unhashed_password=generate_random_password(),
         trainer_id=current_user.id

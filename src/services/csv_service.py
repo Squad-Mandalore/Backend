@@ -5,8 +5,9 @@ import string
 from typing import Any, Callable, Sequence, cast
 
 from fastapi import HTTPException, UploadFile, status
-from sqlalchemy import select
+from sqlalchemy import extract, select
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 from starlette.status import HTTP_400_BAD_REQUEST
 
 from src.database.database_utils import get_all
@@ -166,10 +167,11 @@ async def parse_csv(file: UploadFile, current_user: User, db: Session) -> dict |
                     user_flag = True
 
         transaction.commit()
+    except HTTPException as e:
+        transaction.rollback()
+        raise e
     except Exception as e:
         transaction.rollback()
-        if isinstance(e, HTTPException):
-            raise
         logger.error(f"Error while parsing csv: {e}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Error while parsing csv")
 
@@ -219,40 +221,48 @@ def create_athlete(line: dict, current_user: User, db: Session) -> Athlete | Non
         trainer_id=current_user.id
     )
 
-def create_completes(line: dict, current_user: User, db: Session) -> Completes:
+def create_completes(line: dict, current_user: User, db: Session) -> Completes | None:
     # 'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points', 'dbs']
     # 'header': ['Name', 'Vorname', 'Geschlecht', 'Geburtsjahr', 'Geburtstag', 'Übung', 'Kategorie', 'Datum', 'Ergebnis', 'Punkte', 'DBS'],
     # check if values are not empty
     if not line['Name'] or not line['Vorname'] or not line['Geschlecht'] or not line['Übung'] or not line['Kategorie'] or not line['Datum'] or not line['Ergebnis'] or not line['Punkte']:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Values are missing")
 
-    if not line['Geburtstag']:
-        if not line['Geburtsjahr']:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Birthday is missing")
-        birthday = datetime.strptime(f"01.01.{line['Geburtsjahr']}", "%d.%m.%Y").date()
-    else:
-        birthday = datetime.strptime(line['Geburtstag'], "%d.%m.%Y").date()
-
     try:
         tracked_at = datetime.strptime(line['Datum'], "%d.%m.%Y").date()
     except ValueError:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Date is not in the right format")
 
-    athlete = db.scalar(select(Athlete).where(Athlete.firstname == line['Vorname'], Athlete.lastname == line['Name'], Athlete.birthday == birthday))
+    if not line['Geburtstag']:
+        if not line['Geburtsjahr']:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Birthday is missing")
+        birthday = datetime.strptime(f"01.01.{line['Geburtsjahr']}", "%d.%m.%Y").date()
+        athlete = db.scalar(select(Athlete).where(Athlete.firstname == line['Vorname'], Athlete.lastname == line['Name'], extract('year', Athlete.birthday) == birthday.year))
+    else:
+        birthday = datetime.strptime(line['Geburtstag'], "%d.%m.%Y").date()
+        athlete = db.scalar(select(Athlete).where(Athlete.firstname == line['Vorname'], Athlete.lastname == line['Name'], Athlete.birthday == birthday))
+
     if not athlete:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Athlete {line['Vorname']} {line['Name']} {line['Geburtstag']} not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Athlete {line['Vorname']} {line['Name']} {birthday} not found")
 
     category = create_category(line, db)
     exercise = create_exercise(line, category, db)
 
-    return Completes(
-        athlete_id=athlete.id,
-        exercise_id=exercise.id,
-        tracked_at=tracked_at,
-        result=line['Ergebnis'],
-        points=line['Punkte'],
-        tracked_by=current_user.id,
-    )
+    # check if completes already exists
+    complete = db.scalar(select(Completes).where(Completes.athlete_id == athlete.id, Completes.exercise_id == exercise.id, Completes.tracked_at == tracked_at))
+    if not complete:
+        return Completes(
+            athlete_id=athlete.id,
+            exercise_id=exercise.id,
+            tracked_at=tracked_at,
+            result=line['Ergebnis'],
+            points=line['Punkte'],
+            tracked_by=current_user.id,
+        )
+    else:
+        if int(line['Punkte']) > int(complete.points):
+            complete.points = line['Punkte']
+            db.flush()
 
 def create_category(line: dict, db: Session) -> Category:
     category = db.scalar(select(Category).where(Category.title == line['Kategorie']))

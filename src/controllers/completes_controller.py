@@ -10,15 +10,15 @@ from src.services.auth_service import get_current_user
 
 router = APIRouter(
     # routing prefix
-    prefix="/completess",
+    prefix="/completes",
     # documentation tag
-    tags=["completess"],
+    tags=["completes"],
     # default response
     #responses={404: {"route": "Not found"}},
 )
 
 @router.get("/all", response_model=list[CompletesResponseSchema], status_code=status.HTTP_200_OK)
-async def get_all_completess(user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Completes]:
+async def get_all_completes(user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Completes]:
     return completes_service.get_all_completes(db)
 
 @router.get("/{id}", response_model=CompletesResponseSchema, status_code=status.HTTP_200_OK)

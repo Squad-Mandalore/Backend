@@ -16,7 +16,7 @@ def create_completes(completes_post_schema: CompletesPostSchema, db: Session) ->
     return completes
 
 def get_completes_by_id(id: str, db: Session) -> Completes:
-    completes: Base | None = database_utils.get_by_id(Completes, id, db)
+    completes: Base | None = db.get(Completes, id)
 
     if completes is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Completes not found")
@@ -24,7 +24,7 @@ def get_completes_by_id(id: str, db: Session) -> Completes:
     return cast(Completes, completes)
 
 def update_completes(id: str, completes_patch_schema: CompletesPatchSchema, db: Session) -> Completes:
-    completes: Base | None = database_utils.get_by_id(Completes, id, db)
+    completes: Base | None = db.get(Completes, id)
 
     if completes is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Completes not found")

@@ -1,6 +1,5 @@
 from datetime import date, datetime
 import enum
-from typing import Optional
 import uuid
 
 from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey

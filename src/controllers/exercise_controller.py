@@ -17,6 +17,7 @@ router = APIRouter(
     #responses={404: {"route": "Not found"}},
 )
 
+# exercise routes
 @router.get("/all", response_model=list[ExerciseResponseSchema], status_code=status.HTTP_200_OK)
 async def get_all_exercises(user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Exercise]:
     return exercise_service.get_all_exercises(db)

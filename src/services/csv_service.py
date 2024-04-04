@@ -248,8 +248,8 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
     exercise = create_exercise(line, category, db)
 
     # check if completes already exists
-    complete = db.scalar(select(Completes).where(Completes.athlete_id == athlete.id, Completes.exercise_id == exercise.id, Completes.tracked_at == tracked_at))
-    if not complete:
+    completes = db.scalar(select(Completes).where(Completes.athlete_id == athlete.id, Completes.exercise_id == exercise.id, Completes.tracked_at == tracked_at))
+    if not completes:
         return Completes(
             athlete_id=athlete.id,
             exercise_id=exercise.id,
@@ -259,10 +259,10 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
             tracked_by=current_user.id,
         )
     else:
-        if int(line['Punkte']) > int(complete.points):
+        if int(line['Punkte']) > int(completes.points):
             global response_message
-            response_message[f"{line['Vorname']} {line['Name']} {line['Datum']} {line['Übung']}"] = f"Points updated from {complete.points} to {line['Punkte']}"
-            complete.points = line['Punkte']
+            response_message[f"{line['Vorname']} {line['Name']} {line['Datum']} {line['Übung']}"] = f"Points updated from {completes.points} to {line['Punkte']}"
+            completes.points = line['Punkte']
             db.flush()
 
 def create_category(line: dict, db: Session) -> Category:

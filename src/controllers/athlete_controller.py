@@ -42,10 +42,6 @@ async def delete_ahtlete(id: str, user: User = Depends(get_current_user), db: Se
 async def create_athlete(athlete_post_schema: AthletePostSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Athlete:
     return athlete_service.create_athlete(athlete_post_schema, user.id, db)
 
-@router.post("/{id}/complete", response_model=AthleteResponseSchema, status_code=status.HTTP_201_CREATED)
-async def add_completes(id: str, complete: CompletesPostSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Athlete:
-    return athlete_service.add_completes(id, db)
-
 @router.patch("/{id}", response_model=AthleteResponseSchema, status_code=status.HTTP_202_ACCEPTED)
 async def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Athlete:
     return athlete_service.update_athlete(id, athlete_patch_schema, db)

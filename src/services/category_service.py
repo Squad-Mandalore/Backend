@@ -14,7 +14,7 @@ def create_category(category_post_schema: CategoryPostSchema, db: Session) -> Ca
     return category
 
 def get_category_by_id(id: str, db: Session) -> Category:
-    category: Base | None = database_utils.get_by_id(Category, id, db)
+    category: Base | None = db.get(Category, id)
 
     if category is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found")
@@ -22,7 +22,7 @@ def get_category_by_id(id: str, db: Session) -> Category:
     return cast(Category, category)
 
 def update_category(id: str, category_patch_schema: CategoryPatchSchema, db: Session) -> Category:
-    category: Base | None = database_utils.get_by_id(Category, id, db)
+    category: Base | None = db.get(Category, id)
 
     if category is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found")
@@ -33,5 +33,5 @@ def update_category(id: str, category_patch_schema: CategoryPatchSchema, db: Ses
 def delete_category(id: str, db: Session) -> None:
     return database_utils.delete(Category, id, db)
 
-def get_all_categorys(db: Session) -> list[Category]:
+def get_all_categories(db: Session) -> list[Category]:
     return cast(list[Category], database_utils.get_all(Category, db))

@@ -27,7 +27,8 @@ def update_category(id: str, category_patch_schema: CategoryPatchSchema, db: Ses
     if category is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found")
 
-    update_service.update_properties(category, category_patch_schema, db)
+    update_service.update_properties(category, category_patch_schema)
+    db.commit()
     return cast(Category, category)
 
 def delete_category(id: str, db: Session) -> None:

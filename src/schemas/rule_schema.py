@@ -16,14 +16,13 @@ class RulePostSchema(BaseModel):
     exercise_id: str
 
 class RulePatchSchema(BaseModel):
-    gender: Optional[Gender]
-    from_age: Optional[int]
-    to_age: Optional[int]
-    bronze: Optional[str]
-    silver: Optional[str]
-    gold: Optional[str]
-    year: Optional[date]
-    exercise_id: Optional[str]
+    gender: Optional[Gender] = None
+    from_age: Optional[int] = None
+    to_age: Optional[int] = None
+    bronze: Optional[str] = None
+    silver: Optional[str] = None
+    gold: Optional[str] = None
+    year: Optional[date] = None
 
 class RuleExerciseResponseSchema(BaseModel):
     id: str

@@ -6,7 +6,7 @@ class CategoryPostSchema(BaseModel):
     title: str
 
 class CategoryPatchSchema(BaseModel):
-    title: Optional[str]
+    title: Optional[str] = None
 
 class CategoryResponseSchema(BaseModel):
     id: str

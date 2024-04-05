@@ -27,7 +27,8 @@ def update_rule(id: str, rule_patch_schema: RulePatchSchema, db: Session) -> Rul
     if rule is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Rule not found")
 
-    update_service.update_properties(rule, rule_patch_schema, db)
+    update_service.update_properties(rule, rule_patch_schema)
+    db.commit()
     return cast(Rule, rule)
 
 def delete_rule(id: str, db: Session) -> None:

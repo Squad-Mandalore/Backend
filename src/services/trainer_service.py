@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import cast
 
 from fastapi import HTTPException, status
@@ -32,7 +33,9 @@ def update_trainer(id: str, trainer_patch_schema: TrainerPatchSchema, db: Sessio
     if trainer is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trainer not found")
 
-    update_service.update_properties(trainer, trainer_patch_schema, db)
+    update_service.update_properties(trainer, trainer_patch_schema)
+    setattr(trainer, "last_edited_at", datetime.now())
+    db.commit()
     return cast(Trainer, trainer)
 
 def delete_trainer(id: str, db: Session) -> None:

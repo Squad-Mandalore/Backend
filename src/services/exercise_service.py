@@ -29,7 +29,8 @@ def update_exercise(id: str, exercise_patch_schema: ExercisePatchSchema, db: Ses
     if exercise is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
 
-    update_service.update_properties(exercise, exercise_patch_schema, db)
+    update_service.update_properties(exercise, exercise_patch_schema)
+    db.commit()
     return cast(Exercise, exercise)
 
 def delete_exercise(id: str, db: Session) -> None:

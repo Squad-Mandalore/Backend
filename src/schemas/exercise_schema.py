@@ -11,13 +11,12 @@ class ExercisePostSchema(BaseModel):
     from_age: int
     to_age: int
     category_id: str
-    rule_id: str
+    # rule_id: str
 
 class ExercisePatchSchema(BaseModel):
-    title: Optional[str]
-    category_id: Optional[str]
-    from_age: Optional[int]
-    to_age: Optional[int]
+    title: Optional[str] = None
+    from_age: Optional[int] = None
+    to_age: Optional[int] = None
 
 class ExerciseResponseSchema(BaseModel):
     id: str

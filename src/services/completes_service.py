@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import cast
 
 from fastapi import HTTPException, status
@@ -9,9 +10,9 @@ from src.schemas.completes_schema import CompletesPatchSchema, CompletesPostSche
 from src.services import update_service
 
 
-def create_completes(completes_post_schema: CompletesPostSchema, db: Session) -> Completes:
+def create_completes(completes_post_schema: CompletesPostSchema, current_user_id: str, db: Session) -> Completes:
     completes_dict = completes_post_schema.model_dump(exclude_unset=True)
-    completes = Completes(**completes_dict)
+    completes = Completes(**completes_dict, tracked_by=current_user_id)
     database_utils.add(completes, db)
     return completes
 
@@ -23,13 +24,16 @@ def get_completes_by_id(id: str, db: Session) -> Completes:
 
     return cast(Completes, completes)
 
-def update_completes(id: str, completes_patch_schema: CompletesPatchSchema, db: Session) -> Completes:
+def update_completes(id: str, completes_patch_schema: CompletesPatchSchema, current_user_id: str, db: Session) -> Completes:
     completes: Base | None = db.get(Completes, id)
 
     if completes is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Completes not found")
 
-    update_service.update_properties(completes, completes_patch_schema, db)
+    update_service.update_properties(completes, completes_patch_schema)
+    setattr(completes, "tracked_at", datetime.now())
+    setattr(completes, "tracked_by", current_user_id)
+    db.commit()
     return cast(Completes, completes)
 
 def delete_completes(id: str, db: Session) -> None:

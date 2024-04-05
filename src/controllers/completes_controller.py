@@ -32,8 +32,8 @@ async def delete_ahtlete(id: str, user: User = Depends(get_current_user), db: Se
 
 @router.post("/", response_model=CompletesResponseSchema, status_code=status.HTTP_201_CREATED)
 async def create_completes(completes_post_schema: CompletesPostSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Completes:
-    return completes_service.create_completes(completes_post_schema, db)
+    return completes_service.create_completes(completes_post_schema, user.id, db)
 
 @router.patch("/{id}", response_model=CompletesResponseSchema, status_code=status.HTTP_202_ACCEPTED)
 async def update_completes(id: str, completes_patch_schema: CompletesPatchSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Completes:
-    return completes_service.update_completes(id, completes_patch_schema, db)
+    return completes_service.update_completes(id, completes_patch_schema, user.id, db)

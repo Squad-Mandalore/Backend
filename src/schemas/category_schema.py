@@ -21,26 +21,20 @@ class CategoryRuleResponseSchema(BaseModel):
     gold: str
     year: date
 
-class CategoryResponseSchema(BaseModel):
+class CategoryResponseSchema(CategoryPostSchema):
     id: str
-    title: str
 
-class CategoryExerciseResponseSchema(BaseModel):
-    id: str
-    title: str
+class CategoryExerciseResponseSchema(CategoryResponseSchema):
     from_age: int
     to_age: int
 
-class CategoryFullResponseSchema(BaseModel):
-    id: str
-    title: str
+class CategoryFullResponseSchema(CategoryResponseSchema):
     exercises: list[CategoryExerciseResponseSchema]
 
-class CategoryExerciseFullResponseSchema(BaseModel):
-    id: str
-    title: str
-    from_age: int
-    to_age: int
-    category: CategoryResponseSchema
+class CategoryExerciseFullResponseSchema(CategoryExerciseResponseSchema):
     rules: list[CategoryRuleResponseSchema]
+
+class CategoryVeryFullResponseSchema(CategoryResponseSchema):
+    exercises: list[CategoryExerciseFullResponseSchema]
+
 

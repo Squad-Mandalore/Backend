@@ -40,11 +40,7 @@ def update_completes(exercise_id: str, athlete_id: str, tracked_at: str, complet
     date = datetime.strptime(tracked_at, "%Y-%m-%d").date()
 
     # Locate the specific entry to delete
-    completes = db.query(Completes).filter(
-        Completes.exercise_id == exercise_id,
-        Completes.athlete_id == athlete_id,
-        Completes.tracked_at == date
-    ).first()
+    completes = db.get(Completes, (athlete_id, exercise_id, date))
 
     # If no such entry exists, raise a 404 error
     if not completes:
@@ -61,15 +57,7 @@ def delete_completes(exercise_id: str, athlete_id: str, tracked_at: str, db: Ses
     date = datetime.strptime(tracked_at, "%Y-%m-%d").date()
 
     # Locate the specific entry to delete
-    completes = db.query(Completes).filter(
-        Completes.exercise_id == exercise_id,
-        Completes.athlete_id == athlete_id,
-        Completes.tracked_at == date
-    ).first()
-
-    # If no such entry exists, raise a 404 error
-    if not completes:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Completes not found")
+    completes = db.get(Completes, (athlete_id, exercise_id, date))
 
     # Delete the entry
     db.delete(completes)

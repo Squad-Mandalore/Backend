@@ -29,9 +29,9 @@ def test_get_category_by_id(session: Session, client: TestClient):
     assert len(response.json()) == 4
     TestVariables.test_category = response.json()[0]
 
-    response = client.get(f"/categories?category_id={TestVariables.test_category['id']}", headers=TestVariables.headers)
+    response = client.get(f"/categories/{TestVariables.test_category['id']}", headers=TestVariables.headers)
+    print(TestVariables.test_category['id'])
     assert response.status_code == 200
-    assert len(response.json()) == 1
 
     response = client.get(f"/categories?athlete_id={athlete.id}", headers=TestVariables.headers)
     assert response.status_code == 200, f"{str(response.status_code)} {response.json()}"

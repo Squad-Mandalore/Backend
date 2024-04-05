@@ -1,6 +1,9 @@
-from datetime import datetime
 from pydantic import BaseModel
 
+
+class CertificatePostSchema(BaseModel):
+    athlete_id: str
+    title: str
 
 class CertificateResponseSchema(BaseModel):
     id: str
@@ -9,4 +12,3 @@ class CertificateResponseSchema(BaseModel):
     uploaded_by: str
     title: str
     blob: str
-

@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, status
+from typing import Union
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_db
-from src.models.models import Category, User
-from src.schemas.category_schema import CategoryPatchSchema, CategoryPostSchema, CategoryResponseSchema
+from src.models.models import Category, Exercise, User
+from src.schemas.category_schema import CategoryExerciseFullResponseSchema, CategoryFullResponseSchema
 from src.services import category_service
 from src.services.auth_service import get_current_user
 
@@ -17,22 +18,10 @@ router = APIRouter(
     #responses={404: {"route": "Not found"}},
 )
 
-@router.get("/", response_model=list[CategoryResponseSchema], status_code=status.HTTP_200_OK)
-async def get_all_categories(user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Category]:
-    return category_service.get_all_categories(db)
-
-@router.get("/{id}", response_model=CategoryResponseSchema, status_code=status.HTTP_200_OK)
-async def get_category(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Category:
-    return category_service.get_category_by_id(id, db)
-
-# @router.delete("/{id}", status_code=status.HTTP_200_OK)
-# async def delete_ahtlete(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> None:
-#     return category_service.delete_category(id, db)
-
-# @router.post("/", response_model=CategoryResponseSchema, status_code=status.HTTP_201_CREATED)
-# async def create_category(category_post_schema: CategoryPostSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Category:
-#     return category_service.create_category(category_post_schema, db)
-
-# @router.patch("/{id}", response_model=CategoryResponseSchema, status_code=status.HTTP_202_ACCEPTED)
-# async def update_category(id: str, category_patch_schema: CategoryPatchSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Category:
-#     return category_service.update_category(id, category_patch_schema, db)
+@router.get("/", response_model=Union[list[CategoryExerciseFullResponseSchema], list[CategoryFullResponseSchema]], status_code=status.HTTP_200_OK)
+async def get_categories_by_id(
+        category_id: str | None = Query(None),
+        athlete_id: str | None = Query(None),
+        user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Category] | list[Exercise]:
+    # check if return value is a list of categories or a list of exercises
+    return category_service.get_category_by_id(category_id, athlete_id, db)

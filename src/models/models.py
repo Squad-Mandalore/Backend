@@ -96,8 +96,7 @@ class Category(Base):
     id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
     title: Mapped[str]
 
-    exercises: Mapped[list["Exercise"]] = relationship(back_populates="category",
-                                                       primaryjoin="Category.id==Exercise.category_id")
+    exercises: Mapped[list["Exercise"]] = relationship(back_populates="category")
 
     def __init__(self, title: str):
         self.title = title

@@ -19,7 +19,7 @@ router = APIRouter(
 )
 
 @router.get("/", response_model=Union[list[CategoryVeryFullResponseSchema], list[CategoryFullResponseSchema]], status_code=status.HTTP_200_OK)
-async def get_categories_by_id(
+async def get_categories_by_athlete_id(
         athlete_id: str | None = Query(None),
         user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Category]:
     # check if return value is a list of categories or a list of exercises

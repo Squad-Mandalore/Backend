@@ -24,10 +24,6 @@ class CategoryRuleResponseSchema(BaseModel):
 class CategoryResponseSchema(CategoryPostSchema):
     id: str
 
-class CategoryExerciseResponseSchema(CategoryResponseSchema):
-    from_age: int
-    to_age: int
-
 class CategoryFullResponseSchema(CategoryResponseSchema):
     exercises: list[CategoryResponseSchema]
 

@@ -15,15 +15,11 @@ def test_create_exercise(session: Session, client: TestClient) -> None:
     session.commit()
     body = {
         "title": "title",
-        "from_age": 12,
-        "to_age": 18,
         "category_id": category.id
     }
     response: Response = client.post("/exercises", json=body, headers=TestVariables.headers)
     assert response.status_code == 201, f"{str(response.status_code)} {response.json()}"
     assert response.json()["title"] == "title"
-    assert response.json()["from_age"] == 12
-    assert response.json()["to_age"] == 18
 
 def test_get_all_exercises(client: TestClient):
     response = client.get("/exercises", headers=TestVariables.headers)
@@ -41,12 +37,10 @@ def test_patch_exercise(client: TestClient) -> None:
     exercise_id = TestVariables.test_exercise['id']
     body = {
         "title": "markus",
-        "from_age": 10,
     }
     response: Response = client.patch(f"/exercises/{exercise_id}", json=body, headers=TestVariables.headers)
     assert response.status_code == 202, f"{str(response.status_code)} {response.json()}"
     assert response.json()["title"] == "markus"
-    assert response.json()["from_age"] == 10
 
 def test_delete_exercise(client: TestClient) -> None:
     exercise_id = TestVariables.test_exercise['id']

@@ -283,8 +283,6 @@ def create_exercise(line: dict, category: Category, db: Session) -> Exercise:
         exercise = Exercise(
             title=line['Übung'],
             category_id=category.id,
-            from_age=10,
-            to_age=20
         )
         db.add(exercise)
         db.flush()

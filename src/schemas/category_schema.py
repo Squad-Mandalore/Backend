@@ -29,9 +29,9 @@ class CategoryExerciseResponseSchema(CategoryResponseSchema):
     to_age: int
 
 class CategoryFullResponseSchema(CategoryResponseSchema):
-    exercises: list[CategoryExerciseResponseSchema]
+    exercises: list[CategoryResponseSchema]
 
-class CategoryExerciseFullResponseSchema(CategoryExerciseResponseSchema):
+class CategoryExerciseFullResponseSchema(CategoryResponseSchema):
     rules: list[CategoryRuleResponseSchema]
 
 class CategoryVeryFullResponseSchema(CategoryResponseSchema):

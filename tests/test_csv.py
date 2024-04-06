@@ -13,7 +13,7 @@ def create_athletes(session):
     category = Category(title="category_exercise_completes")
     session.add(category)
     session.flush()
-    exercise = Exercise(title="exercise_completes", category_id=category.id, from_age=10, to_age=20)
+    exercise = Exercise(title="exercise_completes", category_id=category.id)
     session.add(exercise)
     session.flush()
     completes = Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=datetime.now(), tracked_by=trainer.id, result="result", points=1)

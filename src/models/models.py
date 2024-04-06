@@ -127,22 +127,14 @@ class Exercise(Base):
     id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
     title: Mapped[str]
     category_id: Mapped[str] = mapped_column(ForeignKey("category.id"))
-    from_age: Mapped[int]
-    to_age: Mapped[int]
 
     category: Mapped["Category"] = relationship(back_populates="exercises",
                                                 primaryjoin="Category.id==Exercise.category_id")
     rules: Mapped[list["Rule"]] = relationship(back_populates="exercise")
 
-    __table_args__ = (
-        CheckConstraint('from_age < to_age'),
-    )
-
-    def __init__(self, title: str, category_id: str, from_age: int, to_age: int):
+    def __init__(self, title: str, category_id: str):
         self.title = title
         self.category_id = category_id
-        self.from_age = from_age
-        self.to_age = to_age
 
 
 class Completes(Base):

@@ -14,7 +14,7 @@ def test_create_rule(session: Session, client: TestClient) -> None:
     session.add(category)
     session.flush()
     # create an exercise
-    exercise = Exercise(title="title", from_age=12, to_age=18, category_id=category.id)
+    exercise = Exercise(title="title", category_id=category.id)
     session.add(exercise)
     session.commit()
     body = {

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -15,3 +16,9 @@ class CertificateResponseSchema(BaseModel):
     uploaded_by: str
     title: str
     blob: bytes
+
+
+class CertificatePatchSchema(BaseModel):
+    athlete_id: str
+    title: Optional[str] = None
+    blob: Optional[bytes] = None

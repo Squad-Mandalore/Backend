@@ -10,8 +10,9 @@ from src.controllers import (
     csv_controller,
     exercise_controller,
     log_controller,
-    rule_controller,
+    password_controller,
     trainer_controller,
+    user_controller,
 )
 from src.database.database_setup import init_db
 from src.middleware.cors import add_cors_middleware
@@ -24,12 +25,13 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 add_cors_middleware(app)
-app.include_router(trainer_controller.router)
+app.include_router(password_controller.router)
+app.include_router(user_controller.router)
 app.include_router(athlete_controller.router)
-app.include_router(completes_controller.router)
+app.include_router(log_controller.router)
+app.include_router(csv_controller.router)
+app.include_router(auth_controller.router)
 app.include_router(category_controller.router)
 app.include_router(exercise_controller.router)
-app.include_router(rule_controller.router)
-app.include_router(auth_controller.router)
-app.include_router(csv_controller.router)
-app.include_router(log_controller.router)
+app.include_router(completes_controller.router)
+app.include_router(trainer_controller.router)

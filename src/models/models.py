@@ -160,12 +160,14 @@ class Completes(Base):
     exercise: Mapped["Exercise"] = relationship()
     trainer: Mapped["Trainer"] = relationship()
 
-    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: date, tracked_by: str, result: str):
+    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: date, tracked_by: str, result: str,
+                 points: int):
         self.athlete_id = athlete_id
         self.exercise_id = exercise_id
         self.tracked_at = tracked_at
         self.tracked_by = tracked_by
         self.result = result
+        self.points = points
 
 
 class Rule(Base):

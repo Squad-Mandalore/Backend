@@ -2,9 +2,8 @@ from datetime import date
 from typing import cast
 
 from fastapi import HTTPException, status
-from sqlalchemy import false, select
+from sqlalchemy import select
 from sqlalchemy.orm import Session
-from starlette.status import HTTP_404_NOT_FOUND
 
 from src.database import database_utils
 from src.models.models import Athlete, Base, Completes, Rule
@@ -19,7 +18,7 @@ def create_completes(completes_post_schema: CompletesPostSchema, db: Session) ->
     return completes
 
 def get_completes_by_id(id: str, db: Session) -> Completes:
-    completes: Base | None = database_utils.get_by_id(Completes, id, db)
+    completes: Base | None = db.get(Completes, id)
 
     if completes is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Completes not found")
@@ -27,7 +26,7 @@ def get_completes_by_id(id: str, db: Session) -> Completes:
     return cast(Completes, completes)
 
 def update_completes(id: str, completes_patch_schema: CompletesPatchSchema, db: Session) -> Completes:
-    completes: Base | None = database_utils.get_by_id(Completes, id, db)
+    completes: Base | None = db.get(Completes, id)
 
     if completes is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Completes not found")
@@ -76,3 +75,13 @@ def calculate_points(completes: Completes,athlete: Athlete, db: Session):
             points = 1
 
     return points
+# def delete_completes(exercise_id: str, athlete_id: str, tracked_at: str, db: Session) -> None:
+#     # Convert the tracked_at string to a datetime object
+#     date = datetime.strptime(tracked_at, "%Y-%m-%d").date()
+
+#     # Locate the specific entry to delete
+#     completes = db.get(Completes, (athlete_id, exercise_id, date))
+
+#     # Delete the entry
+#     db.delete(completes)
+#     db.commit()

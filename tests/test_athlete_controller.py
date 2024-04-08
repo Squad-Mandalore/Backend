@@ -2,11 +2,17 @@ from datetime import datetime
 
 from fastapi.testclient import TestClient
 from httpx import Response
+from sqlalchemy.orm import Session
 
 #client_fixture, session_fixture are fixtures that are used to create a test client and a session for the test cases !!DO NOT REMOVE!!
+from src.models.models import Trainer
 from tests.define_test_variables import TestVariables, client_fixture, session_fixture
 
-def test_post_athlete(client: TestClient):
+def test_post_athlete(session: Session, client: TestClient):
+    trainer: Trainer = Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
+    session.add(trainer)
+    session.commit()
+
     body = {
         "username": "username",
         "email": "ole@mail",
@@ -14,14 +20,15 @@ def test_post_athlete(client: TestClient):
         "firstname": "ole",
         "lastname": "grundmann",
         "birthday": "2024-02-18",
-        "trainer_id": "16d094b1-e9cf-4cf4-b3ea-6a832582adf2",
+        "trainer_id": f"{trainer.id}",
         "gender": "m"
     }
+
     response = client.post("/athletes", json=body, headers=TestVariables.headers)
     assert response.status_code == 201, f"{response.status_code} {response.json()}"
 
 def test_get_all_athletes(client: TestClient):
-    response = client.get("/athletes/all", headers=TestVariables.headers)
+    response = client.get("/athletes", headers=TestVariables.headers)
     TestVariables.test_athlete = response.json()[0]
 
     assert response.status_code == 200, f" {str(response.status_code)}"
@@ -29,6 +36,12 @@ def test_get_all_athletes(client: TestClient):
 def test_get_athlete_by_id(client: TestClient):
     athlete_id = TestVariables.test_athlete['id']
     response = client.get(f"/athletes/{athlete_id}", headers=TestVariables.headers)
+    assert response.status_code == 200
+    assert response.json()['username'] == "username"
+
+def test_get_full_athlete_by_id(client: TestClient):
+    athlete_id = TestVariables.test_athlete['id']
+    response = client.get(f"/athletes/{athlete_id}/full", headers=TestVariables.headers)
     assert response.status_code == 200
     assert response.json()['username'] == "username"
 

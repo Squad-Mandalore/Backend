@@ -1,9 +1,18 @@
 from typing import Optional, Type
 
+from sqlalchemy import Engine
+from sqlalchemy.engine.create import event
 from sqlalchemy.orm import Session
 
 from src.database.database_setup import engine
 from src.models.models import Base
+
+
+@event.listens_for(Engine, "connect")
+def enable_sqlite_fks(dbapi_connection, connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
 
  # Dependency
 def get_db():
@@ -14,6 +23,7 @@ def get_db():
         db.close()
 
 # Type warning does not apply here
+# TODO: All those methods should have error handling with try except
 def add(db_model: Base, db: Session) -> None:
     # Errorhandling needs to be done
     db.add(db_model)

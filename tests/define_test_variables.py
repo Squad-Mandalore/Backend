@@ -22,10 +22,6 @@ class TestVariables():
     refresh_token: str
     test_athlete: dict = {}
     test_trainer: dict = {}
-    test_exercise: dict = {}
-    test_completes: dict = {}
-    test_category: dict = {}
-    test_rule: dict = {}
 
 @pytest.fixture(name="session", scope="session")
 def session_fixture():

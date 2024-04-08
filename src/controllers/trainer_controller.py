@@ -20,7 +20,7 @@ router = APIRouter(
     #responses={404: {"route": "Not found"}},
 )
 
-@router.get("/", response_model=list[TrainerResponseSchema], status_code=status.HTTP_200_OK)
+@router.get("/all", response_model=list[TrainerResponseSchema], status_code=status.HTTP_200_OK)
 async def get_all_trainers(user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Trainer]:
     return trainer_service.get_all_trainers(db)
 

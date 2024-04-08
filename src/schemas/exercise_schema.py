@@ -2,23 +2,19 @@ from typing import Optional
 from pydantic import BaseModel
 
 from src.schemas.category_schema import CategoryResponseSchema
+from src.schemas.rule_schema import RuleResponseSchema
 
 
 class ExercisePostSchema(BaseModel):
     title: str
     category_id: str
-    from_age: int
-    to_age: int
+    # rule_id: str
 
 class ExercisePatchSchema(BaseModel):
-    title: Optional[str]
-    category_id: Optional[str]
-    from_age: Optional[int]
-    to_age: Optional[int]
+    title: Optional[str] = None
 
 class ExerciseResponseSchema(BaseModel):
     id: str
     title: str
     category: CategoryResponseSchema  # Nested CategoryModel
-    from_age: int
-    to_age: int
+    rules: list[RuleResponseSchema]

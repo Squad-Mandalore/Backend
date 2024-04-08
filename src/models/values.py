@@ -22,8 +22,6 @@ def parse_values(db: Session) -> None:
                     exercise = Exercise(
                         title=exercise_data['title'],
                         category_id=category.id,
-                        from_age=exercise_data['from_age'],
-                        to_age=exercise_data['to_age']
                     )
                     db.add(exercise)
                     db.flush()

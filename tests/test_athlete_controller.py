@@ -12,9 +12,6 @@ def test_post_athlete(session: Session, client: TestClient):
     trainer: Trainer = Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
     session.add(trainer)
     session.commit()
-    trainer_new = session.query(Trainer).filter(Trainer.username == "trainer").first()
-    if trainer_new is None:
-        assert False, "Trainer not found"
 
     body = {
         "username": "username",
@@ -23,7 +20,7 @@ def test_post_athlete(session: Session, client: TestClient):
         "firstname": "ole",
         "lastname": "grundmann",
         "birthday": "2024-02-18",
-        "trainer_id": f"{trainer_new.id}",
+        "trainer_id": f"{trainer.id}",
         "gender": "m"
     }
 
@@ -31,7 +28,7 @@ def test_post_athlete(session: Session, client: TestClient):
     assert response.status_code == 201, f"{response.status_code} {response.json()}"
 
 def test_get_all_athletes(client: TestClient):
-    response = client.get("/athletes/all", headers=TestVariables.headers)
+    response = client.get("/athletes", headers=TestVariables.headers)
     TestVariables.test_athlete = response.json()[0]
 
     assert response.status_code == 200, f" {str(response.status_code)}"

@@ -9,6 +9,7 @@ from src.schemas.athlete_schema import (
     AthletePostSchema,
     AthleteResponseSchema,
 )
+from src.schemas.completes_schema import CompletesPostSchema
 from src.services import athlete_service
 from src.services.auth_service import get_current_user
 
@@ -21,7 +22,7 @@ router = APIRouter(
     #responses={404: {"route": "Not found"}},
 )
 
-@router.get("/all", response_model=list[AthleteResponseSchema], status_code=status.HTTP_200_OK)
+@router.get("/", response_model=list[AthleteResponseSchema], status_code=status.HTTP_200_OK)
 async def get_all_athletes(user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Athlete]:
     return athlete_service.get_all_athletes(db)
 

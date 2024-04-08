@@ -1,9 +1,11 @@
 from datetime import date
 from typing import Optional
 
+from pydantic import BaseModel
+
 from src.models.models import Gender
 from src.schemas.certificate_schema import CertificateResponseSchema
-from src.schemas.completes_schema import CompletesResponseSchema
+from src.schemas.exercise_schema import ExerciseResponseSchema
 from src.schemas.trainer_schema import TrainerResponseSchema
 from src.schemas.user_schema import UserPatchSchema, UserPostSchema, UserResponseSchema
 
@@ -21,7 +23,15 @@ class AthleteResponseSchema(UserResponseSchema):
     gender: Gender
     trainer: TrainerResponseSchema
 
+class AthleteCompletesResponseSchema(BaseModel):
+    athlete_id: str
+    exercise: ExerciseResponseSchema
+    tracked_at: date
+    trainer: TrainerResponseSchema
+    result: str
+    points: int
+
 class AthleteFullResponseSchema(AthleteResponseSchema):
-    completes: list[CompletesResponseSchema]
+    completes: list[AthleteCompletesResponseSchema]
     certificates: list[CertificateResponseSchema]
 

@@ -21,3 +21,8 @@ def test_refresh(client: TestClient):
     assert response.json()['refresh_token'] != ''
     TestVariables.access_token = response.json()['access_token']
     TestVariables.refresh_token = response.json()['refresh_token']
+
+def test_who_am_i(client: TestClient):
+    response = client.get("/auth/whoami", headers=TestVariables.headers)
+    assert response.status_code == 200, f"{response.status_code}"
+    assert response.json()['username'] != ''

@@ -4,7 +4,7 @@ from httpx import Response
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from src.models.models import Athlete, Exercise, Trainer
+from src.models.models import Athlete, Category, Exercise, Trainer
 from src.models.values import parse_values
 from tests.define_test_variables import TestVariables, client_fixture, session_fixture
 from src.logger.logger import logger
@@ -14,8 +14,8 @@ session = session_fixture
 
 def test_create_completes(session: Session, client: TestClient) -> None:
     parse_values(session)
-    response = client.get('/exercises', headers=TestVariables.headers)
-    TestVariables.test_exercise = response.json()[0]
+    exercise: Exercise = session.scalars(select(Exercise).where(Exercise.title == "800 m Lauf")).one()
+    session.add(exercise)
 
     trainer: Trainer = Trainer(username='trainer', email='trainer', unhashed_password='trainer', firstname='trainer', lastname='trainer')
     session.add(trainer)
@@ -26,49 +26,47 @@ def test_create_completes(session: Session, client: TestClient) -> None:
     session.commit()
 
     body = {
-        'exercise_id': TestVariables.test_exercise['id'],
+        'exercise_id': exercise.id,
         'athlete_id': athlete.id,
-        'result': 'I like Coco',
-        'points': 3
+        'result': '00:05:00:000',
     }
     response: Response = client.post('/completes', json=body, headers=TestVariables.headers)
     TestVariables.test_completes = response.json()
     assert response.status_code == 201, f'{str(response.status_code)} {response.json()}'
-    assert response.json()['result'] == 'I like Coco'
-    assert response.json()['points'] == 3
+    assert response.json()['result'] == '00:05:00:000'
 
 def test_get_completes_by_id(client: TestClient):
     response = client.get(f"/completes/", headers=TestVariables.headers)
     assert response.status_code == 200, f'{str(response.status_code)} {response.json()}'
-    assert response.json()[0]['result'] == 'I like Coco'
+    assert response.json()[0]['result'] == '00:05:00:000'
 
     response = client.get(f"/completes/?exercise_id={TestVariables.test_completes['exercise']['id']}", headers=TestVariables.headers)
     assert response.status_code == 200
-    assert response.json()[0]['result'] == 'I like Coco'
+    assert response.json()[0]['result'] == '00:05:00:000'
 
     response = client.get(f"/completes/?athlete_id={TestVariables.test_completes['athlete_id']}", headers=TestVariables.headers)
     assert response.status_code == 200
-    assert response.json()[0]['result'] == 'I like Coco'
+    assert response.json()[0]['result'] == '00:05:00:000'
 
     response = client.get(f"/completes/?tracked_at={TestVariables.test_completes['tracked_at']}", headers=TestVariables.headers)
     assert response.status_code == 200
-    assert response.json()[0]['result'] == 'I like Coco'
+    assert response.json()[0]['result'] == '00:05:00:000'
 
     response = client.get(f"/completes/?exercise_id={TestVariables.test_completes['exercise']['id']}&athlete_id={TestVariables.test_completes['athlete_id']}", headers=TestVariables.headers)
     assert response.status_code == 200
-    assert response.json()[0]['result'] == 'I like Coco'
+    assert response.json()[0]['result'] == '00:05:00:000'
 
     response = client.get(f"/completes/?exercise_id={TestVariables.test_completes['exercise']['id']}&tracked_at={TestVariables.test_completes['tracked_at']}", headers=TestVariables.headers)
     assert response.status_code == 200
-    assert response.json()[0]['result'] == 'I like Coco'
+    assert response.json()[0]['result'] == '00:05:00:000'
 
     response = client.get(f"/completes/?athlete_id={TestVariables.test_completes['athlete_id']}&tracked_at={TestVariables.test_completes['tracked_at']}", headers=TestVariables.headers)
     assert response.status_code == 200
-    assert response.json()[0]['result'] == 'I like Coco'
+    assert response.json()[0]['result'] == '00:05:00:000'
 
     response = client.get(f"/completes/?exercise_id={TestVariables.test_completes['exercise']['id']}&athlete_id={TestVariables.test_completes['athlete_id']}&tracked_at={TestVariables.test_completes['tracked_at']}", headers=TestVariables.headers)
     assert response.status_code == 200
-    assert response.json()[0]['result'] == 'I like Coco'
+    assert response.json()[0]['result'] == '00:05:00:000'
 
 def test_patch_completes(client: TestClient) -> None:
     body = {

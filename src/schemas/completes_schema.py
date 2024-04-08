@@ -10,11 +10,9 @@ class CompletesPostSchema(BaseModel):
     exercise_id: str
     athlete_id: str
     result: str
-    points: int
 
 class CompletesPatchSchema(BaseModel):
     result: Optional[str] = None
-    points: Optional[int] = None
 
 class CompletesResponseSchema(BaseModel):
     athlete_id: str

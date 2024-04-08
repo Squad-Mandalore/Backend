@@ -2,8 +2,9 @@ from datetime import date, datetime
 import enum
 import uuid
 
-from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey
-from sqlalchemy.orm import DeclarativeBase
+from fastapi import HTTPException, status
+from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey, select
+from sqlalchemy.orm import DeclarativeBase, Session
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.services.password_service import hash_and_spice_password
@@ -136,30 +137,6 @@ class Exercise(Base):
         self.title = title
         self.category_id = category_id
 
-
-class Completes(Base):
-    __tablename__ = "completes"
-    athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
-    exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id"), primary_key=True)
-    tracked_at: Mapped[date] = mapped_column(primary_key=True)
-    tracked_by: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
-    result: Mapped[str]
-    points: Mapped[int]
-
-    athlete: Mapped["Athlete"] = relationship(back_populates="completes")
-    exercise: Mapped["Exercise"] = relationship()
-    trainer: Mapped["Trainer"] = relationship()
-
-    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: date, tracked_by: str, result: str,
-                 points: int):
-        self.athlete_id = athlete_id
-        self.exercise_id = exercise_id
-        self.tracked_at = tracked_at
-        self.tracked_by = tracked_by
-        self.result = result
-        self.points = points
-
-
 class Rule(Base):
     __tablename__ = "rule"
     id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
@@ -189,3 +166,59 @@ class Rule(Base):
         self.gold = gold
         self.year = year
         self.exercise_id = exercise_id
+
+def calculate_points(athlete_id: str, exercise_id: str, tracked_at: date, result: str, db: Session) -> int:
+    isbigger = True
+    athlete: Athlete | None = db.get(Athlete, athlete_id)
+    if not athlete:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")
+    athlete_age = tracked_at.year - athlete.birthday.year
+
+    rule: Rule | None = db.scalar(select(Rule).where(Rule.exercise_id == exercise_id,
+                                             Rule.gender == athlete.gender,
+                                             Rule.from_age <= athlete_age,
+                                             Rule.to_age >= athlete_age))
+
+    if not rule:
+        return 0
+
+    if(rule.bronze > rule.gold):
+        isbigger = False
+
+    points = 0
+    if isbigger:
+        if result >= rule.gold:
+            points = 3
+        elif result >= rule.silver:
+            points = 2
+        elif result >= rule.bronze:
+            points = 1
+    else:
+        if result <= rule.gold:
+            points = 3
+        elif result <= rule.silver:
+            points = 2
+        elif result <= rule.bronze:
+            points = 1
+    return points
+
+class Completes(Base):
+    __tablename__ = "completes"
+    athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
+    exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id"), primary_key=True)
+    tracked_at: Mapped[date] = mapped_column(primary_key=True)
+    tracked_by: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
+    result: Mapped[str]
+    points: Mapped[int]
+
+    athlete: Mapped["Athlete"] = relationship(back_populates="completes")
+    exercise: Mapped["Exercise"] = relationship()
+    trainer: Mapped["Trainer"] = relationship()
+
+    def __init__(self, athlete_id: str, exercise_id: str, tracked_at: date, tracked_by: str, result: str, db: Session):
+        self.athlete_id = athlete_id
+        self.exercise_id = exercise_id
+        self.tracked_at = tracked_at
+        self.tracked_by = tracked_by
+        self.result = result
+        self.points = calculate_points(athlete_id, exercise_id, tracked_at, result, db)

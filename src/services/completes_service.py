@@ -2,10 +2,11 @@ from datetime import datetime
 from typing import cast
 
 from fastapi import HTTPException, status
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from src.database import database_utils
-from src.models.models import Base, Completes
+from src.models.models import Athlete, Base, Completes, Rule, calculate_points
 from src.schemas.completes_schema import CompletesPatchSchema, CompletesPostSchema
 from src.services import update_service
 from src.logger.logger import logger
@@ -13,7 +14,7 @@ from src.logger.logger import logger
 
 def create_completes(completes_post_schema: CompletesPostSchema, current_user_id: str, db: Session) -> Completes:
     completes_dict = completes_post_schema.model_dump(exclude_unset=True)
-    completes = Completes(**completes_dict, tracked_by=current_user_id, tracked_at=datetime.now().date())
+    completes = Completes(**completes_dict, tracked_by=current_user_id, tracked_at=datetime.now().date(), db=db)
     database_utils.add(completes, db)
     return completes
 
@@ -39,6 +40,10 @@ def update_completes(exercise_id: str, athlete_id: str, tracked_at: str, complet
     # Convert the tracked_at string to a datetime object
     date = datetime.strptime(tracked_at, "%Y-%m-%d").date()
 
+    athlete = db.get(Athlete, athlete_id)
+    if not athlete:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")
+
     # Locate the specific entry to delete
     completes = db.get(Completes, (athlete_id, exercise_id, date))
 
@@ -47,8 +52,9 @@ def update_completes(exercise_id: str, athlete_id: str, tracked_at: str, complet
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Completes not found")
 
     update_service.update_properties(completes, completes_patch_schema)
-    setattr(completes, "tracked_at", datetime.now().date())
-    setattr(completes, "tracked_by", current_user_id)
+    completes.tracked_at = datetime.now().date()
+    completes.tracked_by = current_user_id
+    completes.points = calculate_points(completes.athlete_id, completes.exercise_id, completes.tracked_at, completes.result, db)
     db.commit()
     return cast(Completes, completes)
 
@@ -62,3 +68,7 @@ def delete_completes(exercise_id: str, athlete_id: str, tracked_at: str, db: Ses
     # Delete the entry
     db.delete(completes)
     db.commit()
+
+def get_all_completes(db: Session) -> list[Completes]:
+    return cast(list[Completes], database_utils.get_all(Completes, db))
+

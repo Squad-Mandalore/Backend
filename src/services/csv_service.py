@@ -255,8 +255,8 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
             exercise_id=exercise.id,
             tracked_at=tracked_at,
             result=line['Ergebnis'],
-            points=line['Punkte'],
             tracked_by=current_user.id,
+            db=db
         )
     else:
         if int(line['Punkte']) > int(completes.points):

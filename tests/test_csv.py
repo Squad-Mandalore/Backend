@@ -1,4 +1,3 @@
-from src.services.completes_service import calculate_points
 from src.services.csv_service import create_csv, entity_config, parse_csv
 from tests.define_test_variables import client_fixture, session_fixture, TestVariables
 from datetime import date, datetime
@@ -17,8 +16,7 @@ def create_athletes(session):
     exercise = Exercise(title="exercise_completes", category_id=category.id)
     session.add(exercise)
     session.flush()
-    completes = Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=datetime.now(), tracked_by=trainer.id, result="result")
-    completes.points = calculate_points(completes, athlete, session)
+    completes = Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=datetime.now(), tracked_by=trainer.id, result="result", points=1)
     session.add(completes)
     session.commit()
 

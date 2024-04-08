@@ -1,13 +1,9 @@
 from datetime import date, datetime
-from sqlalchemy import select
 from sqlalchemy.exc import InvalidRequestError
 
 import pytest
-from sqlalchemy.orm import Session
 from src.models import models
-from src.services.completes_service import calculate_points
 from tests.define_test_variables import session_fixture
-from src.models.values import parse_values
 
 def test_user(session):
     with pytest.raises(InvalidRequestError):
@@ -103,7 +99,7 @@ def test_completes(session):
     session.add(trainer)
     session.commit()
     trainerDb = session.query(models.Trainer).filter(models.Athlete.username == "trainer_athlete_completes").first()
-    athlete = models.Athlete(username="athlete_completes", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=datetime.strptime('05.04.2018', '%d.%m.%Y'), gender=models.Gender.MALE, trainer_id=trainerDb.id)
+    athlete = models.Athlete(username="athlete_completes", email="athlete", unhashed_password="athlete", firstname="athlete", lastname="athlete",  birthday=date.today(), gender=models.Gender.DIVERSE, trainer_id=trainerDb.id)
     session.add(athlete)
     session.commit()
     athleteDb = session.query(models.Athlete).filter(models.Athlete.username == "athlete_completes").first()
@@ -115,8 +111,7 @@ def test_completes(session):
     session.add(exercise)
     session.commit()
     exerciseDb = session.query(models.Exercise).filter(models.Exercise.title == "exercise_completes").first()
-    completes = models.Completes(athlete_id=athleteDb.id, exercise_id=exerciseDb.id, tracked_at=datetime.now(), tracked_by=trainerDb.id, result="result")
-    completes.points = calculate_points(completes, athlete, session)
+    completes = models.Completes(athlete_id=athleteDb.id, exercise_id=exerciseDb.id, tracked_at=datetime.now(), tracked_by=trainerDb.id, result="result", points=1)
     session.add(completes)
     session.commit()
     completes = session.query(models.Completes).filter(models.Completes.result == "result").first()
@@ -126,42 +121,3 @@ def test_completes(session):
     assert completes.result == "result"
     assert completes.trainer == trainer
     assert athlete.completes[0] == completes
-
-def test_points_time(session):
-    parse_values(session)
-    trainer = session.query(models.Trainer).filter(models.Athlete.username == "trainer_athlete_completes").first()
-    athlete = session.query(models.Athlete).filter(models.Athlete.username == "athlete_completes").first()
-    exerciseDb = session.scalar(select(models.Exercise).where(models.Exercise.title == "800 m Lauf"))
-    completes = models.Completes(athlete_id=athlete.id, exercise_id=exerciseDb.id, tracked_at=athlete.birthday.replace(year=athlete.birthday.year + 6), tracked_by=trainer.id, result="00:05:16:00")
-    completes.points = calculate_points(completes, athlete, session)
-    session.add(completes)
-    exerciseDb = session.scalar(select(models.Exercise).where(models.Exercise.title == "Dauer-/Geländelauf"))
-    completes_h = models.Completes(athlete_id=athlete.id, exercise_id=exerciseDb.id, tracked_at=athlete.birthday.replace(year=athlete.birthday.year + 6), tracked_by=trainer.id, result="00:09:16:00")
-    completes_h.points = calculate_points(completes_h, athlete, session)
-    session.add(completes_h)
-    session.commit()
-
-    assert completes.points == 1, f"{completes.points}"
-    assert completes_h.points == 0, f"{completes.points}"
-
-def test_points_length(session):
-    trainer = session.query(models.Trainer).filter(models.Athlete.username == "trainer_athlete_completes").first()
-    athlete = session.query(models.Athlete).filter(models.Athlete.username == "athlete_completes").first()
-    exerciseDb = session.scalar(select(models.Exercise).where(models.Exercise.title == "Standweitsprung"))
-    completes = models.Completes(athlete_id=athlete.id, exercise_id=exerciseDb.id, tracked_at=athlete.birthday.replace(year=athlete.birthday.year + 6), tracked_by=trainer.id, result="000:001:36")
-    completes.points = calculate_points(completes, athlete, session)
-    session.add(completes)
-    session.commit()
-
-    assert completes.points == 2, f"{completes.points}"
-
-def test_points_times(session):
-    trainer = session.query(models.Trainer).filter(models.Athlete.username == "trainer_athlete_completes").first()
-    athlete = session.query(models.Athlete).filter(models.Athlete.username == "athlete_completes").first()
-    exerciseDb = session.scalar(select(models.Exercise).where(models.Exercise.title == "Drehwurf"))
-    completes = models.Completes(athlete_id=athlete.id, exercise_id=exerciseDb.id, tracked_at=athlete.birthday.replace(year=athlete.birthday.year + 6), tracked_by=trainer.id, result="0025")
-    completes.points = calculate_points(completes, athlete, session)
-    session.add(completes)
-    session.commit()
-
-    assert completes.points == 3, f"{completes.points}"

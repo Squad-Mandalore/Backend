@@ -26,6 +26,7 @@ class TestVariables():
     test_completes: dict = {}
     test_category: dict = {}
     test_rule: dict = {}
+    test_admin: dict = {}
 
 @pytest.fixture(name="session", scope="session")
 def session_fixture():

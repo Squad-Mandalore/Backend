@@ -1,10 +1,10 @@
-from src.schemas.user_schema import UserPatchSchema, UserPostSchema, UserResponseSchema
+from src.schemas.trainer_schema import TrainerPatchSchema, TrainerPostSchema, TrainerResponseSchema
 
-class AdminPostSchema(UserPostSchema):
+class AdminPostSchema(TrainerPostSchema):
     pass
 
-class AdminPatchSchema(UserPatchSchema):
+class AdminPatchSchema(TrainerPatchSchema):
     pass
 
-class AdminResponseSchema(UserResponseSchema):
+class AdminResponseSchema(TrainerResponseSchema):
     pass

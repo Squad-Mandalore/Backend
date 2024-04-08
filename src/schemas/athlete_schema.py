@@ -27,6 +27,7 @@ class AthleteCompletesResponseSchema(BaseModel):
     athlete_id: str
     exercise: ExerciseResponseSchema
     tracked_at: date
+    tracked_by: str
     trainer: TrainerResponseSchema
     result: str
     points: int

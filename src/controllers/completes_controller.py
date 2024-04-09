@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_db
@@ -10,29 +10,38 @@ from src.services.auth_service import get_current_user
 
 router = APIRouter(
     # routing prefix
-    prefix="/completess",
+    prefix="/completes",
     # documentation tag
-    tags=["completess"],
+    tags=["completes"],
     # default response
     #responses={404: {"route": "Not found"}},
 )
 
-@router.get("/all", response_model=list[CompletesResponseSchema], status_code=status.HTTP_200_OK)
-async def get_all_completess(user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> list[Completes]:
-    return completes_service.get_all_completes(db)
+# completes routes
+@router.get("/", response_model=list[CompletesResponseSchema], status_code=status.HTTP_200_OK)
+async def get_completes(
+        exercise_id: str | None = Query(None),
+        athlete_id: str | None = Query(None),
+        tracked_at: str | None = Query(None),
+        user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Completes:
+    return completes_service.get_completes_by_id(exercise_id, athlete_id, tracked_at, db)
 
-@router.get("/{id}", response_model=CompletesResponseSchema, status_code=status.HTTP_200_OK)
-async def get_completes(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Completes:
-    return completes_service.get_completes_by_id(id, db)
-
-@router.delete("/{id}", status_code=status.HTTP_200_OK)
-async def delete_ahtlete(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> None:
-    return completes_service.delete_completes(id, db)
+@router.delete("/", status_code=status.HTTP_200_OK)
+async def delete_ahtlete(
+        exercise_id: str,
+        athlete_id: str,
+        tracked_at: str,
+        user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> None:
+    return completes_service.delete_completes(exercise_id, athlete_id, tracked_at, db)
 
 @router.post("/", response_model=CompletesResponseSchema, status_code=status.HTTP_201_CREATED)
 async def create_completes(completes_post_schema: CompletesPostSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Completes:
-    return completes_service.create_completes(completes_post_schema, db)
+    return completes_service.create_completes(completes_post_schema, user.id, db)
 
-@router.patch("/{id}", response_model=CompletesResponseSchema, status_code=status.HTTP_202_ACCEPTED)
-async def update_completes(id: str, completes_patch_schema: CompletesPatchSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Completes:
-    return completes_service.update_completes(id, completes_patch_schema, db)
+@router.patch("/", response_model=CompletesResponseSchema, status_code=status.HTTP_202_ACCEPTED)
+async def update_completes(
+        exercise_id: str,
+        athlete_id: str,
+        tracked_at: str,
+        completes_patch_schema: CompletesPatchSchema, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> Completes:
+    return completes_service.update_completes(exercise_id, athlete_id, tracked_at, completes_patch_schema, user.id, db)

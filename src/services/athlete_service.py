@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import cast
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -27,7 +28,9 @@ def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, db: Sessio
     if athlete is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")
 
-    update_service.update_properties(athlete, athlete_patch_schema, db)
+    update_service.update_properties(athlete, athlete_patch_schema)
+    setattr(athlete, "last_edited_at", datetime.now())
+    db.commit()
     return cast(Athlete, athlete)
 
 def delete_athlete(id: str, db: Session) -> None:

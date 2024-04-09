@@ -20,7 +20,7 @@ def test_post_trainer(client: TestClient):
     assert response.status_code == 201, f"{response.status_code} {response.json()}"
 
 def test_get_all_trainers(client: TestClient):
-    response = client.get("/trainers/all", headers=TestVariables.headers)
+    response = client.get("/trainers", headers=TestVariables.headers)
     TestVariables.test_trainer = response.json()[1]
 
     assert response.status_code == 200, f" {str(response.status_code)}"

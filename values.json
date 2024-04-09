@@ -5,8 +5,6 @@
             "exercise": [
                 {
                     "title": "800 m Lauf",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -120,8 +118,6 @@
                 },
                 {
                     "title": "3000 m Lauf",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -145,8 +141,6 @@
                 },
                 {
                     "title": "10 km Lauf",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -170,8 +164,6 @@
                 },
                 {
                     "title": "7,5 km Walking / Nordic Walking",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -195,8 +187,6 @@
                 },
                 {
                     "title": "Dauer-/Geländelauf",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -310,8 +300,6 @@
                 },
                 {
                     "title": "Schwimmen 200 m",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -369,10 +357,8 @@
                         }
                     ]
                 },
-		{
+                {
                     "title": "Schwimmen 400 m",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -432,8 +418,6 @@
                 },
                 {
                     "title": "Schwimmen 800 m",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -457,8 +441,6 @@
                 },
                 {
                     "title": "Radfahren 5 km",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -482,8 +464,6 @@
                 },
                 {
                     "title": "Radfahren 10 km",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -561,8 +541,6 @@
                 },
                 {
                     "title": "Radfahren 20 km",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -591,8 +569,6 @@
             "exercise": [
                 {
                     "title": "Werfen Schlagball 80 g",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -661,8 +637,6 @@
                 },
                 {
                     "title": "Werfen Wurfball 200 g",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -713,8 +687,6 @@
                 },
                 {
                     "title": "Medizinball 1 kg",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -774,8 +746,6 @@
                 },
                 {
                     "title": "Medizinball 2 kg",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -799,8 +769,6 @@
                 },
                 {
                     "title": "Kugelstoßen 3 kg",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -842,8 +810,6 @@
                 },
                 {
                     "title": "Kugelstoßen 4 kg",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -854,21 +820,19 @@
                             "gold": "000:008:00",
                             "year": 2024
                         },
-			{
-			    "gender": "f",
+                        {
+                            "gender": "f",
                             "from_age": 18,
                             "to_age": 19,
                             "bronze": "000:006:50",
                             "silver": "000:007:00",
                             "gold": "000:007:50",
                             "year": 2024
-			}
+                        }
                     ]
                 },
                 {
                     "title": "Kugelstoßen 5 kg",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -883,8 +847,6 @@
                 },
                 {
                     "title": "Kugelstoßen 6 kg",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -899,8 +861,6 @@
                 },
                 {
                     "title": "Steinstoßen 5 kg",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "f",
@@ -915,8 +875,6 @@
                 },
                 {
                     "title": "Steinstoßen 10 kg",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -931,8 +889,6 @@
                 },
                 {
                     "title": "Standweitsprung",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1069,8 +1025,6 @@
             "exercise": [
                 {
                     "title": "Laufen 30 m",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1112,8 +1066,6 @@
                 },
                 {
                     "title": "Laufen 50 m",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1155,8 +1107,6 @@
                 },
                 {
                     "title": "Laufen 100 m",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1216,8 +1166,6 @@
                 },
                 {
                     "title": "25 m Schwimmen",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1349,8 +1297,6 @@
                 },
                 {
                     "title": "200 m Radfahren",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1469,8 +1415,6 @@
             "exercise": [
                 {
                     "title": "Hochsprung",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1566,8 +1510,6 @@
                 },
                 {
                     "title": "Zonenweitsprung",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1609,8 +1551,6 @@
                 },
                 {
                     "title": "Weitsprung",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1706,8 +1646,6 @@
                 },
                 {
                     "title": "Drehwurf",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1767,8 +1705,6 @@
                 },
                 {
                     "title": "Schleuderball",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1846,8 +1782,6 @@
                 },
                 {
                     "title": "Seilspringen Grundsprung vorwärts mit oder ohne Zwischensprung ODER Galoppsprung",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1889,8 +1823,6 @@
                 },
                 {
                     "title": "Seilspringen Grundsprung vorwärts ohne Zwischensprung",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1914,8 +1846,6 @@
                 },
                 {
                     "title": "Seilspringen Grundsprung rückwärts ohne Zwischensprung",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1939,8 +1869,6 @@
                 },
                 {
                     "title": "Seilspringen Kreuzdurchschlag ohne Zwischensprung",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",
@@ -1982,8 +1910,6 @@
                 },
                 {
                     "title": "Seilspringen Doppeldurchschlag mit oder ohne Zwischensprung",
-                    "from_age": 6,
-                    "to_age": 999,
                     "rules": [
                         {
                             "gender": "m",

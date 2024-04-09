@@ -1,3 +1,4 @@
+from src.services.completes_service import calculate_points
 from src.services.csv_service import create_csv, entity_config, parse_csv
 from tests.define_test_variables import client_fixture, session_fixture, TestVariables
 from datetime import date, datetime
@@ -13,10 +14,10 @@ def create_athletes(session):
     category = Category(title="category_exercise_completes")
     session.add(category)
     session.flush()
-    exercise = Exercise(title="exercise_completes", category_id=category.id, from_age=10, to_age=20)
+    exercise = Exercise(title="exercise_completes", category_id=category.id)
     session.add(exercise)
     session.flush()
-    completes = Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=datetime.now(), tracked_by=trainer.id, result="result", points=1)
+    completes = Completes(athlete_id=athlete.id, exercise_id=exercise.id, tracked_at=datetime.now(), tracked_by=trainer.id, result="result", db=session)
     session.add(completes)
     session.commit()
 
@@ -31,10 +32,10 @@ def test_csv(session, client):
 
     response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("trainer.csv", open("trainer.csv", "rb"))}, headers=TestVariables.headers)
     assert response.status_code == 400, f"{response.text} {response.status_code}"
-    response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("athlete.csv", open("athlete.csv", "rb"))}, headers=TestVariables.headers)
+    response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("real_athletes.csv", open("./tests/real_athletes.csv", "rb"))}, headers=TestVariables.headers)
     assert response.status_code == 201, f"{response.text} {response.status_code}"
-    # response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("kay.csv", open("kay.csv", "rb"))}, headers=TestVariables.headers)
-    # assert response.status_code == 404, f"{response.text} {response.status_code}"
-    # response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("kay_untrimmed.csv", open("kay_untrimmed.csv", "rb"))}, headers=TestVariables.headers)
-    # assert response.status_code == 404, f"{response.text} {response.status_code}"
+    response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("real_completes.csv", open("./tests/real_completes.csv", "rb"))}, headers=TestVariables.headers)
+    assert response.status_code == 201, f"{response.text} {response.status_code}"
+    response = client.post(TestVariables.BASEURL + "/csv/parse", files={"file": ("real_completes_untrimmed.csv", open("./tests/real_completes_untrimmed.csv", "rb"))}, headers=TestVariables.headers)
+    assert response.status_code == 201, f"{response.text} {response.status_code}"
 

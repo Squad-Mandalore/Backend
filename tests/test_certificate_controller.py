@@ -8,7 +8,8 @@ from tests.define_test_variables import TestVariables
 
 
 def test_post_certificate(session: Session, client: TestClient):
-    certificate: Certificate = Certificate(athlete_id="CHUCHUID", uploader="admin", title="HansNachweis")
+    test_blob = b'"HalloWelt"'
+    certificate: Certificate = Certificate(athlete_id="CHUCHUID", uploader="admin", title="HansNachweis", blob=test_blob)
 
     session.add(certificate)
     session.commit()

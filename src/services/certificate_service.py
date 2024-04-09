@@ -18,22 +18,21 @@ def create_certificate(certificate_post_schema: CertificatePostSchema, db: Sessi
 
 
 def get_certificates_by_id(id: str, db: Session) -> Certificate:
+    certificate: Certificate | None = db.get(Certificate, id)
+
+    if certificate is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Certificate not found")
+    return certificate
+
+
+def update_certificate(id: str, certificate_patch_schema: CertificatePatchSchema, db: Session) -> Certificate:
     certificate: Base | None = db.get(Certificate, id)
 
     if certificate is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Certificate not found")
 
+    update_service.update_properties(certificate, certificate_patch_schema)
     return cast(Certificate, certificate)
-
-
-def update_certificate(id: str, certificate_patch_schema: CertificatePatchSchema, db: Session) -> Certificate:
-    completes: Base | None = db.get(Certificate, id)
-
-    if completes is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Certificate not found")
-
-    update_service.update_properties(completes, certificate_patch_schema)
-    return cast(Certificate, completes)
 
 
 def delete_certificate(id: str, db: Session) -> None:
@@ -41,4 +40,4 @@ def delete_certificate(id: str, db: Session) -> None:
 
 
 def get_all_certificates(db: Session) -> list[Certificate]:
-    return cast(list[Certificate], database_utils.get_all(Certificate, db))
+    return db.query(Certificate).all()

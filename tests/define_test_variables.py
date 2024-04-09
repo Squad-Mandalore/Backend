@@ -25,6 +25,7 @@ class TestVariables():
     test_exercise: dict = {}
     test_completes: dict = {}
     test_category: dict = {}
+    test_certificate: dict = {}
     test_rule: dict = {}
     test_admin: dict = {}
 

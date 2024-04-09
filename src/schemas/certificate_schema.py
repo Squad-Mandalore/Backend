@@ -7,6 +7,7 @@ from pydantic import BaseModel
 class CertificatePostSchema(BaseModel):
     athlete_id: str
     title: str
+    blob: bytes
 
 
 class CertificateResponseSchema(BaseModel):

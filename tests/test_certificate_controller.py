@@ -1,24 +1,23 @@
-
+from datetime import datetime
 from sqlalchemy.orm import Session
 
 from fastapi.testclient import TestClient
 
-from src.models.models import Certificate
-from tests.define_test_variables import TestVariables
-
+from src.models.models import Certificate, Athlete, Trainer, Gender
+from tests.define_test_variables import TestVariables, session_fixture, client_fixture
 
 def test_post_certificate(session: Session, client: TestClient):
-    test_blob = b'"HalloWelt"'
-    certificate: Certificate = Certificate(athlete_id="CHUCHUID", uploader="admin", title="HansNachweis", blob=test_blob)
+    trainer: Trainer = Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
+    athlete: Athlete = Athlete(username="username", email="ole@mail", unhashed_password="unhashed", firstname="ole", lastname="grundmann", birthday=datetime.now(), trainer_id=f"{trainer.id}", gender=Gender.MALE)
 
-    session.add(certificate)
+    session.add(trainer)
+    session.add(athlete)
     session.commit()
-    certificate_new = session.query(Certificate).filter(Certificate.title == "HansNachweis").first()
-    if certificate_new is None:
-        assert False, 'Certificate not found'
 
     body = {
-        ''
+        "athlete_id": f"{athlete.id}",
+        "title": "Rettungsschwimmer12345",
+        "blob": b'UltraColePdf'
     }
 
     response = client.post('/certificates', json=body, headers=TestVariables.headers)

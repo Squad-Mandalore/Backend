@@ -10,9 +10,9 @@ from src.schemas.certificate_schema import CertificatePostSchema, CertificatePat
 from src.services import update_service
 
 
-def create_certificate(certificate_post_schema: CertificatePostSchema, db: Session) -> Certificate:
+def create_certificate(certificate_post_schema: CertificatePostSchema, user_id: str, db: Session) -> Certificate:
     certificate_dict = certificate_post_schema.model_dump(exclude_unset=True)
-    certificates = Certificate(**certificate_dict)
+    certificates = Certificate(**certificate_dict, uploader=user_id)
     database_utils.add(certificates, db)
     return certificates
 

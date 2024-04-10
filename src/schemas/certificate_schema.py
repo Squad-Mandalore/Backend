@@ -20,6 +20,5 @@ class CertificateResponseSchema(BaseModel):
 
 
 class CertificatePatchSchema(BaseModel):
-    athlete_id: str
     title: Optional[str] = None
     blob: Optional[bytes] = None

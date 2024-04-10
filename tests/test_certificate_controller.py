@@ -8,9 +8,9 @@ from tests.define_test_variables import TestVariables, session_fixture, client_f
 
 def test_post_certificate(session: Session, client: TestClient):
     trainer: Trainer = Trainer(username="trainer", email="trainer", unhashed_password="trainer", firstname="trainer", lastname="trainer")
-    athlete: Athlete = Athlete(username="username", email="ole@mail", unhashed_password="unhashed", firstname="ole", lastname="grundmann", birthday=datetime.now(), trainer_id=f"{trainer.id}", gender=Gender.MALE)
-
     session.add(trainer)
+    session.flush()
+    athlete: Athlete = Athlete(username="username", email="ole@mail", unhashed_password="unhashed", firstname="ole", lastname="grundmann", birthday=datetime.now(), trainer_id=trainer.id, gender=Gender.MALE)
     session.add(athlete)
     session.commit()
 
@@ -37,7 +37,7 @@ def test_get_certificate_by_id(client: TestClient):
 
 def test_delete_certificate(client: TestClient) -> None:
     certificate_id = TestVariables.test_certificate['id']
-    response = client.delete(f"/athletes/{certificate_id}", headers=TestVariables.headers)
+    response = client.delete(f"/certificates/{certificate_id}", headers=TestVariables.headers)
     assert response.status_code == 200, f" {str(response.status_code)}"
 
 

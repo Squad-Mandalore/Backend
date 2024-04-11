@@ -106,7 +106,7 @@ class Category(Base):
 class Certificate(Base):
     __tablename__ = "certificate"
     id: Mapped[str] = mapped_column(primary_key=True, default=get_uuid)
-    athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
+    athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"))
     uploaded_at: Mapped[datetime]
     uploaded_by: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
     title: Mapped[str]

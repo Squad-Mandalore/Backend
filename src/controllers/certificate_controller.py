@@ -27,12 +27,12 @@ async def get_certificates(id: str, user: User = Depends(get_current_user), db: 
     return certificate_service.get_certificates_by_id(id, db)
 
 
-@router.delete("/{id}", response_model=CertificateResponseSchema, status_code=status.HTTP_200_OK)
+@router.delete("/{id}", status_code=status.HTTP_200_OK)
 async def delete_certificate(id: str, user: User = Depends(get_current_user), db: Session = Depends(get_db)) -> None:
     return certificate_service.delete_certificate(id, db)
 
 
-@router.post("/", response_model=CertificateResponseSchema, status_code=status.HTTP_200_OK)
+@router.post("/", response_model=CertificateResponseSchema, status_code=status.HTTP_201_CREATED)
 async def create_certificate(certificate_post_schema: CertificatePostSchema, user: User = Depends(get_current_user),
                              db: Session = Depends(get_db)) -> Certificate:
     return certificate_service.create_certificate(certificate_post_schema, user.id, db)

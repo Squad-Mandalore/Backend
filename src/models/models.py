@@ -181,26 +181,32 @@ def calculate_points(athlete_id: str, exercise_id: str, tracked_at: date, result
 
     if not rule:
         return 0
+    
+    if result == "Gold":
+        return 3
+    elif result == "Silber":
+        return 2
+    elif result == "Bronze":
+        return 1
 
     if(rule.bronze > rule.gold):
         isbigger = False
 
-    points = 0
     if isbigger:
         if result >= rule.gold:
-            points = 3
+            return 3
         elif result >= rule.silver:
-            points = 2
+            return 2
         elif result >= rule.bronze:
-            points = 1
+            return 1
     else:
         if result <= rule.gold:
-            points = 3
+            return 3
         elif result <= rule.silver:
-            points = 2
+            return 2
         elif result <= rule.bronze:
-            points = 1
-    return points
+            return 1
+    return 0
 
 class Completes(Base):
     __tablename__ = "completes"

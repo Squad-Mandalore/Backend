@@ -29,9 +29,7 @@ def get_trainer_by_id(id: str, db: Session) -> Trainer:
     return cast(Trainer, trainer)
 
 def update_trainer(id: str, trainer_patch_schema: TrainerPatchSchema, db: Session) -> Trainer:
-    trainer: Base | None = db.get(Trainer, id)
-    if trainer is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trainer not found")
+    trainer: Trainer = get_trainer_by_id(id, db)
 
     update_service.update_properties(trainer, trainer_patch_schema)
     setattr(trainer, "last_edited_at", datetime.now())

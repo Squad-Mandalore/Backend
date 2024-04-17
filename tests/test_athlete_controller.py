@@ -3,6 +3,7 @@ from datetime import datetime
 from fastapi.testclient import TestClient
 from httpx import Response
 from sqlalchemy.orm import Session
+from src.services import password_service, athlete_service
 
 #client_fixture, session_fixture are fixtures that are used to create a test client and a session for the test cases !!DO NOT REMOVE!!
 from src.models.models import Trainer
@@ -45,13 +46,14 @@ def test_get_full_athlete_by_id(client: TestClient):
     assert response.status_code == 200
     assert response.json()['username'] == "username"
 
-def test_patch_athlete(client: TestClient) -> None:
+def test_patch_athlete(client: TestClient, session) -> None:
     athlete_id = TestVariables.test_athlete['id']
     body = {
         "firstname": "markus",
         "lastname": "quarkus"
     }
     response: Response = client.patch(f"/athletes/{athlete_id}", json=body, headers=TestVariables.headers)
+    assert True == password_service.verify_password(athlete_service.get_athlete_by_id(athlete_id, session), "nicht-gehashed")
     assert response.status_code == 202, f" {str(response.status_code)}"
     assert response.json()["firstname"] == "markus"
     assert response.json()["lastname"] == "quarkus"

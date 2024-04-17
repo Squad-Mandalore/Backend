@@ -23,10 +23,11 @@ def get_athlete_by_id(id: str, db: Session) -> Athlete:
     return cast(Athlete, athlete)
 
 def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, db: Session) -> Athlete:
-    athlete: Base | None = db.get(Athlete, id)
+    athlete: Athlete = get_athlete_by_id(id, db)
 
-    if athlete is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Athlete not found")
+    if athlete_patch_schema.unhashed_password != None:
+        update_service.update_password(athlete, athlete_patch_schema.unhashed_password)
+        athlete_patch_schema.unhashed_password = None
 
     update_service.update_properties(athlete, athlete_patch_schema)
     setattr(athlete, "last_edited_at", datetime.now())

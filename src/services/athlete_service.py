@@ -2,13 +2,19 @@ from datetime import datetime
 from typing import cast
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 
+from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
 from src.database import database_utils
 from src.models.models import Athlete, Base
 from src.schemas.athlete_schema import AthletePatchSchema, AthletePostSchema
 from src.services import update_service
 
 def create_athlete(athlete_post_schema: AthletePostSchema, trainer_id: str, db: Session) -> Athlete:
+    athlete_db: Athlete | None = db.scalar(select(Athlete).where(Athlete.username == athlete_post_schema.username))
+    if athlete_db is not None:
+        raise HTTPException(status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail="Username already in use")
+
     athlete_dict = athlete_post_schema.model_dump(exclude_unset=True)
     athlete = Athlete(**athlete_dict, trainer_id=trainer_id)
     database_utils.add(athlete, db)

@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -9,8 +10,11 @@ def update_properties(obj: Base, schema: BaseModel):
     for field, value in update_fields.items():
         setattr(obj, field, value)
 
-def update_password(user: User, unhashed_password: str):
+def update_password(user: User, unhashed_password: str) -> None:
+    check: HTTPException | None = password_service.validate_password(unhashed_password)
+    if check:
+        raise check
+
     hashed_password, _ = password_service.hash_and_spice_password(unhashed_password, user.salt)
     setattr(user, "hashed_password", hashed_password)
     setattr(user, "last_password_change", datetime.now())
-    

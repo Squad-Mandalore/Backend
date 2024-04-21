@@ -29,6 +29,11 @@ def get_admin_by_id(id: str, db: Session) -> Administrator:
 
 def update_admin(id: str, admin_patch_schema: AdminPatchSchema, db: Session) -> Administrator:
     admin: Administrator = get_admin_by_id(id, db)
+
+    if admin_patch_schema.unhashed_password != None:
+        update_service.update_password(admin, admin_patch_schema.unhashed_password)
+        admin_patch_schema.unhashed_password = None
+
     update_service.update_properties(admin, admin_patch_schema)
     setattr(admin, "last_edited_at", datetime.now())
     db.commit()

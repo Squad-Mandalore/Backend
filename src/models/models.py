@@ -79,7 +79,7 @@ class Athlete(User):
     trainer_id: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
 
     trainer: Mapped["Trainer"] = relationship(back_populates="athletes", primaryjoin="Trainer.id==Athlete.trainer_id")
-    completes: Mapped[list["Completes"]] = relationship(back_populates="athlete")
+    completes: Mapped[list["Completes"]] = relationship(back_populates="athlete", cascade="all, delete")
     certificates: Mapped[list["Certificate"]] = relationship(back_populates="athlete")
 
     __mapper_args__ = {"polymorphic_identity": "athlete"}
@@ -181,7 +181,7 @@ def calculate_points(athlete_id: str, exercise_id: str, tracked_at: date, result
 
     if not rule:
         return 0
-    
+
     if result == "Gold":
         return 3
     elif result == "Silber":
@@ -210,8 +210,8 @@ def calculate_points(athlete_id: str, exercise_id: str, tracked_at: date, result
 
 class Completes(Base):
     __tablename__ = "completes"
-    athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id"), primary_key=True)
-    exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id"), primary_key=True)
+    athlete_id: Mapped[str] = mapped_column(ForeignKey("athlete.id", ondelete="CASCADE"), primary_key=True)
+    exercise_id: Mapped[str] = mapped_column(ForeignKey("exercise.id", ondelete="CASCADE"), primary_key=True)
     tracked_at: Mapped[date] = mapped_column(primary_key=True)
     tracked_by: Mapped[str] = mapped_column(ForeignKey("trainer.id"))
     result: Mapped[str]

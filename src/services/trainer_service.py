@@ -31,6 +31,10 @@ def get_trainer_by_id(id: str, db: Session) -> Trainer:
 def update_trainer(id: str, trainer_patch_schema: TrainerPatchSchema, db: Session) -> Trainer:
     trainer: Trainer = get_trainer_by_id(id, db)
 
+    if trainer_patch_schema.unhashed_password != None:
+        update_service.update_password(trainer, trainer_patch_schema.unhashed_password)
+        trainer_patch_schema.unhashed_password = None
+
     update_service.update_properties(trainer, trainer_patch_schema)
     setattr(trainer, "last_edited_at", datetime.now())
     db.commit()

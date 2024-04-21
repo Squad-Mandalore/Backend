@@ -14,7 +14,7 @@ def create_athlete(athlete_post_schema: AthletePostSchema, trainer_id: str, db: 
     athlete_db: Athlete | None = db.scalar(select(Athlete).where(Athlete.username == athlete_post_schema.username))
     if athlete_db is not None:
         raise HTTPException(status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail="Username already in use")
-    
+
     athlete_dict = athlete_post_schema.model_dump(exclude_unset=True)
     athlete = Athlete(**athlete_dict, trainer_id=trainer_id)
     database_utils.add(athlete, db)
@@ -30,6 +30,10 @@ def get_athlete_by_id(id: str, db: Session) -> Athlete:
 
 def update_athlete(id: str, athlete_patch_schema: AthletePatchSchema, db: Session) -> Athlete:
     athlete: Athlete = get_athlete_by_id(id, db)
+
+    if athlete_patch_schema.unhashed_password != None:
+        update_service.update_password(athlete, athlete_patch_schema.unhashed_password)
+        athlete_patch_schema.unhashed_password = None
 
     update_service.update_properties(athlete, athlete_patch_schema)
     setattr(athlete, "last_edited_at", datetime.now())

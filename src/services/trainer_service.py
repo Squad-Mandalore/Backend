@@ -7,13 +7,13 @@ from sqlalchemy.orm import Session
 from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
 
 from src.database import database_utils
-from src.models.models import Base, Trainer
+from src.models.models import Base, Trainer, User
 from src.schemas.trainer_schema import TrainerPatchSchema, TrainerPostSchema
 from src.services import update_service
 
 def create_trainer(trainer_post_schema: TrainerPostSchema, db: Session) -> Trainer:
-    trainer_db: Trainer | None = db.scalar(select(Trainer).where(Trainer.username == trainer_post_schema.username))
-    if trainer_db is not None:
+    user_db: User | None = db.scalar(select(User).where(User.username == trainer_post_schema.username))
+    if user_db is not None:
         raise HTTPException(status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail="Username already in use")
 
     trainer_dict = trainer_post_schema.model_dump(exclude_unset=True)
@@ -30,6 +30,10 @@ def get_trainer_by_id(id: str, db: Session) -> Trainer:
 
 def update_trainer(id: str, trainer_patch_schema: TrainerPatchSchema, db: Session) -> Trainer:
     trainer: Trainer = get_trainer_by_id(id, db)
+    if trainer_patch_schema.username != None and trainer.username != trainer_patch_schema.username:
+        user_db: User | None = db.scalar(select(User).where(User.username == trainer_patch_schema.username))
+        if user_db is not None:
+            raise HTTPException(status_code=HTTP_422_UNPROCESSABLE_ENTITY, detail="Username already in use")
 
     if trainer_patch_schema.unhashed_password != None:
         update_service.update_password(trainer, trainer_patch_schema.unhashed_password)

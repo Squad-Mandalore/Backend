@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, UploadFile, File, Form
 from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_db
@@ -33,9 +33,9 @@ async def delete_certificate(id: str, user: User = Depends(get_current_user), db
 
 
 @router.post("/", response_model=CertificateResponseSchema, status_code=status.HTTP_201_CREATED)
-async def create_certificate(certificate_post_schema: CertificatePostSchema, user: User = Depends(get_current_user),
+async def create_certificate(blob: UploadFile = File(...), athlete_id: str = Form(...), title: str = Form(...), user: User = Depends(get_current_user),
                              db: Session = Depends(get_db)) -> Certificate:
-    return certificate_service.create_certificate(certificate_post_schema, user.id, db)
+    return certificate_service.create_certificate(athlete_id, title, blob, user.id, db)
 
 
 @router.patch("/{id}", response_model=CertificateResponseSchema, status_code=status.HTTP_202_ACCEPTED)

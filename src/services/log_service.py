@@ -21,11 +21,12 @@ def check_log_age() -> date | None:
         logger.warning(e)
 
 def is_date_at_least_three_days_old(given_date: date) -> bool:
-    today = datetime.date.today()
+    today = date.today()
+    print(today)
     three_days_ago = today - timedelta(days=3)
+    print(three_days_ago)
     return given_date <= three_days_ago
 
-@aiocron.crontab('0 0 */3 * *')
 async def clear_error_log() -> None:
     log_age: date | None = check_log_age()
     if not log_age:
@@ -36,3 +37,5 @@ async def clear_error_log() -> None:
 
     with open(error_log_path, 'w', encoding='utf-8') as file:
         pass
+
+scheduled_clear = aiocron.crontab('0 0 */3 * *', func=clear_error_log)

@@ -1,5 +1,3 @@
-import os
-import time
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -18,10 +16,12 @@ from src.controllers import (
 )
 from src.database.database_setup import init_db
 from src.middleware.cors import add_cors_middleware
+from src.services.log_service import clear_error_log
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    await clear_error_log()
     yield
 
 app = FastAPI(lifespan=lifespan)
@@ -37,4 +37,3 @@ app.include_router(rule_controller.router)
 app.include_router(auth_controller.router)
 app.include_router(csv_controller.router)
 app.include_router(log_controller.router)
-

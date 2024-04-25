@@ -16,7 +16,7 @@ from src.controllers import (
 )
 from src.database.database_setup import init_db
 from src.middleware.cors import add_cors_middleware
-from src.services.log_service import clear_error_log
+from src.services.logger_service import clear_error_log
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

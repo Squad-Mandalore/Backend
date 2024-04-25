@@ -9,7 +9,7 @@ import pytest
 from unittest.mock import call, patch, mock_open
 from datetime import date, timedelta
 from src.logger.logger import logger
-from src.services.log_service import check_log_age, is_date_at_least_three_days_old, clear_error_log
+from src.services.logger_service import check_log_age, is_date_at_least_three_days_old, clear_error_log
 
 
 def test_logger_debug(caplog: LogCaptureFixture, client: TestClient) -> None:
@@ -141,8 +141,8 @@ def test_check_log_age_failure(mock_file):
 async def test_clear_error_log_no_clear_needed():
     m = mock_open()
     with patch('builtins.open', m), \
-         patch('src.services.log_service.check_log_age', return_value=date(2023, 4, 20)), \
-         patch('src.services.log_service.is_date_at_least_three_days_old', return_value=False):
+         patch('src.services.logger_service.check_log_age', return_value=date(2023, 4, 20)), \
+         patch('src.services.logger_service.is_date_at_least_three_days_old', return_value=False):
         await clear_error_log()
         assert not call('error.log', 'w', encoding='utf-8') in m.mock_calls
 
@@ -150,7 +150,7 @@ async def test_clear_error_log_no_clear_needed():
 async def test_clear_error_log_clear_needed():
     m = mock_open()
     with patch('builtins.open', m), \
-         patch('src.services.log_service.check_log_age', return_value=date(2023, 4, 17)), \
-         patch('src.services.log_service.is_date_at_least_three_days_old', return_value=True):
+         patch('src.services.logger_service.check_log_age', return_value=date(2023, 4, 17)), \
+         patch('src.services.logger_service.is_date_at_least_three_days_old', return_value=True):
         await clear_error_log()
         assert call('error.log', 'w', encoding='utf-8') in m.mock_calls

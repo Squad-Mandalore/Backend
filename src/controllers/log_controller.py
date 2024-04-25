@@ -5,7 +5,7 @@ from starlette.responses import FileResponse
 
 from src.logger.logger import frontend_logger
 from src.schemas.log_schema import LogSchema
-from src.services.log_service import error_log_path
+from src.services.logger_service import error_log_path
 
 
 router = APIRouter(

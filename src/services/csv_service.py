@@ -303,5 +303,3 @@ def get_gender(abbreviation: str) -> Gender:
         return Gender.DIVERSE
     else:
         return Gender.FEMALE
-
-

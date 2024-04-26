@@ -127,12 +127,14 @@ def test_is_date_at_least_three_days_old(test_date, expected):
     assert is_date_at_least_three_days_old(test_date) == expected
 
 def test_check_log_age(mock_file):
-    with patch('builtins.open', mock_file):
+    with patch('builtins.open', mock_file), \
+         patch('src.services.logger_service.os.path.getsize', return_value=1):
         assert check_log_age() == date(2023, 4, 20)
 
 def test_check_log_age_failure(mock_file):
     mock_file.return_value.read = lambda x: ''  # Simulate end of file or error
     with patch('builtins.open', mock_file), \
+         patch('src.services.logger_service.os.path.getsize', return_value=1), \
          patch.object(logger, 'warning') as mock_warning:
         assert check_log_age() is None
         mock_warning.assert_called()

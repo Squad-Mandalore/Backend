@@ -1,10 +1,14 @@
 import aiocron
+import os
 from datetime import date, datetime, timedelta
 from src.logger.logger import logger
 
 error_log_path: str = "error.log"
 
 def check_log_age() -> date | None:
+    if os.path.getsize(error_log_path) == 0:
+        return
+
     date_chars: list[str] = []
     try:
         with open(error_log_path, 'r', encoding='utf-8') as file:
@@ -22,9 +26,7 @@ def check_log_age() -> date | None:
 
 def is_date_at_least_three_days_old(given_date: date) -> bool:
     today = date.today()
-    print(today)
     three_days_ago = today - timedelta(days=3)
-    print(three_days_ago)
     return given_date <= three_days_ago
 
 async def clear_error_log() -> None:

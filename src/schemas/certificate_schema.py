@@ -21,3 +21,8 @@ class CertificateResponseSchema(BaseModel):
 class CertificatePatchSchema(BaseModel):
     title: Optional[str] = None
     blob: Optional[bytes] = None
+
+
+class CertificateSingleResponseSchema(BaseModel):
+    title: str
+    blob: str

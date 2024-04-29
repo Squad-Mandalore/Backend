@@ -1017,6 +1017,147 @@
                             "year": 2024
                         }
                     ]
+                },
+                {
+                    "title": "Geräteturnen Boden",
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Geräteturnen Barren",
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Geräteturnen Reck",
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        }
+                    ]
                 }
             ]
         },
@@ -1404,6 +1545,142 @@
                             "bronze": "00:00:24:000",
                             "silver": "00:00:22:000",
                             "gold": "00:00:19:500",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Geräteturnen Sprung",
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Geräteturnen Boden",
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
                             "year": 2024
                         }
                     ]
@@ -1927,6 +2204,152 @@
                             "bronze": "0005",
                             "silver": "0010",
                             "gold": "0015",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Geräteturnen Schwebebalken",
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 6,
+                            "to_age": 7,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Geräteturnen Reck",
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 8,
+                            "to_age": 9,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Geräteturnen Ringe",
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 10,
+                            "to_age": 11,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        }
+                    ]
+                },
+                {
+                    "title": "Geräteturnen Boden",
+                    "rules": [
+                        {
+                            "gender": "m",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 12,
+                            "to_age": 13,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 14,
+                            "to_age": 15,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 16,
+                            "to_age": 17,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "m",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
+                            "year": 2024
+                        },
+                        {
+                            "gender": "f",
+                            "from_age": 18,
+                            "to_age": 19,
+                            "bronze": "Bronze",
+                            "silver": "Silber",
+                            "gold": "Gold",
                             "year": 2024
                         }
                     ]

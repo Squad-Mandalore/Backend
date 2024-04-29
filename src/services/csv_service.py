@@ -133,6 +133,7 @@ def generate_random_password(length: int = 12) -> str:
     return random_string
 
 async def parse_csv(file: UploadFile, current_user: User, db: Session) -> dict | None:
+    response_message.clear()
     object_creator = None
     file_content = await file.read()
     content_str = file_content.decode("utf-8")
@@ -262,6 +263,7 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
         if int(line['Punkte']) > int(completes.points):
             global response_message
             response_message[f"{line['Vorname']} {line['Name']} {line['Datum']} {line['Übung']}"] = f"Points updated from {completes.points} to {line['Punkte']}"
+            completes.result = line['Ergebnis']
             completes.points = line['Punkte']
             db.flush()
 

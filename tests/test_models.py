@@ -160,3 +160,13 @@ def test_points_times(session):
     session.commit()
 
     assert completes.points == 3, f"{completes.points}"
+
+def test_points_medal(session):
+    trainer = session.query(models.Trainer).filter(models.Athlete.username == "trainer_athlete_completes").first()
+    athlete = session.query(models.Athlete).filter(models.Athlete.username == "athlete_completes").first()
+    exerciseDb = session.scalar(select(models.Exercise).where(models.Exercise.title == "Geräteturnen Boden"))
+    completes = models.Completes(athlete_id=athlete.id, exercise_id=exerciseDb.id, tracked_at=athlete.birthday.replace(year=athlete.birthday.year + 6), tracked_by=trainer.id, result="Gold", db=session)
+    session.add(completes)
+    session.commit()
+
+    assert completes.points == 3, f"{completes.points}"

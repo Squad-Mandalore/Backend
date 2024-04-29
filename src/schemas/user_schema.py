@@ -15,6 +15,7 @@ class UserPatchSchema(BaseModel):
     email: Optional[str] = None
     firstname: Optional[str] = None
     lastname: Optional[str] = None
+    unhashed_password: Optional[str] = None
 
 class UserResponseSchema(BaseModel):
     # model_config = ConfigDict()

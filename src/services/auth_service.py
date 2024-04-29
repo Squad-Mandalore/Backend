@@ -60,5 +60,5 @@ def validate_token(token: str) -> dict:
     try:
         payload = jwt.decode(token, JWT_KEY, algorithms=[ALGORITHM])
         return payload
-    except jwt.exceptions.ExpiredSignatureError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired", headers={"WWW-Authenticate": "Bearer"},)
+    except:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Token", headers={"WWW-Authenticate": "Bearer"},)

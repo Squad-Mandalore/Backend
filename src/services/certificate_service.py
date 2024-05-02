@@ -43,7 +43,3 @@ def update_certificate(id: str, certificate_patch_schema: CertificatePatchSchema
 
 def delete_certificate(id: str, db: Session) -> None:
     return database_utils.delete(Certificate, id, db)
-
-
-def get_all_certificates(db: Session) -> list[Certificate]:
-    return db.query(Certificate).all()

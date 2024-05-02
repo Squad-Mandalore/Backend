@@ -41,10 +41,3 @@ async def create_certificate(blob: UploadFile = File(...), athlete_id: str = For
                              user: User = Depends(get_current_user),
                              db: Session = Depends(get_db)) -> Certificate:
     return certificate_service.create_certificate(athlete_id, title, blob, user.id, db)
-
-
-@router.patch("/{id}", response_model=CertificateResponseSchema, status_code=status.HTTP_202_ACCEPTED)
-async def update_certificate(id: str, certificate_patch_schema: CertificatePatchSchema,
-                             user: User = Depends(get_current_user),
-                             db: Session = Depends(get_db)) -> Certificate:
-    return certificate_service.update_certificate(id, certificate_patch_schema, db)

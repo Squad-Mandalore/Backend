@@ -2,12 +2,10 @@ import base64
 
 from fastapi import APIRouter, Depends, status, UploadFile, File, Form
 from sqlalchemy.orm import Session
-from starlette.responses import Response
 
 from src.database.database_utils import get_db
 from src.models.models import Certificate, User
-from src.schemas.certificate_schema import CertificateResponseSchema, CertificatePatchSchema, \
-    CertificateSingleResponseSchema
+from src.schemas.certificate_schema import CertificateResponseSchema, CertificateSingleResponseSchema
 from src.services import certificate_service
 from src.services.auth_service import get_current_user
 

@@ -291,7 +291,7 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
     exercise = db.scalar(select(Exercise).where(Exercise.title == line['Übung']))
     #exercise = create_exercise(line, category, db)
     if exercise == None:
-        response_message[f"{line['Übung']}"] = 'Skipped completes for this exercise'
+        response_message[f"{line['Übung']}"] = 'No exercise found'
         return
 
     value: str = line['Ergebnis']

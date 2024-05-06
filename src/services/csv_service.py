@@ -44,7 +44,7 @@ entity_config: dict = {
     }
 }
 
-def parse_input(raw_number: str, length: int, colon_index: list[int], decimals_format: str):
+def parse_input(raw_number: str, length: int, colon_index: list[int], decimals_format: str) -> str:
 
     number_str = raw_number.replace(',','.').replace(':','')
 
@@ -66,10 +66,11 @@ parser_mapping: dict = {
     '/d/d:/d/d:/d/d:/d/d/d': time_parser,
     '/d/d/d:/d/d/d:/d/d': length_parser,
     '/d/d/d/d': count_parser,
-    '/d': lambda x: x
+    '/d': lambda x: x,
+    '': lambda _: None
 }
 
-def check_pattern(input:str):
+def check_pattern(input:str) -> str:
     patterns = {
         r'^\d{2}:\d{2}:\d{2}:\d{3}$': '/d/d:/d/d:/d/d:/d/d/d',
         r'^\d{3}:\d{3}:\d{2}$': '/d/d/d:/d/d/d:/d/d',
@@ -81,7 +82,7 @@ def check_pattern(input:str):
         if re.match(pattern, input):
             return output
 
-    return 'unknown'
+    return ''
 
 response_message: dict = {}
 

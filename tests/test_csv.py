@@ -1,5 +1,5 @@
 from src.services.completes_service import calculate_points
-from src.services.csv_service import create_csv, entity_config, parse_csv, length_parser, count_parser, time_parser
+from src.services.csv_service import create_csv, entity_config, parse_csv, length_parser, count_parser, time_parser, check_pattern, parser_mapping
 from tests.define_test_variables import client_fixture, session_fixture, TestVariables
 from datetime import date, datetime
 from src.models.models import Athlete, Base, Category, Completes, Exercise, Gender, Trainer
@@ -53,3 +53,8 @@ def test_time_parser():
     assert "00:00:03:000" == time_parser(raw_number="3")
     assert "00:14:00:000" == time_parser(raw_number="14:00")
     assert "00:03:45:000" == time_parser(raw_number="03:45")
+
+def test_check_pattern():
+    pattern = check_pattern('your mom')
+    value = parser_mapping[pattern]("14,34")
+    assert value is None

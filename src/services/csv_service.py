@@ -286,11 +286,21 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
     if not athlete:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Athlete {line['Vorname']} {line['Name']} {birthday} not found")
 
+    global response_message
     category = create_category(line, db)
-    exercise = create_exercise(line, category, db)
+    exercise = db.scalar(select(Exercise).where(Exercise.title == line['Übung']))
+    #exercise = create_exercise(line, category, db)
+    if exercise == None:
+        response_message[f"{line['Übung']}"] = 'Skipped completes for this exercise'
+        return
+
     value: str = line['Ergebnis']
-    if exercise.rules != None and len(exercise.rules) > 0:
-        value = parser_mapping[check_pattern(exercise.rules[0].gold)](line['Ergebnis'])
+    if exercise.rules == None or len(exercise.rules) <= 0:
+        response_message[f"{exercise.title}"] = 'No Rules found for this exercise'
+        return
+
+    pattern = check_pattern(exercise.rules[0].gold)
+    value = parser_mapping[pattern](line['Ergebnis'])
 
     # check if completes already exists
     completes = db.scalar(select(Completes).where(Completes.athlete_id == athlete.id, Completes.exercise_id == exercise.id, Completes.tracked_at == tracked_at))
@@ -305,9 +315,9 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
         )
     else:
         if int(line['Punkte']) > int(completes.points):
-            global response_message
+            #global response_message
             response_message[f"{line['Vorname']} {line['Name']} {line['Datum']} {line['Übung']}"] = f"Points updated from {completes.points} to {line['Punkte']}"
-            completes.result = line['Ergebnis']
+            completes.result = value
             completes.points = line['Punkte']
             db.flush()
 

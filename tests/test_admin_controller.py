@@ -36,7 +36,7 @@ def test_patch_admin(client: TestClient, session) -> None:
     body = {
         "firstname": "admin_updated",
         "lastname": "admin_updated_last",
-        "unhashed_password": "TEST"
+        "unhashed_password": "123123123123"
     }
     response: Response = client.patch(f"/admins/{admin_id}", json=body, headers=TestVariables.headers)
 

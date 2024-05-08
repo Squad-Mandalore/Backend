@@ -52,7 +52,7 @@ def update_completes(exercise_id: str, athlete_id: str, tracked_at: str, complet
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Completes not found")
 
     update_service.update_properties(completes, completes_patch_schema)
-    completes.tracked_at = datetime.now().date()
+    #completes.tracked_at = datetime.now().date()
     completes.tracked_by = current_user_id
     completes.points = calculate_points(completes.athlete_id, completes.exercise_id, completes.tracked_at, completes.result, db)
     db.commit()

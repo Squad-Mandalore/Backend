@@ -1025,54 +1025,54 @@
                             "gender": "m",
                             "from_age": 6,
                             "to_age": 7,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 6,
                             "to_age": 7,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 8,
                             "to_age": 9,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 8,
                             "to_age": 9,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 14,
                             "to_age": 15,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 14,
                             "to_age": 15,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         }
                     ]
@@ -1084,18 +1084,18 @@
                             "gender": "m",
                             "from_age": 10,
                             "to_age": 11,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 10,
                             "to_age": 11,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         }
                     ]
@@ -1107,54 +1107,54 @@
                             "gender": "m",
                             "from_age": 12,
                             "to_age": 13,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 12,
                             "to_age": 13,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 16,
                             "to_age": 17,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 16,
                             "to_age": 17,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 18,
                             "to_age": 19,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 18,
                             "to_age": 19,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         }
                     ]
@@ -1556,108 +1556,108 @@
                             "gender": "m",
                             "from_age": 6,
                             "to_age": 7,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 6,
                             "to_age": 7,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 10,
                             "to_age": 11,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 10,
                             "to_age": 11,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 12,
                             "to_age": 13,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 12,
                             "to_age": 13,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 14,
                             "to_age": 15,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 14,
                             "to_age": 15,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 16,
                             "to_age": 17,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 16,
                             "to_age": 17,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 18,
                             "to_age": 19,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 18,
                             "to_age": 19,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         }
                     ]
@@ -1669,18 +1669,18 @@
                             "gender": "m",
                             "from_age": 8,
                             "to_age": 9,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 8,
                             "to_age": 9,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         }
                     ]
@@ -2215,18 +2215,18 @@
                             "gender": "m",
                             "from_age": 6,
                             "to_age": 7,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 6,
                             "to_age": 7,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         }
                     ]
@@ -2238,18 +2238,18 @@
                             "gender": "m",
                             "from_age": 8,
                             "to_age": 9,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 8,
                             "to_age": 9,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         }
                     ]
@@ -2261,18 +2261,18 @@
                             "gender": "m",
                             "from_age": 10,
                             "to_age": 11,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 10,
                             "to_age": 11,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         }
                     ]
@@ -2284,72 +2284,72 @@
                             "gender": "m",
                             "from_age": 12,
                             "to_age": 13,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 12,
                             "to_age": 13,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 14,
                             "to_age": 15,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 14,
                             "to_age": 15,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 16,
                             "to_age": 17,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 16,
                             "to_age": 17,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "m",
                             "from_age": 18,
                             "to_age": 19,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         },
                         {
                             "gender": "f",
                             "from_age": 18,
                             "to_age": 19,
-                            "bronze": "Bronze",
-                            "silver": "Silber",
-                            "gold": "Gold",
+                            "bronze": "1",
+                            "silver": "2",
+                            "gold": "3",
                             "year": 2024
                         }
                     ]

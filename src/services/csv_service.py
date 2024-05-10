@@ -1,5 +1,7 @@
 import csv
+import re
 from datetime import date, datetime
+from functools import partial
 import random
 import string
 from typing import Any, Callable, Sequence, cast
@@ -41,6 +43,46 @@ entity_config: dict = {
         'attributes': ['athlete.lastname', 'athlete.firstname', 'athlete.gender', 'athlete.birthday_year', 'athlete.birthday', 'exercise.title', 'exercise.category.title', 'tracked_at', 'result', 'points']
     }
 }
+
+def parse_input(raw_number: str, length: int, colon_index: list[int], decimals_format: str) -> str:
+
+    number_str = raw_number.replace(',','.').replace(':','')
+
+    number = float(number_str)
+    clean_number = decimals_format.format(number)
+
+    clean_number = clean_number.replace('.','').zfill(length)
+
+    for pos in colon_index:
+        clean_number = clean_number[:pos] + ':' + clean_number[pos:]
+
+    return clean_number
+
+length_parser = partial(parse_input, length=8, colon_index=[6,3], decimals_format='{:.2f}')
+count_parser = partial(parse_input, length=4, colon_index=[], decimals_format='{:.0f}')
+time_parser = partial(parse_input, length=9, colon_index=[6,4,2], decimals_format='{:.3f}')
+
+parser_mapping: dict = {
+    '/d/d:/d/d:/d/d:/d/d/d': time_parser,
+    '/d/d/d:/d/d/d:/d/d': length_parser,
+    '/d/d/d/d': count_parser,
+    '/d': lambda x: x,
+    '': lambda _: None
+}
+
+def check_pattern(input:str) -> str:
+    patterns = {
+        r'^\d{2}:\d{2}:\d{2}:\d{3}$': '/d/d:/d/d:/d/d:/d/d/d',
+        r'^\d{3}:\d{3}:\d{2}$': '/d/d/d:/d/d/d:/d/d',
+        r'^\d{4}$': '/d/d/d/d',
+        r'^\d$': '/d'
+        }
+
+    for pattern, output in patterns.items():
+        if re.match(pattern, input):
+            return output
+
+    return ''
 
 response_message: dict = {}
 
@@ -245,8 +287,23 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
     if not athlete:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Athlete {line['Vorname']} {line['Name']} {birthday} not found")
 
+    global response_message
     category = create_category(line, db)
-    exercise = create_exercise(line, category, db)
+    exercise = db.scalar(select(Exercise).where(Exercise.title == line['Übung']))
+    #exercise = create_exercise(line, category, db)
+    if exercise == None:
+        response_message[f"{line['Übung']}"] = 'No exercise found'
+        return
+
+    value: str = line['Ergebnis']
+    if exercise.rules == None or len(exercise.rules) <= 0:
+        response_message[f"{exercise.title}"] = 'No Rules found for this exercise'
+        return
+
+    pattern = check_pattern(exercise.rules[0].gold)
+    value = parser_mapping[pattern](line['Ergebnis'])
+    if value is None:
+        response_message[f"{exercise.rules[0].gold}"] = 'No Pattern found for this rule'
 
     # check if completes already exists
     completes = db.scalar(select(Completes).where(Completes.athlete_id == athlete.id, Completes.exercise_id == exercise.id, Completes.tracked_at == tracked_at))
@@ -255,15 +312,15 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
             athlete_id=athlete.id,
             exercise_id=exercise.id,
             tracked_at=tracked_at,
-            result=line['Ergebnis'],
+            result=value,
             tracked_by=current_user.id,
             db=db
         )
     else:
         if int(line['Punkte']) > int(completes.points):
-            global response_message
+            #global response_message
             response_message[f"{line['Vorname']} {line['Name']} {line['Datum']} {line['Übung']}"] = f"Points updated from {completes.points} to {line['Punkte']}"
-            completes.result = line['Ergebnis']
+            completes.result = value
             completes.points = line['Punkte']
             db.flush()
 
@@ -292,7 +349,6 @@ def create_exercise(line: dict, category: Category, db: Session) -> Exercise:
 
     return exercise
 
-
 def get_gender(abbreviation: str) -> Gender:
     abbreviation = abbreviation.lower()
     if abbreviation == Gender.MALE.value:
@@ -303,5 +359,3 @@ def get_gender(abbreviation: str) -> Gender:
         return Gender.DIVERSE
     else:
         return Gender.FEMALE
-
-

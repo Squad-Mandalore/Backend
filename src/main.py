@@ -12,7 +12,8 @@ from src.controllers import (
     log_controller,
     rule_controller,
     trainer_controller,
-    admin_controller
+    admin_controller,
+    certificate_controller
 )
 from src.database.database_setup import init_db
 from src.middleware.cors import add_cors_middleware
@@ -30,6 +31,7 @@ add_cors_middleware(app)
 app.include_router(admin_controller.router)
 app.include_router(trainer_controller.router)
 app.include_router(athlete_controller.router)
+app.include_router(certificate_controller.router)
 app.include_router(completes_controller.router)
 app.include_router(category_controller.router)
 app.include_router(exercise_controller.router)

@@ -5,6 +5,7 @@ from starlette.responses import FileResponse
 
 from src.logger.logger import frontend_logger
 from src.schemas.log_schema import LogSchema
+from src.services.logger_service import error_log_path
 
 
 router = APIRouter(
@@ -16,7 +17,6 @@ router = APIRouter(
     #responses={404: {"route": "Not found"}}
 )
 
-error_log_path: str = "error.log"
 
 @router.get("/error.log", response_class=FileResponse, status_code=status.HTTP_200_OK)
 async def read_error_log() -> FileResponse:

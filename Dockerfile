@@ -20,6 +20,8 @@ COPY /src/ /backend/src
 
 COPY requirements.txt /backend
 
+COPY values.json /backend
+
 COPY log_conf.yaml /backend
 
 WORKDIR /backend
@@ -30,4 +32,4 @@ RUN pip3 install --upgrade pip
 # installing python dependencies
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-CMD [ "uvicorn","src.main:app", "--log-config=log_conf.yaml"]
+CMD [ "uvicorn","src.main:app", "--host", "0.0.0.0", "--port", "8000", "--log-config=log_conf.yaml"]

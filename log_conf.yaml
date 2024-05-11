@@ -22,7 +22,7 @@ handlers:
     class: logging.FileHandler
     level: WARN
     formatter: default
-    filename: error.log
+    filename: ./volume/error.log
     encoding: utf8
 loggers:
   uvicorn:

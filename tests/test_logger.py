@@ -97,15 +97,15 @@ def test_logger_error(caplog: LogCaptureFixture, client: TestClient) -> None:
 
 def test_get_error_log(client: TestClient) -> None:
     # Remove error.log if it exists
-    if os.path.exists("error.log"):
-        os.remove("error.log")
+    if os.path.exists("./volume/error.log"):
+        os.remove("./volume/error.log")
 
     # Try to get error.log
     response = client.get("/log/error.log")
     assert response.status_code == 404
 
     # Create error.log
-    with open("error.log", "w"): pass
+    with open("./volume/error.log", "w"): pass
 
     response = client.get("/log/error.log")
     assert response.status_code == 200
@@ -146,7 +146,7 @@ async def test_clear_error_log_no_clear_needed():
          patch('src.services.logger_service.check_log_age', return_value=date(2023, 4, 20)), \
          patch('src.services.logger_service.is_date_at_least_three_days_old', return_value=False):
         await clear_error_log()
-        assert not call('error.log', 'w', encoding='utf-8') in m.mock_calls
+        assert not call('./volume/error.log', 'w', encoding='utf-8') in m.mock_calls
 
 @pytest.mark.asyncio
 async def test_clear_error_log_clear_needed():
@@ -155,4 +155,4 @@ async def test_clear_error_log_clear_needed():
          patch('src.services.logger_service.check_log_age', return_value=date(2023, 4, 17)), \
          patch('src.services.logger_service.is_date_at_least_three_days_old', return_value=True):
         await clear_error_log()
-        assert call('error.log', 'w', encoding='utf-8') in m.mock_calls
+        assert call('./volume/error.log', 'w', encoding='utf-8') in m.mock_calls

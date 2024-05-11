@@ -4,7 +4,7 @@ services:
   backend:
     image: ghcr.io/squad-mandalore/backend:fb805409
     volumes:
-      - /home/master/db:/backend/db
+      - /home/master/volume:/backend/volume
     ports:
       - "8000:8000"
     networks:

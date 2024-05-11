@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    image: ghcr.io/squad-mandalore/backend:fb805409
+    volumes:
+      - /home/master/db:/backend/db
+    ports:
+      - "8000:8000"
+    networks:
+      - squadmandalore-network
+
+  frontend:
+    image: ghcr.io/squad-mandalore/frontend:51d59220
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - squadmandalore-network
+
+networks:
+  squadmandalore-network:
+    driver: bridge
+

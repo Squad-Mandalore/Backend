@@ -3,7 +3,7 @@ import os
 from datetime import date, datetime, timedelta
 from src.logger.logger import logger
 
-error_log_path: str = "error.log"
+error_log_path: str = "./volume/error.log"
 
 def check_log_age() -> date | None:
     if os.path.getsize(error_log_path) == 0:

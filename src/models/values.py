@@ -9,7 +9,7 @@ from src.logger.logger import logger
 #value_dict: dict = {}
 
 def parse_values(db: Session) -> None:
-    with open('values.json', 'r', encoding='utf-8') as file:
+    with open('./volume/values.json', 'r', encoding='utf-8') as file:
         #global value_dict
         value_dict: dict = json.load(file)
         try:

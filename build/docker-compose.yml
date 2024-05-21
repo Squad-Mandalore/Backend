@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   backend:
     image: ghcr.io/squad-mandalore/backend:fb805409
     volumes:
-      - /home/master/volume:/backend/volume
+      - $HOME/squadmandalore:/backend/volume
     ports:
       - "8000:8000"
     networks:

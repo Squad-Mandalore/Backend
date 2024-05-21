@@ -16,11 +16,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # copying the application to the image
-COPY /src/ /backend/src
+COPY /src/ /backend/src/
 
-COPY requirements.txt /backend
+COPY requirements.txt /backend/
 
-COPY ./volume/values.json /backend/volume
+COPY ./volume/values.json /backend/volume/
 
 COPY log_conf.yaml /backend
 

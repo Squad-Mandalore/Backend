@@ -20,7 +20,7 @@ COPY /src/ /backend/src/
 
 COPY requirements.txt /backend/
 
-COPY ./volume/values.json /backend/volume/
+COPY values.json /backend/
 
 COPY log_conf.yaml /backend/
 

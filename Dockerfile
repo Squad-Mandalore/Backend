@@ -22,7 +22,7 @@ COPY requirements.txt /backend/
 
 COPY ./volume/values.json /backend/volume/
 
-COPY log_conf.yaml /backend
+COPY log_conf.yaml /backend/
 
 WORKDIR /backend
 

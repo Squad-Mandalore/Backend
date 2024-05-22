@@ -1,15 +1,15 @@
 services:
   backend:
-    image: ghcr.io/squad-mandalore/backend:fb805409
+    image: ghcr.io/squad-mandalore/backend:latest
     volumes:
-      - $HOME/squadmandalore:/backend/volume
+      - ./squadmandalore:/backend/volume
     ports:
       - "8000:8000"
     networks:
       - squadmandalore-network
 
   frontend:
-    image: ghcr.io/squad-mandalore/frontend:51d59220
+    image: ghcr.io/squad-mandalore/frontend:latest
     ports:
       - "80:80"
     depends_on:

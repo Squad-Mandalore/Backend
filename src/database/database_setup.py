@@ -1,4 +1,5 @@
 import os
+import shutil
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from src.logger.logger import logger
@@ -17,6 +18,7 @@ def init_db() -> None:
         logger.info("Creating database")
         Base.metadata.create_all(bind=engine)
         with Session(engine) as session:
+            shutil.copyfile('values.json', './volume/values.json')
             parse_values(Session(engine))
             admin = Administrator(username="admin", unhashed_password="admin123", email="admin", firstname="admin", lastname="admin")
             session.add(admin)

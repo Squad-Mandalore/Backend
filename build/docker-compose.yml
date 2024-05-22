@@ -2,7 +2,7 @@ services:
   backend:
     image: ghcr.io/squad-mandalore/backend:latest
     volumes:
-      - $HOME/squadmandalore:/backend/volume
+      - ./squadmandalore:/backend/volume
     ports:
       - "8000:8000"
     networks:

@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from src.database import database_utils
 from src.models.models import Athlete, Base, Completes, Rule, calculate_points
 from src.schemas.completes_schema import CompletesPatchSchema, CompletesPostSchema
+from src.schemas.rule_schema import RulePatchSchema
 from src.services import update_service
 from src.logger.logger import logger
 
@@ -72,3 +73,12 @@ def delete_completes(exercise_id: str, athlete_id: str, tracked_at: str, db: Ses
 def get_all_completes(db: Session) -> list[Completes]:
     return cast(list[Completes], database_utils.get_all(Completes, db))
 
+def refresh_completes_for_exercise(exercise_id: str, db: Session) -> None:
+    completes_list = db.query(Completes).filter(Completes.exercise_id == exercise_id).all()
+    print(f"Amount of completes: {len(completes_list)}")
+    for completes in completes_list:
+        old_points = completes.points
+        completes.points = calculate_points(completes.athlete_id, completes.exercise_id, completes.tracked_at, completes.result, db)
+        if completes.points != old_points:
+            logger.info(f"Points for complete of Athlete {completes.athlete_id} changed from {old_points} to {completes.points}")
+        db.commit()

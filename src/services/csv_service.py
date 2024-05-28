@@ -1,4 +1,5 @@
 import csv
+import os
 import re
 from datetime import date, datetime
 from functools import partial
@@ -134,11 +135,16 @@ def create_completes_csv(db: Session):
     write_csv(completes, 'Completes')
 
 def write_csv(entities: Sequence[Base], entity_type: str) -> None:
-    if not entities:
-        return
-
     config: dict = entity_config[entity_type]
     filename: str = config['filename']
+
+    if not entities:
+        try:
+            os.remove(filename)
+        except:
+            pass
+        return
+
     with open(filename, 'w', encoding='utf-8', newline='') as file:
         writer = csv.writer(file, delimiter=';')
         writer.writerow(config['header'])

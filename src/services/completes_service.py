@@ -81,4 +81,3 @@ def refresh_completes_for_exercise(exercise_id: str, db: Session) -> None:
         completes.points = calculate_points(completes.athlete_id, completes.exercise_id, completes.tracked_at, completes.result, db)
         if completes.points != old_points:
             logger.info(f"Points for complete of Athlete {completes.athlete_id} changed from {old_points} to {completes.points}")
-        db.commit()

@@ -1,5 +1,5 @@
 import os
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, responses, status
 from sqlalchemy.orm import Session
 from starlette.responses import FileResponse
 from src.database.database_utils import get_db
@@ -17,7 +17,17 @@ router = APIRouter(
     #responses={404: {"route": "Not found"}}
 )
 
-@router.get("/trainer.csv", response_class=FileResponse, status_code=status.HTTP_200_OK)
+@router.get("/trainer.csv", response_class=FileResponse, status_code=status.HTTP_200_OK,
+    responses={
+        200: {
+            "content": {"text/csv": {}},
+
+            "description": "Returns the trainer CSV file."
+        },
+        404: {
+            "description": "CSV file not found."
+        }
+    })
 async def read_trainer_csv(db: Session = Depends(get_db)) -> FileResponse:
     create_trainer_csv(db)
     if not os.path.exists(f"{entity_config['Trainer']['filename']}"):
@@ -25,7 +35,17 @@ async def read_trainer_csv(db: Session = Depends(get_db)) -> FileResponse:
 
     return FileResponse(f"{entity_config['Trainer']['filename']}")
 
-@router.get("/athlete.csv", response_class=FileResponse, status_code=status.HTTP_200_OK)
+@router.get("/athlete.csv", response_class=FileResponse, status_code=status.HTTP_200_OK,
+                responses={
+        200: {
+            "content": {"text/csv": {}},
+
+            "description": "Returns the athlete CSV file."
+        },
+        404: {
+            "description": "CSV file not found."
+        }
+    })
 async def read_athlete_csv(db: Session = Depends(get_db)) -> FileResponse:
     create_athlete_csv(db)
     if not os.path.exists(f"{entity_config['Athlete']['filename']}"):
@@ -33,7 +53,17 @@ async def read_athlete_csv(db: Session = Depends(get_db)) -> FileResponse:
 
     return FileResponse(f"{entity_config['Athlete']['filename']}")
 
-@router.get("/completes.csv", response_class=FileResponse, status_code=status.HTTP_200_OK)
+@router.get("/completes.csv", response_class=FileResponse, status_code=status.HTTP_200_OK,
+                responses={
+        200: {
+            "content": {"text/csv": {}},
+
+            "description": "Returns the completes CSV file."
+        },
+        404: {
+            "description": "CSV file not found."
+        }
+    })
 async def read_completes_csv(db: Session = Depends(get_db)) -> FileResponse:
     create_completes_csv(db)
     if not os.path.exists(f"{entity_config['Completes']['filename']}"):

@@ -6,6 +6,7 @@ from src.database import database_utils
 from src.models.models import Base, Rule
 from src.schemas.rule_schema import RulePatchSchema, RulePostSchema
 from src.services import update_service
+from src.services import completes_service
 
 def create_rule(rule_post_schema: RulePostSchema, db: Session) -> Rule:
     rule_dict = rule_post_schema.model_dump(exclude_unset=True)
@@ -28,6 +29,9 @@ def update_rule(id: str, rule_patch_schema: RulePatchSchema, db: Session) -> Rul
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Rule not found")
 
     update_service.update_properties(rule, rule_patch_schema)
+        
+    completes_service.refresh_completes_for_exercise(rule.exercise_id, db)
+    
     db.commit()
     return cast(Rule, rule)
 

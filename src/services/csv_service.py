@@ -1,4 +1,5 @@
 import csv
+import os
 import re
 from datetime import date, datetime
 from functools import partial
@@ -134,11 +135,16 @@ def create_completes_csv(db: Session):
     write_csv(completes, 'Completes')
 
 def write_csv(entities: Sequence[Base], entity_type: str) -> None:
-    if not entities:
-        return
-
     config: dict = entity_config[entity_type]
     filename: str = config['filename']
+
+    if not entities:
+        try:
+            os.remove(filename)
+        except:
+            pass
+        return
+
     with open(filename, 'w', encoding='utf-8', newline='') as file:
         writer = csv.writer(file, delimiter=';')
         writer.writerow(config['header'])
@@ -300,10 +306,11 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
         response_message[f"{exercise.title}"] = 'No Rules found for this exercise'
         return
 
-    pattern = check_pattern(exercise.rules[0].gold)
-    value = parser_mapping[pattern](line['Ergebnis'])
-    if value is None:
-        response_message[f"{exercise.rules[0].gold}"] = 'No Pattern found for this rule'
+    if check_pattern(value) == '':
+        pattern = check_pattern(exercise.rules[0].gold)
+        value = parser_mapping[pattern](value)
+        if value is None:
+            response_message[f"{exercise.rules[0].gold}"] = 'No Pattern found for this rule'
 
     # check if completes already exists
     completes = db.scalar(select(Completes).where(Completes.athlete_id == athlete.id, Completes.exercise_id == exercise.id, Completes.tracked_at == tracked_at))

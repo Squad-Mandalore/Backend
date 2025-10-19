@@ -232,7 +232,7 @@ python_functions = [
 ]
 # NOTE: "doc" is not included here, but gets tested explicitly via "doctesting".
 testpaths = [
-    "testing",
+    "tests",
 ]
 norecursedirs = [
     "testing/example_scripts",

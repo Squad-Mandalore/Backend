@@ -1,13 +1,13 @@
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-import os
 from pathlib import Path
 import sys
 
 import aiocron
 
 from src.logger.logger import logger
+
 
 error_log_path: Path = Path('volume/error.log')
 

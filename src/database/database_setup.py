@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 import shutil
 
@@ -12,7 +11,9 @@ from src.models.values import parse_values
 
 
 db_path: Path = Path('volume/squadmandalore.db')
-engine = create_engine(f'sqlite:///{db_path}', connect_args={'check_same_thread': False})
+engine = create_engine(
+    f'sqlite:///{db_path}', connect_args={'check_same_thread': False}
+)
 
 # with sqlalchemy you are able to store python objects in a database,
 # therefore you first need to create some python classes

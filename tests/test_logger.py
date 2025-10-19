@@ -115,15 +115,15 @@ def test_logger_error(caplog: LogCaptureFixture, client: TestClient) -> None:
 
 def test_get_error_log(client: TestClient) -> None:
     # Remove error.log if it exists
-    if os.path.exists('./volume/error.log'):
-        os.remove('./volume/error.log')
+    if os.path.exists('volume/error.log'):
+        os.remove('volume/error.log')
 
     # Try to get error.log
     response = client.get('/log/error.log')
     assert response.status_code == 404
 
     # Create error.log
-    with open('./volume/error.log', 'w'):
+    with open('volume/error.log', 'w'):
         pass
 
     response = client.get('/log/error.log')
@@ -172,6 +172,8 @@ def test_check_log_age_failure(mock_file):
 
 @pytest.mark.asyncio
 async def test_clear_error_log_no_clear_needed():
+    from pathlib import Path
+
     m = mock_open()
     with (
         patch('builtins.open', m),
@@ -184,11 +186,13 @@ async def test_clear_error_log_no_clear_needed():
         ),
     ):
         await clear_error_log()
-        assert call('./volume/error.log', 'w', encoding='utf-8') not in m.mock_calls
+        assert call(Path('volume/error.log'), 'w', encoding='utf-8') not in m.mock_calls
 
 
 @pytest.mark.asyncio
 async def test_clear_error_log_clear_needed():
+    from pathlib import Path
+
     m = mock_open()
     with (
         patch('builtins.open', m),
@@ -201,4 +205,4 @@ async def test_clear_error_log_clear_needed():
         ),
     ):
         await clear_error_log()
-        assert call('./volume/error.log', 'w', encoding='utf-8') in m.mock_calls
+        assert call(Path('volume/error.log'), 'w', encoding='utf-8') in m.mock_calls

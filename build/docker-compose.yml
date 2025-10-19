@@ -1,15 +1,19 @@
 services:
   backend:
-    image: ghcr.io/squad-mandalore/backend:latest
+    image: backend:latest
     volumes:
-      - ./squadmandalore:/backend/volume
+      - ./squadmandalore:/app/volume
     ports:
       - "8000:8000"
+    environment:
+      - PEPPER=potato
+      - KEYCHAIN_NUMBER=42
+      - JWT_KEY=potato
     networks:
       - squadmandalore-network
 
   frontend:
-    image: ghcr.io/squad-mandalore/frontend:latest
+    image: frontend:latest
     ports:
       - "80:80"
     depends_on:

@@ -2,18 +2,18 @@ from datetime import date
 from datetime import datetime
 from datetime import timedelta
 import os
+from pathlib import Path
 import sys
 
 import aiocron
 
 from src.logger.logger import logger
 
-
-error_log_path: str = './volume/error.log'
+error_log_path: Path = Path('volume/error.log')
 
 
 def check_log_age() -> date | None:
-    if os.path.getsize(error_log_path) == 0:
+    if not error_log_path.exists():
         return
 
     date_chars: list[str] = []

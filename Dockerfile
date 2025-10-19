@@ -16,8 +16,6 @@ RUN groupadd --system --gid 999 nonroot \
 # Install the project into `/app`
 WORKDIR /app
 
-RUN mkdir -p volume && chown -R 999:999 volume
-
 # Enable bytecode compilation
 ENV UV_COMPILE_BYTECODE=1
 
@@ -46,7 +44,8 @@ ENV PATH="/app/.venv/bin:$PATH"
 # Reset the entrypoint, don't invoke `uv`
 ENTRYPOINT []
 
-# Use the non-root user to run our application
+# FIXME: switch back to non-root user after fixing permission issues
+# application needs access to volume for database
 USER root
 
 CMD [ "fastapi","run" ,"src/main.py" , "--host", "0.0.0.0", "--port", "8000"]

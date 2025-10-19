@@ -1,16 +1,21 @@
-from datetime import UTC, datetime, timedelta
+from datetime import datetime
+from datetime import timedelta
+from datetime import UTC
 from os import getenv
 from typing import cast
 
-import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
+from fastapi import HTTPException
+from fastapi import status
 from fastapi.security import OAuth2PasswordBearer
+import jwt
 from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_db
 from src.models.models import User
 from src.schemas.auth_schema import Token
 from src.services.password_service import verify_password
+
 
 ALGORITHM = 'HS256'
 JWT_KEY = getenv('JWT_KEY', 'test')

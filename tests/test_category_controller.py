@@ -2,10 +2,14 @@ from datetime import date
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
-
-from src.models.models import Athlete, Trainer
+from src.models.models import Athlete
+from src.models.models import Trainer
 from src.models.values import parse_values
-from tests.define_test_variables import TestVariables, client_fixture, session_fixture
+
+from tests.define_test_variables import client_fixture
+from tests.define_test_variables import session_fixture
+from tests.define_test_variables import TestVariables
+
 
 client = client_fixture
 session = session_fixture
@@ -53,4 +57,4 @@ def test_get_category_by_id(session: Session, client: TestClient):
     response = client.get(
         f'/categories?athlete_id={athlete.id}', headers=TestVariables.headers
     )
-    assert response.status_code == 200, f'{str(response.status_code)} {response.json()}'
+    assert response.status_code == 200, f'{response.status_code!s} {response.json()}'

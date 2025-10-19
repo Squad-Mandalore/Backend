@@ -4,10 +4,15 @@ from fastapi.testclient import TestClient
 from httpx import Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-from src.models.models import Athlete, Exercise, Trainer
+from src.models.models import Athlete
+from src.models.models import Exercise
+from src.models.models import Trainer
 from src.models.values import parse_values
-from tests.define_test_variables import TestVariables, client_fixture, session_fixture
+
+from tests.define_test_variables import client_fixture
+from tests.define_test_variables import session_fixture
+from tests.define_test_variables import TestVariables
+
 
 client = client_fixture
 session = session_fixture
@@ -51,13 +56,13 @@ def test_create_completes(session: Session, client: TestClient) -> None:
         '/completes', json=body, headers=TestVariables.headers
     )
     TestVariables.test_completes = response.json()
-    assert response.status_code == 201, f'{str(response.status_code)} {response.json()}'
+    assert response.status_code == 201, f'{response.status_code!s} {response.json()}'
     assert response.json()['result'] == '00:05:00:000'
 
 
 def test_get_completes_by_id(client: TestClient):
     response = client.get('/completes/', headers=TestVariables.headers)
-    assert response.status_code == 200, f'{str(response.status_code)} {response.json()}'
+    assert response.status_code == 200, f'{response.status_code!s} {response.json()}'
     assert response.json()[0]['result'] == '00:05:00:000'
 
     response = client.get(
@@ -119,7 +124,7 @@ def test_patch_completes(client: TestClient) -> None:
         headers=TestVariables.headers,
         json=body,
     )
-    assert response.status_code == 202, f'{str(response.status_code)} {response.json()}'
+    assert response.status_code == 202, f'{response.status_code!s} {response.json()}'
     assert response.json()['result'] == '0000000000'
 
 
@@ -128,4 +133,4 @@ def test_delete_completes(client: TestClient) -> None:
         f'/completes/?exercise_id={TestVariables.test_completes["exercise"]["id"]}&athlete_id={TestVariables.test_completes["athlete_id"]}&tracked_at={TestVariables.test_completes["tracked_at"]}',
         headers=TestVariables.headers,
     )
-    assert response.status_code == 200, f'{str(response.status_code)} {response.json()}'
+    assert response.status_code == 200, f'{response.status_code!s} {response.json()}'

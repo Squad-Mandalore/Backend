@@ -1,13 +1,17 @@
 from datetime import datetime
 from typing import cast
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException
+from fastapi import status
 from sqlalchemy.orm import Session
 
 from src.database import database_utils
 from src.logger.logger import logger
-from src.models.models import Athlete, Completes, calculate_points
-from src.schemas.completes_schema import CompletesPatchSchema, CompletesPostSchema
+from src.models.models import Athlete
+from src.models.models import calculate_points
+from src.models.models import Completes
+from src.schemas.completes_schema import CompletesPatchSchema
+from src.schemas.completes_schema import CompletesPostSchema
 from src.services import update_service
 
 

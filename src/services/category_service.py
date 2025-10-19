@@ -1,13 +1,20 @@
 from datetime import date
 from typing import cast
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException
+from fastapi import status
 from sqlalchemy import select
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import Session
 
 from src.database import database_utils
-from src.models.models import Athlete, Base, Category, Exercise, Rule
-from src.schemas.category_schema import CategoryPatchSchema, CategoryPostSchema
+from src.models.models import Athlete
+from src.models.models import Base
+from src.models.models import Category
+from src.models.models import Exercise
+from src.models.models import Rule
+from src.schemas.category_schema import CategoryPatchSchema
+from src.schemas.category_schema import CategoryPostSchema
 from src.services import update_service
 
 

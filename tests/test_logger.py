@@ -1,17 +1,18 @@
+from datetime import date
+from datetime import timedelta
 import os
-from datetime import date, timedelta
-from unittest.mock import call, mock_open, patch
+from unittest.mock import call
+from unittest.mock import mock_open
+from unittest.mock import patch
 
-import pytest
 from _pytest.logging import LogCaptureFixture
 from fastapi.testclient import TestClient
-
+import pytest
 from src.logger.logger import logger
-from src.services.logger_service import (
-    check_log_age,
-    clear_error_log,
-    is_date_at_least_three_days_old,
-)
+from src.services.logger_service import check_log_age
+from src.services.logger_service import clear_error_log
+from src.services.logger_service import is_date_at_least_three_days_old
+
 from tests.define_test_variables import TestVariables
 
 

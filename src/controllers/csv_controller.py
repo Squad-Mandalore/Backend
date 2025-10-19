@@ -1,19 +1,22 @@
 import os
 
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, status
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import HTTPException
+from fastapi import status
+from fastapi import UploadFile
 from sqlalchemy.orm import Session
 from starlette.responses import FileResponse
 
 from src.database.database_utils import get_db
 from src.models.models import User
 from src.services.auth_service import get_current_user
-from src.services.csv_service import (
-    create_athlete_csv,
-    create_completes_csv,
-    create_trainer_csv,
-    entity_config,
-    parse_csv,
-)
+from src.services.csv_service import create_athlete_csv
+from src.services.csv_service import create_completes_csv
+from src.services.csv_service import create_trainer_csv
+from src.services.csv_service import entity_config
+from src.services.csv_service import parse_csv
+
 
 router = APIRouter(
     # routing prefix

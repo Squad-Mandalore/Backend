@@ -1,31 +1,35 @@
+from collections.abc import Callable
+from collections.abc import Sequence
 import contextlib
 import csv
+from datetime import datetime
+from functools import partial
 import os
 import random
 import re
 import string
-from collections.abc import Callable, Sequence
-from datetime import datetime
-from functools import partial
-from typing import Any, cast
+from typing import Any
+from typing import cast
 
-from fastapi import HTTPException, UploadFile, status
-from sqlalchemy import extract, select
+from fastapi import HTTPException
+from fastapi import status
+from fastapi import UploadFile
+from sqlalchemy import extract
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_400_BAD_REQUEST
 
 from src.database.database_utils import get_all
 from src.logger.logger import logger
-from src.models.models import (
-    Athlete,
-    Base,
-    Category,
-    Completes,
-    Exercise,
-    Gender,
-    Trainer,
-    User,
-)
+from src.models.models import Athlete
+from src.models.models import Base
+from src.models.models import Category
+from src.models.models import Completes
+from src.models.models import Exercise
+from src.models.models import Gender
+from src.models.models import Trainer
+from src.models.models import User
+
 
 # Those header are a crime against humans in general
 entity_config: dict = {
@@ -453,15 +457,14 @@ def create_completes(line: dict, current_user: User, db: Session) -> Completes |
             tracked_by=current_user.id,
             db=db,
         )
-    else:
-        if int(line['Punkte']) > int(completes.points):
-            # global response_message
-            response_message[
-                f'{line["Vorname"]} {line["Name"]} {line["Datum"]} {line["Übung"]}'
-            ] = f'Points updated from {completes.points} to {line["Punkte"]}'
-            completes.result = value
-            completes.points = line['Punkte']
-            db.flush()
+    elif int(line['Punkte']) > int(completes.points):
+        # global response_message
+        response_message[
+            f'{line["Vorname"]} {line["Name"]} {line["Datum"]} {line["Übung"]}'
+        ] = f'Points updated from {completes.points} to {line["Punkte"]}'
+        completes.result = value
+        completes.points = line['Punkte']
+        db.flush()
 
 
 def create_category(line: dict, db: Session) -> Category:

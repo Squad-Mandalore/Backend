@@ -1,14 +1,17 @@
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import Query
+from fastapi import status
 from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_db
-from src.models.models import Category, User
-from src.schemas.category_schema import (
-    CategoryFullResponseSchema,
-    CategoryVeryFullResponseSchema,
-)
+from src.models.models import Category
+from src.models.models import User
+from src.schemas.category_schema import CategoryFullResponseSchema
+from src.schemas.category_schema import CategoryVeryFullResponseSchema
 from src.services import category_service
 from src.services.auth_service import get_current_user
+
 
 router = APIRouter(
     # routing prefix

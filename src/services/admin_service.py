@@ -1,14 +1,18 @@
 from datetime import datetime
 from typing import cast
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException
+from fastapi import status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from starlette.status import HTTP_422_UNPROCESSABLE_CONTENT
 
 from src.database import database_utils
-from src.models.models import Administrator, Base, User
-from src.schemas.admin_schema import AdminPatchSchema, AdminPostSchema
+from src.models.models import Administrator
+from src.models.models import Base
+from src.models.models import User
+from src.schemas.admin_schema import AdminPatchSchema
+from src.schemas.admin_schema import AdminPostSchema
 from src.services import update_service
 
 

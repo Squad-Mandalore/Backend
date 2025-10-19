@@ -1,17 +1,22 @@
 from os import getenv
 from typing import cast
 
-import jwt
-import pytest
 from fastapi import Depends
 from fastapi.testclient import TestClient
-from sqlalchemy import StaticPool, create_engine
+import jwt
+import pytest
+from sqlalchemy import create_engine
+from sqlalchemy import StaticPool
 from sqlalchemy.orm import Session
-
 from src.database.database_utils import get_db
 from src.main import app
-from src.models.models import Administrator, Base, User
-from src.services.auth_service import ALGORITHM, get_current_user, oauth2_bearer
+from src.models.models import Administrator
+from src.models.models import Base
+from src.models.models import User
+from src.services.auth_service import ALGORITHM
+from src.services.auth_service import get_current_user
+from src.services.auth_service import oauth2_bearer
+
 
 # Description: This file contains the test variables that are used in the test cases
 

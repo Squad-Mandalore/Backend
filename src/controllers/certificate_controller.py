@@ -1,16 +1,21 @@
 import base64
 
-from fastapi import APIRouter, Depends, File, Form, UploadFile, status
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import File
+from fastapi import Form
+from fastapi import status
+from fastapi import UploadFile
 from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_db
-from src.models.models import Certificate, User
-from src.schemas.certificate_schema import (
-    CertificateResponseSchema,
-    CertificateSingleResponseSchema,
-)
+from src.models.models import Certificate
+from src.models.models import User
+from src.schemas.certificate_schema import CertificateResponseSchema
+from src.schemas.certificate_schema import CertificateSingleResponseSchema
 from src.services import certificate_service
 from src.services.auth_service import get_current_user
+
 
 router = APIRouter(
     # routing prefix

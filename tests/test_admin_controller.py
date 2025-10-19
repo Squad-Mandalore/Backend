@@ -2,9 +2,13 @@ from datetime import datetime
 
 from fastapi.testclient import TestClient
 from httpx import Response
+from src.services import admin_service
+from src.services import password_service
 
-from src.services import admin_service, password_service
-from tests.define_test_variables import TestVariables, client_fixture, session_fixture
+from tests.define_test_variables import client_fixture
+from tests.define_test_variables import session_fixture
+from tests.define_test_variables import TestVariables
+
 
 client = client_fixture
 session = session_fixture
@@ -25,7 +29,7 @@ def test_get_all_admins(client: TestClient):
     response = client.get('/admins', headers=TestVariables.headers)
     TestVariables.test_admin = response.json()[0]
 
-    assert response.status_code == 200, f' {str(response.status_code)}'
+    assert response.status_code == 200, f' {response.status_code!s}'
 
 
 def test_get_admin_by_id(client: TestClient):
@@ -49,7 +53,7 @@ def test_patch_admin(client: TestClient, session) -> None:
     assert password_service.verify_password(
         admin_service.get_admin_by_id(admin_id, session), body['unhashed_password']
     )
-    assert response.status_code == 202, f' {str(response.status_code)}'
+    assert response.status_code == 202, f' {response.status_code!s}'
     assert response.json()['firstname'] == 'admin_updated'
     assert response.json()['lastname'] == 'admin_updated_last'
     assert (

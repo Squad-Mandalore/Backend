@@ -1,15 +1,17 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import status
 from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_db
-from src.models.models import Exercise, User
-from src.schemas.exercise_schema import (
-    ExercisePatchSchema,
-    ExercisePostSchema,
-    ExerciseResponseSchema,
-)
+from src.models.models import Exercise
+from src.models.models import User
+from src.schemas.exercise_schema import ExercisePatchSchema
+from src.schemas.exercise_schema import ExercisePostSchema
+from src.schemas.exercise_schema import ExerciseResponseSchema
 from src.services import exercise_service
 from src.services.auth_service import get_current_user
+
 
 router = APIRouter(
     # routing prefix

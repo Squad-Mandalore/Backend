@@ -7,44 +7,37 @@
 
 3. Setup completed!
 
-
 ## Requirements
 
-### Installing PIP
+### Installing UV
+https://docs.astral.sh/uv/getting-started/  
 
-In order to install packages in python you need PIP.
+In order to install packages, managed development environment and starting the Application you need astral-uv.
 
-0. Check if you already have pip installed by running ```pip``` in the command line. If you do, you can skip the installing PIP step.
+0. Check if you already have pip installed by running ```uv``` in the command line. If you do, you can skip the installing PIP step.
 
-1. Download (right-click save as) the following script: ```https://bootstrap.pypa.io/get-pip.py```
+1. Execute the following script: 
+    a. (macOS/Linux) ```curl -LsSf https://astral.sh/uv/install.sh | sh```
+    b. (Windows Powershell) ```powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"```
 
-2. Navigate to the Directory where you saved the script using cmd and run ```python .\get-pip.py```
+2. Open a new console and type in ```uv --help```, if you get a bunch of commands you've successfully installed pip!
 
-3. Add pip to your environment variables by copying the installation path (should be printed out in your command line after successfully installing) and adding the path to your windows environment variables.
+Helpful scripts:  
+- Initialize Python Project: ```uv sync```
+- Activate Virtual environment
+    - (macOS/Linux) ```source .venv/bin/activate```
+    - (Windows) ```./.venv/Scripts/activate```
+- Add (dev) Dependency ```uv add (--dev) <dependency>```
+- Upgrade Dependencies ```uv lock --upgrade```
 
-4. Open a new cmd and type in ```pip```, if you get a bunch of commands you've successfully installed pip!
+Tooling  
+- Formating: ```ruff format```
+- Linting(fix): ```ruff check (--fix)```
+- Pytest(coverage) ```pytest --cov=. -coverage-report=show-missing```
 
-### Create a Python virtual environment
-
-In order to make sure the project's package versions are not interfering with your other projects it is recommended to set up a Python virtual environment.
-
-1. Use cmd to navigate to the directory of this repository
-
-2. Run ```python -m venv venv``` to create a virtual environment
-
-3. Run ```venv\Scripts\activate``` to activate the virtual environment or ```venv\bin\activate``` to activate it on a Unix based system
-
-4. If it says (venv) to the left of your input line in cmd you've successfully set up a virtual environment!
-
-### Installing required packages using PIP
-
-1. Use cmd to navigate to the directory of this repository
-
-2. Make sure your virtual environment is active
-
-3. Run ```pip install -r requirements.txt```
-
-4. You've successfully installed all requirements! (To check your versions you can run ```pip list``` or ```pip freeze```)
+For Local Test
+- Build: ```docker build --tag backend --build-arg PEPPER=potato --build-arg KEYCHAIN_NUMBER=42 --build-arg JWT_KEY=potato .```
+- Run: ```docker run -p 8000:8000 backend```
 
 ### Setting up environment variables
 
@@ -53,7 +46,7 @@ Make sure you have the necessary variables set up in your environment variables 
 ## Starting
 
 ```console
-uvicorn src.main:app --log-config=log_conf.yaml
+uv run fastapi dev src/main.py
 ```
 
 Additionally you can add the --reload flag to reload the application after making source code changes.

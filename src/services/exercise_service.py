@@ -1,11 +1,14 @@
 from typing import cast
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException
+from fastapi import status
 from sqlalchemy.orm import Session
 
 from src.database import database_utils
-from src.models.models import Base, Exercise
-from src.schemas.exercise_schema import ExercisePatchSchema, ExercisePostSchema
+from src.models.models import Base
+from src.models.models import Exercise
+from src.schemas.exercise_schema import ExercisePatchSchema
+from src.schemas.exercise_schema import ExercisePostSchema
 from src.services import update_service
 
 

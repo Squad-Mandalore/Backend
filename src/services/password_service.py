@@ -1,11 +1,12 @@
+from collections.abc import Callable
 import hashlib
 import os
 import random
-from collections.abc import Callable
 from random import choice
 from string import ascii_letters
 
 from fastapi import HTTPException
+
 
 KEYCHAIN_NUMBER = int(os.getenv('KEYCHAIN_NUMBER', 42))
 PEPPER = os.getenv(

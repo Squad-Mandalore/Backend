@@ -1,10 +1,20 @@
+from datetime import date
+from datetime import datetime
 import enum
 import uuid
-from datetime import date, datetime
 
-from fastapi import HTTPException, status
-from sqlalchemy import BLOB, CheckConstraint, Enum, ForeignKey, select
-from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
+from fastapi import HTTPException
+from fastapi import status
+from sqlalchemy import BLOB
+from sqlalchemy import CheckConstraint
+from sqlalchemy import Enum
+from sqlalchemy import ForeignKey
+from sqlalchemy import select
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Session
 
 from src.services.password_service import hash_and_spice_password
 
@@ -256,13 +266,12 @@ def calculate_points(
             return 2
         elif result >= rule.bronze:
             return 1
-    else:
-        if result <= rule.gold:
-            return 3
-        elif result <= rule.silver:
-            return 2
-        elif result <= rule.bronze:
-            return 1
+    elif result <= rule.gold:
+        return 3
+    elif result <= rule.silver:
+        return 2
+    elif result <= rule.bronze:
+        return 1
     return 0
 
 

@@ -6,7 +6,9 @@ from src.models.models import Gender
 from src.schemas.certificate_schema import CertificateResponseSchema
 from src.schemas.exercise_schema import ExerciseResponseSchema
 from src.schemas.trainer_schema import TrainerResponseSchema
-from src.schemas.user_schema import UserPatchSchema, UserPostSchema, UserResponseSchema
+from src.schemas.user_schema import UserPatchSchema
+from src.schemas.user_schema import UserPostSchema
+from src.schemas.user_schema import UserResponseSchema
 
 
 class AthletePostSchema(UserPostSchema):

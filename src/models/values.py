@@ -1,10 +1,14 @@
-import json
 from datetime import datetime
+import json
 
 from sqlalchemy.orm import Session
 
 from src.logger.logger import logger
-from src.models.models import Category, Exercise, Gender, Rule
+from src.models.models import Category
+from src.models.models import Exercise
+from src.models.models import Gender
+from src.models.models import Rule
+
 
 # value_dict: dict = {}
 

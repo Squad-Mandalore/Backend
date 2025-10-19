@@ -1,20 +1,18 @@
-from datetime import date, datetime
+from datetime import date
+from datetime import datetime
 
-from src.models.models import (
-    Athlete,
-    Category,
-    Completes,
-    Exercise,
-    Gender,
-    Trainer,
-)
-from src.services.csv_service import (
-    check_pattern,
-    count_parser,
-    length_parser,
-    parser_mapping,
-    time_parser,
-)
+from src.models.models import Athlete
+from src.models.models import Category
+from src.models.models import Completes
+from src.models.models import Exercise
+from src.models.models import Gender
+from src.models.models import Trainer
+from src.services.csv_service import check_pattern
+from src.services.csv_service import count_parser
+from src.services.csv_service import length_parser
+from src.services.csv_service import parser_mapping
+from src.services.csv_service import time_parser
+
 from tests.define_test_variables import TestVariables
 
 

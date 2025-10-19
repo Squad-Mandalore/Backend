@@ -19,16 +19,52 @@ dependencies = [
     "uvicorn>=0.15.0",
 ]
 
-[tool.ruff.lint]
-select = [
-    "E", # pycodestyle
-    "F", # Pyflakes
-    "UP", # pyupgrade
-    "B", # flake8-bugbear
-    "SIM",  # flake8-simplify
-    "I", # isort
+[dependency-groups]
+dev = [
+    "pytest-cov>=7.0.0",
 ]
-ignore = ["E501", "B008"]  # B008: FastAPI Depends() in function arguments is correct pattern
+
+
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+src = [
+    "src",
+]
+format.docstring-code-format = true
+format.quote-style = "single"
+format.indent-style = "space"
+
+lint.select = [
+    "B",       # bugbear
+    "D",       # pydocstyle
+    "E",       # pycodestyle
+    "F",       # pyflakes
+    "FA100",   # add future annotations
+    "I",       # isort
+    "PGH004",  # pygrep-hooks - Use specific rule codes when using noqa
+    "PIE",     # flake8-pie
+    "PLC",     # pylint convention
+    "PLE",     # pylint error
+    "PLR",     # pylint refactor
+    "PLR1714", # Consider merging multiple comparisons
+    "PLW",     # pylint warning
+    "PYI",     # flake8-pyi
+    "RUF",     # ruff
+    "T100",    # flake8-debugger
+    "UP",      # pyupgrade
+    "W",       # pycodestyle
+]
+
+lint.ignore = ["E501", "B008"]  # B008: FastAPI Depends() in function arguments is correct pattern
+lint.isort.combine-as-imports = true
+lint.isort.force-single-line = true
+lint.isort.force-sort-within-sections = true
+lint.isort.lines-after-imports = 2
+lint.isort.order-by-type = false
+lint.pycodestyle.max-line-length = 120
+lint.pydocstyle.convention = "pep257"
+lint.pyupgrade.keep-runtime-typing = false
 
 [tool.ruff.lint.per-file-ignores]
 # For controllers and auth service, ignore B008 warnings for FastAPI Depends() pattern
@@ -37,13 +73,170 @@ ignore = ["E501", "B008"]  # B008: FastAPI Depends() in function arguments is co
 # For test files, ignore file handling warnings as they use simple patterns
 "tests/*.py" = ["SIM115"]
 
-[tool.ruff]
-line-length = 88
+[tool.pylint.main]
+# Maximum number of characters on a single line.
+max-line-length = 120
+disable = [
+    "abstract-method",
+    "arguments-differ",
+    "arguments-renamed",
+    "assigning-non-slot",
+    "attribute-defined-outside-init",
+    "bad-builtin",
+    "bad-classmethod-argument",
+    "bad-dunder-name",
+    "bad-mcs-method-argument",
+    "broad-exception-caught",
+    "broad-exception-raised",
+    "cell-var-from-loop",                     # B023 from ruff / flake8-bugbear
+    "comparison-of-constants",                # disabled in ruff (PLR0133)
+    "comparison-with-callable",
+    "comparison-with-itself",                 # PLR0124 from ruff
+    "condition-evals-to-constant",
+    "consider-alternative-union-syntax",
+    "confusing-consecutive-elif",
+    "consider-using-assignment-expr",
+    "consider-using-dict-items",
+    "consider-using-from-import",
+    "consider-using-f-string",
+    "consider-using-in",
+    "consider-using-namedtuple-or-dataclass",
+    "consider-using-ternary",
+    "consider-using-tuple",
+    "consider-using-with",
+    "consider-using-from-import",             # not activated by default, PLR0402 disabled in ruff
+    "consider-ternary-expression",
+    "cyclic-import",
+    "differing-param-doc",
+    "docstring-first-line-empty",
+    "deprecated-argument",
+    "deprecated-attribute",
+    "deprecated-class",
+    "disallowed-name",                        # foo / bar are used often in tests
+    "duplicate-code",
+    "else-if-used",                           # not activated by default, PLR5501 disabled in ruff
+    "empty-comment",                          # not activated by default, PLR2044 disabled in ruff
+    "eval-used",
+    "eq-without-hash",                        # PLW1641 disabled in ruff
+    "exec-used",
+    "expression-not-assigned",
+    "fixme",
+    "global-statement",                       # PLW0603 disabled in ruff
+    "import-error",
+    "import-outside-toplevel",                # PLC0415 disabled in ruff
+    "import-private-name",
+    "inconsistent-return-statements",
+    "invalid-bool-returned",
+    "invalid-name",
+    "invalid-repr-returned",
+    "invalid-str-returned",
+    "keyword-arg-before-vararg",
+    "line-too-long",
+    "magic-value-comparison",                 # not activated by default, PLR2004 disabled in ruff
+    "method-hidden",
+    "missing-docstring",
+    "missing-param-doc",
+    "missing-raises-doc",
+    "missing-timeout",
+    "missing-type-doc",
+    "misplaced-bare-raise",                   # PLE0704 from ruff
+    "misplaced-comparison-constant",
+    "multiple-statements",                    # multiple-statements-on-one-line-colon (E701) from ruff
+    "no-else-break",
+    "no-else-continue",
+    "no-else-raise",
+    "no-else-return",
+    "no-member",
+    "no-name-in-module",
+    "no-self-argument",
+    "no-self-use",
+    "not-an-iterable",
+    "not-callable",
+    "pointless-exception-statement",          # https://github.com/pytest-dev/pytest/pull/12379
+    "pointless-statement",                    # https://github.com/pytest-dev/pytest/pull/12379
+    "pointless-string-statement",             # https://github.com/pytest-dev/pytest/pull/12379
+    "possibly-used-before-assignment",
+    "protected-access",
+    "raise-missing-from",
+    "redefined-argument-from-local",
+    "redefined-builtin",
+    "redefined-loop-name",                    # PLW2901 disabled in ruff
+    "redefined-outer-name",
+    "redefined-variable-type",
+    "reimported",
+    "simplifiable-condition",
+    "simplifiable-if-expression",
+    "singleton-comparison",
+    "superfluous-parens",
+    "super-init-not-called",
+    "too-complex",
+    "too-few-public-methods",
+    "too-many-ancestors",
+    "too-many-arguments",                     # disabled in ruff
+    "too-many-branches",                      # disabled in ruff
+    "too-many-function-args",
+    "too-many-instance-attributes",
+    "too-many-lines",
+    "too-many-locals",
+    "too-many-nested-blocks",
+    "too-many-positional-arguments",
+    "too-many-public-methods",
+    "too-many-return-statements",             # disabled in ruff
+    "too-many-statements",                    # disabled in ruff
+    "too-many-try-statements",
+    "try-except-raise",
+    "typevar-name-incorrect-variance",        # PLC0105 disabled in ruff
+    "unbalanced-tuple-unpacking",
+    "undefined-loop-variable",
+    "undefined-variable",
+    "unexpected-keyword-arg",
+    "unidiomatic-typecheck",
+    "unnecessary-comprehension",
+    "unnecessary-dunder-call",
+    "unnecessary-lambda",
+    "unnecessary-lambda-assignment",
+    "unpacking-non-sequence",
+    "unspecified-encoding",
+    "unsubscriptable-object",
+    "unused-argument",
+    "unused-import",
+    "unused-variable",
+    "used-before-assignment",
+    "use-dict-literal",
+    "use-implicit-booleaness-not-comparison",
+    "use-implicit-booleaness-not-len",
+    "use-set-for-membership",
+    "useless-else-on-loop",                   # PLC0414 disabled in ruff
+    "useless-import-alias",
+    "useless-return",
+    "using-constant-test",
+    "while-used",
+    "wrong-import-order",                     # handled by isort / ruff
+    "wrong-import-position",                  # handled by isort / ruff
+]
 
-[tool.ruff.format]
-quote-style = "single"
-indent-style = "space"
-docstring-code-format = true
-
-[dependency-groups]
-dev = []
+[tool.pytest.ini_options]
+minversion = "2.0"
+addopts = "-rfEX -p pytester --strict-markers"
+python_files = [
+    "test_*.py",
+    "*_test.py",
+    "tests/*.py",
+]
+python_classes = [
+    "Test",
+    "Acceptance",
+]
+python_functions = [
+    "test",
+]
+# NOTE: "doc" is not included here, but gets tested explicitly via "doctesting".
+testpaths = [
+    "testing",
+]
+norecursedirs = [
+    "testing/example_scripts",
+    ".*",
+    "build",
+    "dist",
+]

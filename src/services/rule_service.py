@@ -1,12 +1,16 @@
 from typing import cast
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException
+from fastapi import status
 from sqlalchemy.orm import Session
 
 from src.database import database_utils
-from src.models.models import Base, Rule
-from src.schemas.rule_schema import RulePatchSchema, RulePostSchema
-from src.services import completes_service, update_service
+from src.models.models import Base
+from src.models.models import Rule
+from src.schemas.rule_schema import RulePatchSchema
+from src.schemas.rule_schema import RulePostSchema
+from src.services import completes_service
+from src.services import update_service
 
 
 def create_rule(rule_post_schema: RulePostSchema, db: Session) -> Rule:

@@ -1,9 +1,9 @@
-from datetime import date, datetime
+from datetime import date
+from datetime import datetime
 
 import pytest
 from sqlalchemy import select
 from sqlalchemy.exc import InvalidRequestError
-
 from src.models import models
 from src.models.values import parse_values
 

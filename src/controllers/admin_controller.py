@@ -1,14 +1,16 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import status
 from sqlalchemy.orm import Session
 
 from src.database.database_utils import get_db
-from src.models.models import Administrator, User
-from src.schemas.admin_schema import (
-    AdminPatchSchema,
-    AdminResponseSchema,
-)
+from src.models.models import Administrator
+from src.models.models import User
+from src.schemas.admin_schema import AdminPatchSchema
+from src.schemas.admin_schema import AdminResponseSchema
 from src.services import admin_service
 from src.services.auth_service import get_current_user
+
 
 router = APIRouter(
     # routing prefix

@@ -1,14 +1,12 @@
 import hashlib
 
-from src.services.password_service import (
-    KEYCHAIN_NUMBER,
-    PEPPER,
-    generate_salt,
-    hash_and_spice_password,
-    hash_password,
-    pepper_password,
-    salt_password,
-)
+from src.services.password_service import generate_salt
+from src.services.password_service import hash_and_spice_password
+from src.services.password_service import hash_password
+from src.services.password_service import KEYCHAIN_NUMBER
+from src.services.password_service import PEPPER
+from src.services.password_service import pepper_password
+from src.services.password_service import salt_password
 
 
 # Test `generate_salt` function

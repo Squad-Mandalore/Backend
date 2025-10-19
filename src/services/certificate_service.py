@@ -1,11 +1,15 @@
 from typing import cast
 
-from fastapi import HTTPException, UploadFile, status
+from fastapi import HTTPException
+from fastapi import status
+from fastapi import UploadFile
 from sqlalchemy.orm import Session
 
 from src.database import database_utils
-from src.models.models import Base, Certificate
-from src.schemas.certificate_schema import CertificatePatchSchema, CertificatePostSchema
+from src.models.models import Base
+from src.models.models import Certificate
+from src.schemas.certificate_schema import CertificatePatchSchema
+from src.schemas.certificate_schema import CertificatePostSchema
 from src.services import update_service
 
 

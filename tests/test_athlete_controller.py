@@ -6,7 +6,9 @@ from sqlalchemy.orm import Session
 
 # client_fixture, session_fixture are fixtures that are used to create a test client and a session for the test cases !!DO NOT REMOVE!!
 from src.models.models import Trainer
-from src.services import athlete_service, password_service
+from src.services import athlete_service
+from src.services import password_service
+
 from tests.define_test_variables import TestVariables
 
 
@@ -67,7 +69,7 @@ def test_get_all_athletes(client: TestClient, session: Session):
 
     # Now test getting all athletes
     response = client.get('/athletes', headers=TestVariables.headers)
-    assert response.status_code == 200, f' {str(response.status_code)}'
+    assert response.status_code == 200, f' {response.status_code!s}'
     assert len(response.json()) > 0
     TestVariables.test_athlete = response.json()[0]
 
@@ -181,7 +183,7 @@ def test_patch_athlete(client: TestClient, session: Session) -> None:
     assert password_service.verify_password(
         athlete_service.get_athlete_by_id(athlete_id, session), 'nicht-gehashed'
     )
-    assert response.status_code == 202, f' {str(response.status_code)}'
+    assert response.status_code == 202, f' {response.status_code!s}'
     assert response.json()['firstname'] == 'markus'
     assert response.json()['lastname'] == 'quarkus'
     assert response.json()['birthday'] is not None
@@ -227,4 +229,4 @@ def test_delete_athlete(client: TestClient, session: Session) -> None:
 
     # Now test deleting the athlete
     response = client.delete(f'/athletes/{athlete_id}', headers=TestVariables.headers)
-    assert response.status_code == 200, f' {str(response.status_code)}'
+    assert response.status_code == 200, f' {response.status_code!s}'

@@ -3,7 +3,8 @@ from datetime import datetime
 from fastapi import HTTPException
 from pydantic import BaseModel
 
-from src.models.models import Base, User
+from src.models.models import Base
+from src.models.models import User
 from src.services import password_service
 
 

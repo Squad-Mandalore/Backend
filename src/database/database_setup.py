@@ -5,8 +5,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from src.logger.logger import logger
-from src.models.models import Administrator, Base
+from src.models.models import Administrator
+from src.models.models import Base
 from src.models.values import parse_values
+
 
 db_path: str = '/volume/squadmandalore.db'
 engine = create_engine(f'sqlite://{db_path}', connect_args={'check_same_thread': False})

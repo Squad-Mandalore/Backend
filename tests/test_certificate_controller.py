@@ -2,9 +2,11 @@ from datetime import datetime
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
-
 from src.logger.logger import logger
-from src.models.models import Athlete, Gender, Trainer
+from src.models.models import Athlete
+from src.models.models import Gender
+from src.models.models import Trainer
+
 from tests.define_test_variables import TestVariables
 
 
@@ -129,4 +131,4 @@ def test_delete_certificate(session: Session, client: TestClient):
     response = client.delete(
         f'/certificates/{certificate_id}', headers=TestVariables.headers
     )
-    assert response.status_code == 200, f'{str(response.status_code)} {response.json()}'
+    assert response.status_code == 200, f'{response.status_code!s} {response.json()}'

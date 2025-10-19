@@ -1,9 +1,13 @@
-import aiocron
 import os
+import sys
 from datetime import date, datetime, timedelta
+
+import aiocron
+
 from src.logger.logger import logger
 
-error_log_path: str = "./volume/error.log"
+error_log_path: str = './volume/error.log'
+
 
 def check_log_age() -> date | None:
     if os.path.getsize(error_log_path) == 0:
@@ -11,7 +15,7 @@ def check_log_age() -> date | None:
 
     date_chars: list[str] = []
     try:
-        with open(error_log_path, 'r', encoding='utf-8') as file:
+        with open(error_log_path, encoding='utf-8') as file:
             while True:
                 char = file.read(1)
                 if not char or char.isspace():
@@ -24,10 +28,12 @@ def check_log_age() -> date | None:
     except Exception as e:
         logger.warning(e)
 
+
 def is_date_at_least_three_days_old(given_date: date) -> bool:
     today = date.today()
     three_days_ago = today - timedelta(days=3)
     return given_date <= three_days_ago
+
 
 async def clear_error_log() -> None:
     log_age: date | None = check_log_age()
@@ -37,7 +43,10 @@ async def clear_error_log() -> None:
     if not is_date_at_least_three_days_old(log_age):
         return
 
-    with open(error_log_path, 'w', encoding='utf-8') as file:
-        pass
+    with open(error_log_path, 'w', encoding='utf-8'):
+        pass  # Truncate the file
 
-scheduled_clear = aiocron.crontab('0 0 */3 * *', func=clear_error_log)
+
+# Only schedule the cron job if we're not in a testing environment
+if 'pytest' not in sys.modules:
+    scheduled_clear = aiocron.crontab('0 0 */3 * *', func=clear_error_log)

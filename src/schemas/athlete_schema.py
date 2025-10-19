@@ -1,5 +1,4 @@
 from datetime import date
-from typing import Optional
 
 from pydantic import BaseModel
 
@@ -14,14 +13,17 @@ class AthletePostSchema(UserPostSchema):
     birthday: date
     gender: Gender
 
+
 class AthletePatchSchema(UserPatchSchema):
-    birthday: Optional[date] = None
-    gender: Optional[Gender] = None
+    birthday: date | None = None
+    gender: Gender | None = None
+
 
 class AthleteResponseSchema(UserResponseSchema):
     birthday: date
     gender: Gender
     trainer: TrainerResponseSchema
+
 
 class AthleteCompletesResponseSchema(BaseModel):
     athlete_id: str
@@ -32,7 +34,7 @@ class AthleteCompletesResponseSchema(BaseModel):
     result: str
     points: int
 
+
 class AthleteFullResponseSchema(AthleteResponseSchema):
     completes: list[AthleteCompletesResponseSchema]
     certificates: list[CertificateResponseSchema]
-

@@ -1,0 +1,49 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiocron>=1.8",
+    "fastapi[standard]>=0.108.0",
+    "httpx>=0.26.0",
+    "pyjwt>=2.8.0",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.6",
+    "python-multipart>=0.0.9",
+    "pyyaml>=6.0.1",
+    "requests>=2.31.0",
+    "sqlalchemy>=2.0.25",
+    "sqlite-utils>=3.18.0",
+    "uvicorn>=0.15.0",
+]
+
+[tool.ruff.lint]
+select = [
+    "E", # pycodestyle
+    "F", # Pyflakes
+    "UP", # pyupgrade
+    "B", # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "I", # isort
+]
+ignore = ["E501", "B008"]  # B008: FastAPI Depends() in function arguments is correct pattern
+
+[tool.ruff.lint.per-file-ignores]
+# For controllers and auth service, ignore B008 warnings for FastAPI Depends() pattern
+"src/controllers/*.py" = ["B008"]
+"src/services/auth_service.py" = ["B008"]
+# For test files, ignore file handling warnings as they use simple patterns
+"tests/*.py" = ["SIM115"]
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
+
+[dependency-groups]
+dev = []

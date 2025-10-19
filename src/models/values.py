@@ -1,16 +1,17 @@
-from datetime import datetime
 import json
+from datetime import datetime
 
 from sqlalchemy.orm import Session
 
-from src.models.models import Category, Exercise, Gender, Rule
 from src.logger.logger import logger
+from src.models.models import Category, Exercise, Gender, Rule
 
-#value_dict: dict = {}
+# value_dict: dict = {}
+
 
 def parse_values(db: Session) -> None:
-    with open('./volume/values.json', 'r', encoding='utf-8') as file:
-        #global value_dict
+    with open('./volume/values.json', encoding='utf-8') as file:
+        # global value_dict
         value_dict: dict = json.load(file)
         try:
             for category_data in value_dict['category']:
@@ -27,7 +28,9 @@ def parse_values(db: Session) -> None:
                     db.flush()
 
                     for rule_data in exercise_data.get('rules', []):
-                        year_date = datetime.strptime(str(rule_data['year']), '%Y').date()
+                        year_date = datetime.strptime(
+                            str(rule_data['year']), '%Y'
+                        ).date()
 
                         rule = Rule(
                             gender=Gender(rule_data['gender']),
@@ -37,11 +40,10 @@ def parse_values(db: Session) -> None:
                             silver=rule_data['silver'],
                             gold=rule_data['gold'],
                             year=year_date,
-                            exercise_id=exercise.id
+                            exercise_id=exercise.id,
                         )
                         db.add(rule)
                 db.commit()
         except Exception as e:
             db.rollback()
-            logger.error(f"Error while parsing values, {e}")
-
+            logger.error(f'Error while parsing values, {e}')

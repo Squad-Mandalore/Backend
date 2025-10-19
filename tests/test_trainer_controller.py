@@ -8,42 +8,49 @@ from tests.define_test_variables import TestVariables, client_fixture, session_f
 client = client_fixture
 session = session_fixture
 
+
 def test_post_trainer(client: TestClient):
     body = {
-        "username": "username",
-        "email": "ole@mail",
-        "unhashed_password": "nicht-gehashed",
-        "firstname": "ole",
-        "lastname": "grundmann",
+        'username': 'username',
+        'email': 'ole@mail',
+        'unhashed_password': 'nicht-gehashed',
+        'firstname': 'ole',
+        'lastname': 'grundmann',
     }
-    response = client.post("/trainers", json=body, headers=TestVariables.headers)
-    assert response.status_code == 201, f"{response.status_code} {response.json()}"
+    response = client.post('/trainers', json=body, headers=TestVariables.headers)
+    assert response.status_code == 201, f'{response.status_code} {response.json()}'
+
 
 def test_get_all_trainers(client: TestClient):
-    response = client.get("/trainers", headers=TestVariables.headers)
+    response = client.get('/trainers', headers=TestVariables.headers)
     TestVariables.test_trainer = response.json()[1]
 
-    assert response.status_code == 200, f" {str(response.status_code)}"
+    assert response.status_code == 200, f' {str(response.status_code)}'
+
 
 def test_get_trainer_by_id(client: TestClient):
     trainer_id = TestVariables.test_trainer['id']
-    response = client.get(f"/trainers/{trainer_id}", headers=TestVariables.headers)
+    response = client.get(f'/trainers/{trainer_id}', headers=TestVariables.headers)
     assert response.status_code == 200
-    assert response.json()['username'] == "username"
+    assert response.json()['username'] == 'username'
+
 
 def test_patch_trainer(client: TestClient) -> None:
     trainer_id = TestVariables.test_trainer['id']
-    body = {
-        "firstname": "markus",
-        "lastname": "quarkus"
-    }
-    response: Response = client.patch(f"/trainers/{trainer_id}", json=body, headers=TestVariables.headers)
-    assert response.status_code == 202, f" {str(response.status_code)}"
-    assert response.json()["firstname"] == "markus"
-    assert response.json()["lastname"] == "quarkus"
-    assert response.json()["last_edited_at"][:-6] == datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-6]
+    body = {'firstname': 'markus', 'lastname': 'quarkus'}
+    response: Response = client.patch(
+        f'/trainers/{trainer_id}', json=body, headers=TestVariables.headers
+    )
+    assert response.status_code == 202, f' {str(response.status_code)}'
+    assert response.json()['firstname'] == 'markus'
+    assert response.json()['lastname'] == 'quarkus'
+    assert (
+        response.json()['last_edited_at'][:-6]
+        == datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')[:-6]
+    )
+
 
 def test_delete_trainer(client: TestClient) -> None:
     trainer_id = TestVariables.test_trainer['id']
-    response = client.delete(f"/trainers/{trainer_id}", headers=TestVariables.headers)
-    assert response.status_code == 200, f" {str(response.status_code)}"
+    response = client.delete(f'/trainers/{trainer_id}', headers=TestVariables.headers)
+    assert response.status_code == 200, f' {str(response.status_code)}'

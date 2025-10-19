@@ -15,26 +15,36 @@ def create_exercise(exercise_post_schema: ExercisePostSchema, db: Session) -> Ex
     database_utils.add(exercise, db)
     return exercise
 
+
 def get_exercise_by_id(id: str, db: Session) -> Exercise:
     exercise: Base | None = db.get(Exercise, id)
 
     if exercise is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail='Exercise not found'
+        )
 
     return cast(Exercise, exercise)
 
-def update_exercise(id: str, exercise_patch_schema: ExercisePatchSchema, db: Session) -> Exercise:
+
+def update_exercise(
+    id: str, exercise_patch_schema: ExercisePatchSchema, db: Session
+) -> Exercise:
     exercise: Base | None = db.get(Exercise, id)
 
     if exercise is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Exercise not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail='Exercise not found'
+        )
 
     update_service.update_properties(exercise, exercise_patch_schema)
     db.commit()
     return cast(Exercise, exercise)
 
+
 def delete_exercise(id: str, db: Session) -> None:
     return database_utils.delete(Exercise, id, db)
+
 
 def get_all_exercises(db: Session) -> list[Exercise]:
     return cast(list[Exercise], database_utils.get_all(Exercise, db))

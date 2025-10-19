@@ -3,27 +3,29 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from src.controllers import (
+    admin_controller,
     athlete_controller,
     auth_controller,
     category_controller,
+    certificate_controller,
     completes_controller,
     csv_controller,
     exercise_controller,
     log_controller,
     rule_controller,
     trainer_controller,
-    admin_controller,
-    certificate_controller
 )
 from src.database.database_setup import init_db
 from src.middleware.cors import add_cors_middleware
 from src.services.logger_service import clear_error_log
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
     await clear_error_log()
     yield
+
 
 app = FastAPI(lifespan=lifespan)
 

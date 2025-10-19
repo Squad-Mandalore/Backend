@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Optional
 
 from pydantic import BaseModel
+
 
 class UserPostSchema(BaseModel):
     username: str
@@ -10,12 +10,14 @@ class UserPostSchema(BaseModel):
     firstname: str
     lastname: str
 
+
 class UserPatchSchema(BaseModel):
-    username: Optional[str] = None
-    email: Optional[str] = None
-    firstname: Optional[str] = None
-    lastname: Optional[str] = None
-    unhashed_password: Optional[str] = None
+    username: str | None = None
+    email: str | None = None
+    firstname: str | None = None
+    lastname: str | None = None
+    unhashed_password: str | None = None
+
 
 class UserResponseSchema(BaseModel):
     # model_config = ConfigDict()

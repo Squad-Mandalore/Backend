@@ -1,4 +1,5 @@
-FROM python:slim
+# Use a Python image with uv pre-installed
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 ARG PEPPER
 ARG KEYCHAIN_NUMBER
@@ -8,28 +9,42 @@ ENV PEPPER=$PEPPER
 ENV KEYCHAIN_NUMBER=$KEYCHAIN_NUMBER
 ENV JWT_KEY=$JWT_KEY
 
-RUN apt-get update && \
-    apt-get install -y \
-    gcc && \
-    python -m ensurepip && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Setup a non-root user
+RUN groupadd --system --gid 999 nonroot \
+ && useradd --system --gid 999 --uid 999 --create-home nonroot
 
-# copying the application to the image
-COPY /src/ /backend/src/
+# Install the project into `/app`
+WORKDIR /app
 
-COPY requirements.txt /backend/
+# Enable bytecode compilation
+ENV UV_COMPILE_BYTECODE=1
 
-COPY values.json /backend/
+# Copy from the cache instead of linking since it's a mounted volume
+ENV UV_LINK_MODE=copy
 
-COPY log_conf.yaml /backend/
+# Ensure installed tools can be executed out of the box
+ENV UV_TOOL_BIN_DIR=/usr/local/bin
 
-WORKDIR /backend
+# Install the project's dependencies using the lockfile and settings
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --no-dev
 
-# updating python package manager
-RUN pip3 install --upgrade pip
+# Then, add the rest of the project source code and install it
+# Installing separately from its dependencies allows optimal layer caching
+COPY . /app
 
-# installing python dependencies
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-dev
 
-CMD [ "uvicorn","src.main:app", "--host", "0.0.0.0", "--port", "8000", "--log-config=log_conf.yaml"]
+# Place executables in the environment at the front of the path
+ENV PATH="/app/.venv/bin:$PATH"
+
+# Reset the entrypoint, don't invoke `uv`
+ENTRYPOINT []
+
+# Use the non-root user to run our application
+USER nonroot
+
+CMD [ "fastapi","run" ,"src/main.py" , "--host", "0.0.0.0", "--port", "8000"]

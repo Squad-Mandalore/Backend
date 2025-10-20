@@ -16,7 +16,6 @@ dependencies = [
     "requests>=2.31.0",
     "sqlalchemy>=2.0.25",
     "sqlite-utils>=3.18.0",
-    "uvicorn>=0.15.0",
 ]
 
 [dependency-groups]

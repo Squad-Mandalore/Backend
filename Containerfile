@@ -14,7 +14,7 @@ RUN groupadd --system --gid 999 nonroot \
  && useradd --system --gid 999 --uid 999 --create-home nonroot
 
 # Install the project into `/app`
-WORKDIR /app
+WORKDIR /home/nonroot
 
 # Enable bytecode compilation
 ENV UV_COMPILE_BYTECODE=1
@@ -33,19 +33,19 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 
 # Then, add the rest of the project source code and install it
 # Installing separately from its dependencies allows optimal layer caching
-COPY . /app
+COPY . /home/nonroot
 
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
 
 # Place executables in the environment at the front of the path
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/home/nonroot/.venv/bin:$PATH"
 
 # Reset the entrypoint, don't invoke `uv`
 ENTRYPOINT []
 
 # FIXME: switch back to non-root user after fixing permission issues
 # application needs access to volume for database
-USER root
+# USER root
 
 CMD [ "fastapi","run" ,"src/main.py" , "--host", "0.0.0.0", "--port", "8000"]

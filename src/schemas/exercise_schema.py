@@ -1,4 +1,3 @@
-from typing import Optional
 from pydantic import BaseModel
 
 from src.schemas.category_schema import CategoryResponseSchema
@@ -10,8 +9,10 @@ class ExercisePostSchema(BaseModel):
     category_id: str
     # rule_id: str
 
+
 class ExercisePatchSchema(BaseModel):
-    title: Optional[str] = None
+    title: str | None = None
+
 
 class ExerciseResponseSchema(BaseModel):
     id: str

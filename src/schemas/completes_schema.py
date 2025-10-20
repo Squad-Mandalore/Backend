@@ -1,5 +1,5 @@
-from datetime import date, datetime
-from typing import Optional
+from datetime import date
+
 from pydantic import BaseModel
 
 from src.schemas.exercise_schema import ExerciseResponseSchema
@@ -11,8 +11,10 @@ class CompletesPostSchema(BaseModel):
     athlete_id: str
     result: str
 
+
 class CompletesPatchSchema(BaseModel):
-    result: Optional[str] = None
+    result: str | None = None
+
 
 class CompletesResponseSchema(BaseModel):
     athlete_id: str

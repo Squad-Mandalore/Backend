@@ -2,9 +2,13 @@ services:
   backend:
     image: ghcr.io/squad-mandalore/backend:latest
     volumes:
-      - ./squadmandalore:/backend/volume
-    expose:
-      - "8000"
+      - ./squadmandalore:/home/nonroot/volume
+    ports:
+      - "8000:8000"
+    environment:
+      - PEPPER=potato
+      - KEYCHAIN_NUMBER=42
+      - JWT_KEY=potato
     networks:
       - squadmandalore-network
 

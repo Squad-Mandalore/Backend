@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+
 from pydantic import BaseModel
 
 from src.models.models import Gender
@@ -8,8 +8,10 @@ from src.models.models import Gender
 class CategoryPostSchema(BaseModel):
     title: str
 
+
 class CategoryPatchSchema(BaseModel):
-    title: Optional[str] = None
+    title: str | None = None
+
 
 class CategoryRuleResponseSchema(BaseModel):
     id: str
@@ -21,16 +23,18 @@ class CategoryRuleResponseSchema(BaseModel):
     gold: str
     year: date
 
+
 class CategoryResponseSchema(CategoryPostSchema):
     id: str
+
 
 class CategoryFullResponseSchema(CategoryResponseSchema):
     exercises: list[CategoryResponseSchema]
 
+
 class CategoryExerciseFullResponseSchema(CategoryResponseSchema):
     rules: list[CategoryRuleResponseSchema]
 
+
 class CategoryVeryFullResponseSchema(CategoryResponseSchema):
     exercises: list[CategoryExerciseFullResponseSchema]
-
-

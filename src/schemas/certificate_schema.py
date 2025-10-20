@@ -1,7 +1,6 @@
 from datetime import datetime
-from typing import Optional
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel
 
 
 class CertificatePostSchema(BaseModel):
@@ -19,8 +18,8 @@ class CertificateResponseSchema(BaseModel):
 
 
 class CertificatePatchSchema(BaseModel):
-    title: Optional[str] = None
-    blob: Optional[bytes] = None
+    title: str | None = None
+    blob: bytes | None = None
 
 
 class CertificateSingleResponseSchema(BaseModel):
